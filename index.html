@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spinning Horse Website</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f1f1f1;
+      text-align: center;
+    }
+    #horse {
+      width: 300px;
+      animation: spin 5s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to my Spinning Horse Website!</h1>
+  <img src="horse.jpg" id="horse" />
+</body>
+</html>
