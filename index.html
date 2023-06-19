@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Spinning Horse Website</title>
   <style>
@@ -9,18 +10,54 @@
       background-color: #f1f1f1;
       text-align: center;
     }
+
     #horse {
       width: 300px;
       animation: spin 5s linear infinite;
     }
+
     @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #demoFont {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      font-size: 25px;
+      letter-spacing: 2px;
+      word-spacing: 2px;
+      color: #000000;
+      font-weight: normal;
+      text-decoration: none;
+      font-style: normal;
+      font-variant: normal;
+      text-transform: none;
     }
   </style>
 </head>
+
 <body>
   <h1>Welcome to my Spinning Horse Website!</h1>
   <img src="horse.jpg" id="horse" />
-</body>
+  <br>
+  <br>
+  <div id="demoFont">Dear [Name],
+
+    This is a formal cease and desist letter regarding the unlawful copying of my [type of work]. I have copies of your
+    unauthorized copies and I am demanding that you immediately cease the use and distribution of these copies.
+
+    If you do not comply with this request, I reserve the right to pursue legal action against you. This includes
+    seeking compensation for any damages incurred as a result of this unlawful copying.
+
+    I understand that this may be an inconvenience for you, however I must insist that you comply with this request
+    without delay.
+
+    Sincerely,
+    [Your Name]</div>
+
 </html>
