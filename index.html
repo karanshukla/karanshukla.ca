@@ -1,63 +1,38 @@
 <!DOCTYPE html>
 <html>
 
+//Write a portfolio website for a software developer in HTML5. The website should have the following pages:
+//Home page
+//About page
+//Portfolio page
+//Contact page
+//The website should have a consistent theme and style. It should also be responsive and work on mobile devices.
+
 <head>
-  <title>Spinning Horse Website</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f1f1f1;
-      text-align: center;
-    }
-
-    #horse {
-      width: 300px;
-      animation: spin 5s linear infinite;
-    }
-
-    @keyframes spin {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    #demoFont {
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      font-size: 25px;
-      letter-spacing: 2px;
-      word-spacing: 2px;
-      color: #000000;
-      font-weight: normal;
-      text-decoration: none;
-      font-style: normal;
-      font-variant: normal;
-      text-transform: none;
-    }
-  </style>
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>Welcome to my Spinning Horse Website!</h1>
-  <img src="horse.jpg" id="horse" />
-  <br>
-  <br>
-  <div id="demoFont">Dear [Name],
-
-    This is a formal cease and desist letter regarding the unlawful copying of my [type of work]. I have copies of your
-    unauthorized copies and I am demanding that you immediately cease the use and distribution of these copies.
-
-    If you do not comply with this request, I reserve the right to pursue legal action against you. This includes
-    seeking compensation for any damages incurred as a result of this unlawful copying.
-
-    I understand that this may be an inconvenience for you, however I must insist that you comply with this request
-    without delay.
-
-    Sincerely,
-    [Your Name]</div>
+    <div class="container">
+        <div class="header">
+            <h1>Portfolio</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="contact.html">Contact Me</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2>Home</h2>
+            <p>Welcome to my portfolio website.</p>
+        </div>
+        <div class="footer">
+            <p>Created by: Karan Shukla</p>
+        </div>
+    </div>
 
 </html>
