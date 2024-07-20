@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/://karanshukla.ca/static/css/main.f855e6bc.css",
+    "main.js": "/://karanshukla.ca/static/js/main.adc1b952.js",
+    "static/js/453.b4b7f1ff.chunk.js": "/://karanshukla.ca/static/js/453.b4b7f1ff.chunk.js",
+    "static/media/logo.svg": "/://karanshukla.ca/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/://karanshukla.ca/index.html",
+    "main.f855e6bc.css.map": "/://karanshukla.ca/static/css/main.f855e6bc.css.map",
+    "main.adc1b952.js.map": "/://karanshukla.ca/static/js/main.adc1b952.js.map",
+    "453.b4b7f1ff.chunk.js.map": "/://karanshukla.ca/static/js/453.b4b7f1ff.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.adc1b952.js"
+  ]
+}
