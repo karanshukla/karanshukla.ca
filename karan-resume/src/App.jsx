@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 
-function App() {
+function Header() {
   return (
       <div>
           <h1>Karan Shukla</h1>
@@ -11,4 +11,4 @@ function App() {
   );
 }
 
-export default App;
+export default Header;
