@@ -3,29 +3,30 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import HomeIcon from '@mui/icons-material/Home';
 import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import PetsIcon from '@mui/icons-material/Pets';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
+import SportsRugbyIcon from '@mui/icons-material/SportsRugby';
+import CodeIcon from '@mui/icons-material/Code';
+import EmailIcon from '@mui/icons-material/Email';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 export const mainListItems = (
   <React.Fragment>
     <ListItemButton>
-    <ListItemIcon>
-      <HomeIcon />
-    </ListItemIcon>
+      <ListItemIcon>
+        <HomeIcon />
+      </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <WorkHistoryIcon />
       </ListItemIcon>
-      <ListItemText primary= "Experience" />
+      <ListItemText primary="Experience" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <PeopleIcon />
+        <SportsRugbyIcon />
       </ListItemIcon>
       <ListItemText primary="Hobbies" />
     </ListItemButton>
@@ -40,24 +41,21 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <React.Fragment>
-    <ListSubheader component="div" inset>
-      Links
-    </ListSubheader>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <CodeIcon />
       </ListItemIcon>
       <ListItemText primary="Github" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <LinkedInIcon />
       </ListItemIcon>
       <ListItemText primary="Linkedin" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <EmailIcon />
       </ListItemIcon>
       <ListItemText primary="Email Me" />
     </ListItemButton>
