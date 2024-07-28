@@ -34,7 +34,7 @@ export const mainListItems = (
       <ListItemIcon>
         <PetsIcon />
       </ListItemIcon>
-      <ListItemText primary="Asher Zone" />
+      <ListItemText primary="Asher Zone"/>
     </ListItemButton>
   </React.Fragment>
 );

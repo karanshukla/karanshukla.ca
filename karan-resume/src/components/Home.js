@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { mainListItems, secondaryListItems } from './listItems';
-import { useState } from 'react';
+import { useTheme } from '../hooks/commonHooks';
 
 function Copyright(props) {
   return (
@@ -83,24 +83,6 @@ export default function Dashboard() {
     setOpen(!open);
   };
 
-  const useTheme = () => {
-    const [themeMode, setThemeMode] = useState(localStorage.getItem('theme') || 'light');
-
-    const toggleTheme = () => {
-      const newThemeMode = themeMode === 'light' ? 'dark' : 'light';
-      setThemeMode(newThemeMode);
-      localStorage.setItem('theme', newThemeMode);
-    };
-
-    const theme = createTheme({
-      palette: {
-        mode: themeMode,
-      },
-    });
-
-    return { theme, toggleTheme };
-  };
-
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -134,8 +116,8 @@ export default function Dashboard() {
             >
               Karan Shukla
             </Typography>
-            <IconButton color="inherit">
-                <DarkModeIcon onClick={toggleTheme}/>
+            <IconButton color="inherit" onClick={toggleTheme}>
+              <DarkModeIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
