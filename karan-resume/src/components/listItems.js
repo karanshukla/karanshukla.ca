@@ -9,6 +9,7 @@ import SportsRugbyIcon from '@mui/icons-material/SportsRugby';
 import CodeIcon from '@mui/icons-material/Code';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import React from 'react';
 
 export const mainListItems = (
   <React.Fragment>
