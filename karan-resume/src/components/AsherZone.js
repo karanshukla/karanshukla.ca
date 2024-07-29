@@ -13,13 +13,14 @@ export function AsherZone() {
     function createImage() {
         const image = new Image();
         const randomImageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+        const rootContainer = document.getElementById('root');
+
         image.src = randomImageUrl;
         image.style.position = 'absolute';
         image.style.width = '200px';
-        image.style.left = `${Math.random() * window.innerWidth}px`;
-        image.style.top = `${Math.random() * window.innerHeight}px`;
-        image.style.transform = `rotate(${Math.random() * 360}deg)`; // Rotate the image randomly
-        document.body.appendChild(image);
+        image.style.left = `${Math.random() * (window.innerWidth - 300)}px`;
+        image.style.top = `${Math.random() * (window.innerHeight - 300)}px`;
+        rootContainer.appendChild(image);
 
         var speedX = Math.random() * 2 - 1; // Random horizontal speed between -1 and 1
         var speedY = Math.random() * 2 - 1; // Random vertical speed between -1 and 1
@@ -41,8 +42,7 @@ export function AsherZone() {
 
             image.style.left = `${x}px`;
             image.style.top = `${y}px`;
-            image.style.transform = `rotate(${Math.random() * 360}deg)`;
-            image.style.transition = 'transform 5s'; // Add transition to make rotation slow
+            image.style.transition = 'transform 2s'; 
 
             requestAnimationFrame(animate);
         }
@@ -50,7 +50,7 @@ export function AsherZone() {
         animate();
     }
 
-    const randomNumber = Math.floor(Math.random() * (50 - 20 + 1)) + 20;
+    const randomNumber = Math.floor(Math.random() * 50) + 1; 
 
     for (let i = 0; i < randomNumber ; i++) {
         createImage();
