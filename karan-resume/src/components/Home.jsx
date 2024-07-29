@@ -167,6 +167,7 @@ export default function Dashboard() {
                     height: 240,
                   }}
                 >
+                  This is some filler text for the first paper component.
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
@@ -178,10 +179,12 @@ export default function Dashboard() {
                     height: 240,
                   }}
                 >
+                  This is some filler 2 text for the second paper component.
                 </Paper>
               </Grid>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  This is some filler 3 text for the third paper component.
                 </Paper>
               </Grid>
             </Grid>
