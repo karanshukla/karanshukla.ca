@@ -9,6 +9,7 @@ import SportsRugbyIcon from '@mui/icons-material/SportsRugby';
 import CodeIcon from '@mui/icons-material/Code';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { AsherZone } from './AsherZone';
 
 export const mainListItems = (
   <React.Fragment>
@@ -30,7 +31,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Hobbies" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton onClick = {AsherZone}>
       <ListItemIcon>
         <PetsIcon />
       </ListItemIcon>
