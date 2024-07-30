@@ -42,19 +42,19 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <React.Fragment>
-    <ListItemButton>
+    <ListItemButton href='https://github.com/karanshukla/karanshukla.ca'>
       <ListItemIcon>
         <CodeIcon />
       </ListItemIcon>
       <ListItemText primary="Github" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href='https://www.linkedin.com/in/shuklakaran/'>
       <ListItemIcon>
         <LinkedInIcon />
       </ListItemIcon>
       <ListItemText primary="Linkedin" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href='mailto:karan@karanshukla.ca'>
       <ListItemIcon>
         <EmailIcon />
       </ListItemIcon>
