@@ -1,13 +1,15 @@
+import { getRawGithubImageUrl } from "../helpers/CommonHelpers";
+
 export function AsherZone() {
     const imageUrls = [
-        'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/main/karan-resume/src/assets/asher1.jpg',
-        'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/main/karan-resume/src/assets/asher2.jpg',
-        'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/main/karan-resume/src/assets/asher3.jpg',
-        'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/main/karan-resume/src/assets/asher4.jpg',
-        'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/main/karan-resume/src/assets/asher5.jpg',
-        'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/main/karan-resume/src/assets/asher6.jpg',
-        'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/main/karan-resume/src/assets/asher7.jpg',
-        'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/main/karan-resume/src/assets/asher8.jpg'
+        getRawGithubImageUrl('asher1.jpg'),
+        getRawGithubImageUrl('asher2.jpg'),
+        getRawGithubImageUrl('asher3.jpg'),
+        getRawGithubImageUrl('asher4.jpg'),
+        getRawGithubImageUrl('asher5.jpg'),
+        getRawGithubImageUrl('asher6.jpg'),
+        getRawGithubImageUrl('asher7.jpg'),
+        getRawGithubImageUrl('asher8.jpg'),
     ];
 
     function createImage() {
