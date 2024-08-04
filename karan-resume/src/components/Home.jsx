@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { styled, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { StyledDrawer } from './StyledDrawer';
 import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
@@ -18,7 +17,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { mainListItems, secondaryListItems } from './ListItems';
 import { useTheme } from '../hooks/CommonHooks';
-import { drawerWidth } from '../constants/CommonConstants.js';
+import { StyledAppBar } from './StyledAppBar';
 
 function Copyright(props) {
   return (
@@ -33,24 +32,6 @@ function Copyright(props) {
   );
 }
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 
 export default function Home() {
   const [open, setOpen] = React.useState(false);
@@ -64,7 +45,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <StyledAppBar position="absolute" open={open}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -95,7 +76,7 @@ export default function Home() {
               <DarkModeIcon />
             </IconButton>
           </Toolbar>
-        </AppBar>
+        </StyledAppBar>
         <StyledDrawer variant="permanent" open={open}>
           <Toolbar
             sx={{
