@@ -18,6 +18,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { mainListItems, secondaryListItems } from './ListItems';
 import { useTheme } from '../hooks/CommonHooks';
 import { StyledAppBar } from './StyledAppBar';
+import { isLandscape } from '../helpers/CommonHelpers';
 
 function Copyright(props) {
   return (
@@ -34,9 +35,9 @@ function Copyright(props) {
 
 
 export default function Home() {
-  const [open, setOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = React.useState(isLandscape());
   const toggleDrawer = () => {
-    setOpen(!open);
+    setDrawerOpen(!drawerOpen);
   };
 
   const { theme, toggleTheme } = useTheme();
@@ -45,7 +46,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <StyledAppBar position="absolute" open={open}>
+        <StyledAppBar position="absolute" open={drawerOpen}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -58,7 +59,7 @@ export default function Home() {
               onClick={toggleDrawer}
               sx={{
                 marginRight: '36px',
-                ...(open && { display: 'none' }),
+                ...(drawerOpen && { display: 'none' }),
               }}
             >
               <MenuIcon />
@@ -77,7 +78,7 @@ export default function Home() {
             </IconButton>
           </Toolbar>
         </StyledAppBar>
-        <StyledDrawer variant="permanent" open={open}>
+        <StyledDrawer variant="permanent" open={drawerOpen}>
           <Toolbar
             sx={{
               display: 'flex',
