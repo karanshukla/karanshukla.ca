@@ -122,7 +122,9 @@ export default function Home() {
                     height: 240,
                   }}
                 >
-                  This is some filler text for the first paper component.
+                  <Typography variant="h5" gutterBottom>
+                    This is some filler 1 text for the second paper component.
+                  </Typography>
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>

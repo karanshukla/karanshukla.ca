@@ -22,7 +22,10 @@ export function AsherZone() {
         image.style.width = '200px';
         image.style.left = `${Math.random() * (window.innerWidth - 300)}px`;
         image.style.top = `${Math.random() * (window.innerHeight - 300)}px`;
-        rootContainer.appendChild(image);
+        if (rootContainer) {
+            rootContainer.appendChild(image);
+        }
+        else (document.body.appendChild(image));
 
         var speedX = Math.random() * 2 - 1; // Random horizontal speed between -1 and 1
         var speedY = Math.random() * 2 - 1; // Random vertical speed between -1 and 1
@@ -44,7 +47,7 @@ export function AsherZone() {
 
             image.style.left = `${x}px`;
             image.style.top = `${y}px`;
-            image.style.transition = 'transform 2s'; 
+            image.style.transition = 'transform 2s';
 
             requestAnimationFrame(animate);
         }
@@ -52,9 +55,9 @@ export function AsherZone() {
         animate();
     }
 
-    const randomNumber = Math.floor(Math.random() * 50) + 1; 
+    const randomNumber = Math.floor(Math.random() * 50) + 1;
 
-    for (let i = 0; i < randomNumber ; i++) {
+    for (let i = 0; i < randomNumber; i++) {
         createImage();
     }
 }
