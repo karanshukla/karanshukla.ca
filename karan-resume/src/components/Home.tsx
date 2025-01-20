@@ -17,10 +17,18 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { mainListItems, secondaryListItems } from './ListItems';
 import { useTheme } from '../hooks/CommonHooks';
-import { StyledAppBar } from './StyledAppBar';
+import { StyledAppBar } from './StyledAppBar.tsx';
 import { isLandscape } from '../helpers/CommonHelpers';
 
-function Copyright(props) {
+interface CopyrightInterface {
+  (props: {
+    sx: {
+      pt: number;
+    };
+  }): JSX.Element;
+}
+
+const Copyright: CopyrightInterface = (props) => {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -46,7 +54,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <StyledAppBar position="absolute" open={drawerOpen}>
+        <StyledAppBar position="absolute" open ={drawerOpen}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed

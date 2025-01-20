@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Helmet from './components/Helmet.tsx';
-import Home from './components/Home';
+import Home from './components/Home.tsx';
 
 const root = createRoot(document.getElementById('root'));
 root.render(
