@@ -19,6 +19,7 @@ import { mainListItems, secondaryListItems } from './ListItems';
 import { useTheme } from '../hooks/CommonHooks';
 import { StyledAppBar } from './StyledAppBar.tsx';
 import { isLandscape } from '../helpers/CommonHelpers';
+import { Chip, Slide } from '@mui/material';
 
 interface CopyrightInterface {
   (props: {
@@ -29,23 +30,38 @@ interface CopyrightInterface {
 }
 
 const Copyright: CopyrightInterface = (props) => {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://karanshukla.ca/">
-        Karan Shukla
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
+  if (isLandscape()) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="https://karanshukla.ca/">
+          Karan Shukla
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  } else {
+    return (
+      <></>
+    );
+  }
 }
 
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState(isLandscape());
+
+  React.useEffect(() => {
+    if (!isLandscape()) {
+      setDrawerOpen(false);
+    }
+  }, []);
+
   const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
+    if (isLandscape()) {
+      setDrawerOpen(!drawerOpen);
+    }
   };
 
   const { theme, toggleTheme } = useTheme();
@@ -54,7 +70,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <StyledAppBar position="absolute" open ={drawerOpen}>
+        <StyledAppBar position="absolute" open={drawerOpen}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -81,6 +97,9 @@ export default function Home() {
             >
               Karan Shukla
             </Typography>
+            {!isLandscape() && (
+              <Chip label="Home" color="primary" />
+            )}
             <IconButton color="inherit" onClick={toggleTheme}>
               <DarkModeIcon />
             </IconButton>
@@ -105,6 +124,8 @@ export default function Home() {
             <Divider sx={{ my: 1 }} />
             {secondaryListItems}
           </List>
+          <Divider />
+          <Copyright sx={{ pt: 4 }} />
         </StyledDrawer>
         <Box
           component="main"
@@ -122,38 +143,43 @@ export default function Home() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Typography variant="h5" gutterBottom>
-                    This is some filler 1 text for the second paper component.
-                  </Typography>
-                </Paper>
+                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: 240,
+                    }}
+                  >
+                    <Typography variant="h5" gutterBottom>
+                      This is some filler 1 text for the second paper component.
+                    </Typography>
+                  </Paper>
+                </Slide>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  This is some filler 2 text for the second paper component.
-                </Paper>
+                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: 240,
+                    }}
+                  >
+                    This is some filler 2 text for the second paper component.
+                  </Paper>
+                </Slide>
               </Grid>
               <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  This is some filler 3 text for the third paper component.
-                </Paper>
+                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+                  <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                    This is some filler 3 text for the third paper component.
+                  </Paper>
+                </Slide>
               </Grid>
             </Grid>
-            <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
       </Box>
