@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useLastClicked } from '../hooks/CommonHooks';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import HomeIcon from '@mui/icons-material/Home';
@@ -11,34 +12,40 @@ import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { AsherZone } from '../modules/AsherZone.ts';
 
-export const mainListItems = (
-  <React.Fragment>
-    <ListItemButton>
-      <ListItemIcon>
-        <HomeIcon />
-      </ListItemIcon>
-      <ListItemText primary="Home" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <WorkHistoryIcon />
-      </ListItemIcon>
-      <ListItemText primary="Experience" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <SportsRugbyIcon />
-      </ListItemIcon>
-      <ListItemText primary="Hobbies" />
-    </ListItemButton>
-    <ListItemButton onClick = {AsherZone}>
-      <ListItemIcon>
-        <PetsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Asher Zone"/>
-    </ListItemButton>
-  </React.Fragment>
-);
+
+
+export const MainListItems = () => {
+  const { handleClick } = useLastClicked();
+
+  return (
+    <React.Fragment>
+      <ListItemButton onClick={() => handleClick('Home')} >
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Home" />
+      </ListItemButton>
+      <ListItemButton onClick={() => handleClick('Experience')} >
+        <ListItemIcon>
+          <WorkHistoryIcon />
+        </ListItemIcon>
+        <ListItemText primary="Experience" />
+      </ListItemButton>
+      <ListItemButton onClick={() => handleClick('Hobbies')} >
+        <ListItemIcon>
+          <SportsRugbyIcon />
+        </ListItemIcon>
+        <ListItemText primary="Hobbies" />
+      </ListItemButton>
+      <ListItemButton onClick = {AsherZone}>
+        <ListItemIcon>
+          <PetsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Asher Zone"/>
+      </ListItemButton>
+    </React.Fragment>
+  );
+};
 
 export const secondaryListItems = (
   <React.Fragment>

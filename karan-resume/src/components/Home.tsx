@@ -15,11 +15,12 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { mainListItems, secondaryListItems } from './ListItems';
-import { useTheme } from '../hooks/CommonHooks';
+import { MainListItems, secondaryListItems } from './ListItems';
 import { StyledAppBar } from './StyledAppBar.tsx';
 import { isLandscape } from '../helpers/CommonHelpers';
-import { Chip, Slide } from '@mui/material';
+import { Slide } from '@mui/material';
+import DynamicChip from './DynamicChip.tsx';
+import { useLastClicked, useTheme } from '../hooks/CommonHooks.jsx';
 
 interface CopyrightInterface {
   (props: {
@@ -66,6 +67,8 @@ export default function Home() {
 
   const { theme, toggleTheme } = useTheme();
 
+const { getLastClicked } = useLastClicked();
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
@@ -98,7 +101,7 @@ export default function Home() {
               Karan Shukla
             </Typography>
             {!isLandscape() && (
-              <Chip label="Home" color="primary" />
+              <DynamicChip initialLabel={getLastClicked()}/>
             )}
             <IconButton color="inherit" onClick={toggleTheme}>
               <DarkModeIcon />
@@ -120,12 +123,12 @@ export default function Home() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <MainListItems />
             <Divider sx={{ my: 1 }} />
             {secondaryListItems}
           </List>
           <Divider />
-          <Copyright sx={{ pt: 4 }} />
+          {drawerOpen && (<Copyright sx={{ pt: 4 }} />)}
         </StyledDrawer>
         <Box
           component="main"
