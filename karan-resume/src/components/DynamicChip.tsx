@@ -9,7 +9,7 @@ const DynamicChip: React.FC<DynamicChipProps> = ({ initialLabel = 'Home' }) => {
     return (
         <Chip
             label={ initialLabel}
-            color="primary"
+            color="info"
             variant="outlined"
             sx={{ margin: 1 }}
         />

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { create } from 'zustand';
 import { createTheme } from '@mui/material/styles';
-import { deepPurple } from '@mui/material/colors';
-
 
 export const useTheme = () => {
   const [themeMode, setThemeMode] = useState(localStorage.getItem('theme') || 'dark');
@@ -16,7 +14,16 @@ export const useTheme = () => {
   const theme = createTheme({
     palette: {
       mode: themeMode,
-      ...(themeMode === 'light' ? { primary: deepPurple } : {}),
+      primary: {
+        main: themeMode === 'dark' ? '#0A192F' : '#3B82F6',
+      },
+      info: {
+        main: '#FFFFFF',
+      },
+      background: {
+        default: themeMode === 'dark' ? '#0A192F' : '#F0F7FF',
+        paper: themeMode === 'dark' ? '#112240' : '#FFFFFF',
+      },
     },
   });
 

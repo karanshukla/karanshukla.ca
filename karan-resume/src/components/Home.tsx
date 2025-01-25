@@ -20,7 +20,7 @@ import { StyledAppBar } from './StyledAppBar.tsx';
 import { isLandscape } from '../helpers/CommonHelpers';
 import { Slide } from '@mui/material';
 import DynamicChip from './DynamicChip.tsx';
-import { useLastClicked, useTheme } from '../hooks/CommonHooks.jsx';
+import { useLastClicked, useTheme } from '../hooks/CommonHooks.jsx';  
 
 interface CopyrightInterface {
   (props: {
@@ -60,9 +60,7 @@ export default function Home() {
   }, []);
 
   const toggleDrawer = () => {
-    if (isLandscape()) {
       setDrawerOpen(!drawerOpen);
-    }
   };
 
   const { theme, toggleTheme } = useTheme();
