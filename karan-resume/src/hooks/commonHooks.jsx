@@ -15,13 +15,13 @@ export const useTheme = () => {
     palette: {
       mode: themeMode,
       primary: {
-        main: themeMode === 'dark' ? '#0A192F' : '#3B82F6',
+        main: themeMode === 'dark' ? '#0A192F' : '#4B92E5',
       },
       info: {
         main: '#FFFFFF',
       },
       background: {
-        default: themeMode === 'dark' ? '#0A192F' : '#F0F7FF',
+        default: themeMode === 'dark' ? '#0A192F' : '#F8FAFC',
         paper: themeMode === 'dark' ? '#112240' : '#FFFFFF',
       },
     },

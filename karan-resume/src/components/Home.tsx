@@ -9,8 +9,6 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -18,9 +16,13 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { MainListItems, secondaryListItems } from './ListItems';
 import { StyledAppBar } from './StyledAppBar.tsx';
 import { isLandscape } from '../helpers/CommonHelpers';
-import { Slide } from '@mui/material';
 import DynamicChip from './DynamicChip.tsx';
-import { useLastClicked, useTheme } from '../hooks/CommonHooks.jsx';  
+import { useLastClicked, useTheme } from '../hooks/CommonHooks.jsx';
+import HomeContent from './HomeContent.tsx';
+import ExperienceContent from './ExperienceContent.tsx';
+import HobbyContent from './HobbyContent.tsx';
+import AsherZoneContent from './AsherZoneContent.tsx';
+import { disableAsherZone } from '../modules/AsherZone.ts';
 
 interface CopyrightInterface {
   (props: {
@@ -60,12 +62,15 @@ export default function Home() {
   }, []);
 
   const toggleDrawer = () => {
-      setDrawerOpen(!drawerOpen);
+    setDrawerOpen(!drawerOpen);
   };
 
   const { theme, toggleTheme } = useTheme();
 
-const { getLastClicked } = useLastClicked();
+  const { getLastClicked } = useLastClicked();
+  if(getLastClicked() !== 'Asher Zone') {
+    disableAsherZone();
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -99,7 +104,7 @@ const { getLastClicked } = useLastClicked();
               Karan Shukla
             </Typography>
             {!isLandscape() && (
-              <DynamicChip initialLabel={getLastClicked()}/>
+              <DynamicChip initialLabel={getLastClicked()} />
             )}
             <IconButton color="inherit" onClick={toggleTheme}>
               <DarkModeIcon />
@@ -142,45 +147,10 @@ const { getLastClicked } = useLastClicked();
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={8} lg={9}>
-                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      height: 240,
-                    }}
-                  >
-                    <Typography variant="h5" gutterBottom>
-                      This is some filler 1 text for the second paper component.
-                    </Typography>
-                  </Paper>
-                </Slide>
-              </Grid>
-              <Grid item xs={12} md={4} lg={3}>
-                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      height: 240,
-                    }}
-                  >
-                    This is some filler 2 text for the second paper component.
-                  </Paper>
-                </Slide>
-              </Grid>
-              <Grid item xs={12}>
-                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-                  <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                    This is some filler 3 text for the third paper component.
-                  </Paper>
-                </Slide>
-              </Grid>
-            </Grid>
+            {getLastClicked() === 'Home' && <HomeContent />}
+            {getLastClicked() === 'Experience' && <ExperienceContent />}
+            {getLastClicked() === 'Hobbies' && <HobbyContent />}
+            {getLastClicked() === 'Asher Zone' && <AsherZoneContent />}
           </Container>
         </Box>
       </Box>

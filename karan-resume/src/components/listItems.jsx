@@ -1,21 +1,31 @@
 import * as React from 'react';
 import { useLastClicked } from '../hooks/CommonHooks';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import HomeIcon from '@mui/icons-material/Home';
-import ListItemText from '@mui/material/ListItemText';
-import PetsIcon from '@mui/icons-material/Pets';
-import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
-import SportsRugbyIcon from '@mui/icons-material/SportsRugby';
-import CodeIcon from '@mui/icons-material/Code';
-import EmailIcon from '@mui/icons-material/Email';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import {
+  ListItemButton,
+  ListItemIcon,
+  ListItemText
+} from '@mui/material';
+import {
+  Home as HomeIcon,
+  Pets as PetsIcon,
+  WorkHistory as WorkHistoryIcon,
+  SportsRugby as SportsRugbyIcon,
+  Code as CodeIcon,
+  Email as EmailIcon,
+  LinkedIn as LinkedInIcon,
+  Twitter as TwitterIcon,
+  ExitToApp as ExitToAppIcon
+} from '@mui/icons-material';
 import { AsherZone } from '../modules/AsherZone.ts';
-
-
+import {
+  emailLink,
+  githubLink,
+  linkedinLink,
+  blueskyLink
+} from '../constants/CommonConstants.ts';
 
 export const MainListItems = () => {
-  const { handleClick } = useLastClicked();
+  const { getLastClicked, handleClick } = useLastClicked();
 
   return (
     <React.Fragment>
@@ -37,31 +47,51 @@ export const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Hobbies" />
       </ListItemButton>
-      <ListItemButton onClick = {AsherZone}>
+      <ListItemButton disabled={getLastClicked() === 'Asher Zone'} onClick={
+        () => {
+          handleClick('Asher Zone');
+          AsherZone();
+        }}>
         <ListItemIcon>
           <PetsIcon />
         </ListItemIcon>
-        <ListItemText primary="Asher Zone"/>
+        <ListItemText primary="Asher Zone" />
       </ListItemButton>
+      {
+        getLastClicked() === 'Asher Zone' ?
+          <ListItemButton onClick={(() => window.location.reload())} >
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Exit the Asher Zone" />
+          </ListItemButton>
+          : null
+      }
     </React.Fragment>
   );
 };
 
 export const secondaryListItems = (
   <React.Fragment>
-    <ListItemButton href='https://github.com/karanshukla/karanshukla.ca'>
+    <ListItemButton href={githubLink}>
       <ListItemIcon>
         <CodeIcon />
       </ListItemIcon>
       <ListItemText primary="Github" />
     </ListItemButton>
-    <ListItemButton href='https://www.linkedin.com/in/shuklakaran/'>
+    <ListItemButton href={linkedinLink}>
       <ListItemIcon>
         <LinkedInIcon />
       </ListItemIcon>
       <ListItemText primary="Linkedin" />
     </ListItemButton>
-    <ListItemButton href='mailto:karan@karanshukla.ca'>
+    <ListItemButton href={blueskyLink}>
+      <ListItemIcon>
+        <TwitterIcon />
+      </ListItemIcon>
+      <ListItemText primary="BlueSky" />
+    </ListItemButton>
+    <ListItemButton href={emailLink}>
       <ListItemIcon>
         <EmailIcon />
       </ListItemIcon>

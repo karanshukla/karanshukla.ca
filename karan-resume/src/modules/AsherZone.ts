@@ -29,7 +29,7 @@ function createAndPlaceImage(imageUrls: Array<string>): HTMLImageElement {
     return image;
 }
 
-function recursiveAnimate(image: HTMLImageElement, x: number, y: number, dx: number, dy: number): void {
+function recursiveAnimate(image: HTMLImageElement, x: number, y: number, dx: number, dy: number, rotation: number = 0, rotationFactor: number): void {
     const padding = 100;
     if (x + image.width + padding >= window.innerWidth || x <= padding) {
         dx = -dx;
@@ -41,12 +41,16 @@ function recursiveAnimate(image: HTMLImageElement, x: number, y: number, dx: num
     x += dx;
     y += dy;
 
+    // Slower and randomized rotation per image
+    const rotationSpeed = Math.sin(Date.now() / 2000) * 180 * rotationFactor;
+    rotation += rotationSpeed;
+
     image.style.left = `${x}px`;
     image.style.top = `${y}px`;
-    image.style.transform = `rotate(${Math.random() * 360}deg)`;
-    image.style.transition = 'transform 5s linear';
+    image.style.transform = `rotate(${rotation}deg)`;
+    image.style.transition = `transform ${1 + Math.random()}s ease-in-out`;
 
-    requestAnimationFrame(() => recursiveAnimate(image, x, y, dx, dy));
+    requestAnimationFrame(() => recursiveAnimate(image, x, y, dx, dy, rotation, rotationFactor));
 }
 
 function animateImage(image: HTMLImageElement): void {
@@ -54,11 +58,13 @@ function animateImage(image: HTMLImageElement): void {
     let y = Math.random() * (window.innerHeight - 400);
     let dx = (Math.random() - 0.5) * 5;
     let dy = (Math.random() - 0.5) * 5;
+    let rotationFactor = Math.random() * 0.5; // Random rotation speed factor per image
 
-    recursiveAnimate(image, x, y, dx, dy);
+    recursiveAnimate(image, x, y, dx, dy, 0, rotationFactor);
 }
 
 export function AsherZone() {
+    disableAsherZone();
     let newImageArray = [] as Array<HTMLImageElement>;
     const randomNumber: number = Math.floor(Math.random() * 50) + 10;
 
@@ -69,6 +75,13 @@ export function AsherZone() {
     newImageArray.forEach((image) => {
         animateImage(image);
     });
+}
 
+export function disableAsherZone() {
+    const rootContainer: HTMLElement = document.getElementById('root')!;
+    const images: NodeListOf<HTMLImageElement> = rootContainer.querySelectorAll('img');
+    images.forEach((image) => {
+        image.remove();
+    });
 }
 
