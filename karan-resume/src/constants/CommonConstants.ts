@@ -6,4 +6,4 @@ export const linkedinLink = 'https://www.linkedin.com/in/karanshukla1/';
 
 export const emailLink = 'mailto:karan@karanshukla.ca';
 
-export const blueskyLink = 'https://bsky.app/profile/karanshukla.ca.pdf';
+export const blueskyLink = 'https://bsky.app/profile/karanshukla.ca';
