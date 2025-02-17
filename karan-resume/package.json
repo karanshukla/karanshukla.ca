@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "echo karanshukla.ca > ./dist/CNAME && gh-pages -d dist"
+    "deploy": "echo karanshukla.ca > ./dist/CNAME && gh-pages -d build"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",

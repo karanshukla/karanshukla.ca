@@ -22,8 +22,6 @@ function ExperienceContent() {
                 Software Developer - Loopio
               </Typography>
               <Typography variant="body1">
-                • Cats are great
-                • Dogs are also great
               </Typography>
             </Paper>
           </Slide>
@@ -43,11 +41,6 @@ function ExperienceContent() {
                 Skills Highlights
               </Typography>
               <Typography variant="body2">
-                • React/TypeScript
-                • Node.js
-                • Cloud Technologies
-                • CI/CD
-                • Agile Methodologies
               </Typography>
             </Paper>
           </Slide>
@@ -59,7 +52,6 @@ function ExperienceContent() {
                 Previous Experience
               </Typography>
               <Typography variant="body1">
-                Software Developer - Loopio
               </Typography>
             </Paper>
           </Slide>
