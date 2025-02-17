@@ -1,13 +1,14 @@
+import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { Slide } from '@mui/material';
 
-function HobbyContent() {
+function ExperienceContent() {
   return (
     <>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6} lg={6}>
+        <Grid item xs={12} md={8} lg={9}>
           <Slide direction="up" in={true} mountOnEnter unmountOnExit>
             <Paper
               sx={{
@@ -19,14 +20,18 @@ function HobbyContent() {
               }}
             >
               <Typography variant="h5" gutterBottom>
-                Fitness & Gym
+                Software Developer - Loopio
               </Typography>
               <Typography variant="body1">
+                • Led development of mission-critical applications using React, TypeScript, and Node.js<br />
+                • Implemented CI/CD pipelines and automated testing frameworks<br />
+                • Mentored junior developers and conducted code reviews<br />
+                • Architected scalable solutions using cloud technologies
               </Typography>
             </Paper>
           </Slide>
         </Grid>
-        <Grid item xs={12} md={6} lg={6}>
+        <Grid item xs={12} md={4} lg={3}>
           <Slide direction="up" in={true} mountOnEnter unmountOnExit>
             <Paper
               sx={{
@@ -37,32 +42,30 @@ function HobbyContent() {
                 minHeight: 240,
               }}
             >
-              <Typography variant="h5" gutterBottom>
-                Mechanical Keyboards
+              <Typography variant="h6" gutterBottom>
+                Skills Highlights
               </Typography>
-              <Typography variant="body1">
-              </Typography>
-            </Paper>
-          </Slide>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
-              <Typography variant="h5" gutterBottom>
-                Technology
-              </Typography>
-              <Typography variant="body1">
+              <Typography variant="body2">
+                • React/TypeScript
+                • Node.js
+                • Cloud Technologies
+                • CI/CD
+                • Agile Methodologies
               </Typography>
             </Paper>
           </Slide>
         </Grid>
-        <Grid item xs={12} md={6} lg={6}>
+        <Grid item xs={12}>
           <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
               <Typography variant="h5" gutterBottom>
-                Music
+                Previous Experience
               </Typography>
               <Typography variant="body1">
+                Software Developer - Previous Company (2018-2021)
+                • Developed and maintained web applications
+                • Collaborated with cross-functional teams
+                • Implemented new features and resolved technical debt
               </Typography>
             </Paper>
           </Slide>
@@ -72,4 +75,4 @@ function HobbyContent() {
   );
 }
 
-export default HobbyContent;
+export default ExperienceContent

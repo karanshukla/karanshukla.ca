@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -23,10 +22,8 @@ function ExperienceContent() {
                 Software Developer - Loopio
               </Typography>
               <Typography variant="body1">
-                • Led development of mission-critical applications using React, TypeScript, and Node.js<br />
-                • Implemented CI/CD pipelines and automated testing frameworks<br />
-                • Mentored junior developers and conducted code reviews<br />
-                • Architected scalable solutions using cloud technologies
+                • Cats are great
+                • Dogs are also great
               </Typography>
             </Paper>
           </Slide>
@@ -62,10 +59,7 @@ function ExperienceContent() {
                 Previous Experience
               </Typography>
               <Typography variant="body1">
-                Software Developer - Previous Company (2018-2021)
-                • Developed and maintained web applications
-                • Collaborated with cross-functional teams
-                • Implemented new features and resolved technical debt
+                Software Developer - Loopio
               </Typography>
             </Paper>
           </Slide>
