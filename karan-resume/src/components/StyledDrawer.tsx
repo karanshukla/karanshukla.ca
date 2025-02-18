@@ -8,10 +8,10 @@ interface StyledDrawerProps {
   open?: boolean;
 }
 
-export const StyledDrawer = styled(MuiDrawer, { 
-  shouldForwardProp: (prop): boolean => prop !== 'open' 
+export const StyledDrawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop): prop is keyof StyledDrawerProps => prop !== 'open'
 })<StyledDrawerProps>(
-  ({ theme, open }) => ({
+  ({ theme, open = false }) => ({
     '& .MuiDrawer-paper': {
       position: 'relative',
       whiteSpace: 'nowrap',
@@ -21,15 +21,15 @@ export const StyledDrawer = styled(MuiDrawer, {
         duration: theme.transitions.duration.enteringScreen,
       }),
       boxSizing: 'border-box',
-      ...(!open && {
+      ...(open === false && {
         overflowX: 'hidden',
         transition: theme.transitions.create('width', {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing(7),
+        width: theme.spacing(8),
         [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
+          width: theme.spacing(8),
         },
       }),
     },

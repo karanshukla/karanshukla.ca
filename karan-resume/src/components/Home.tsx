@@ -1,27 +1,28 @@
 import * as React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { StyledDrawer } from './StyledDrawer.tsx';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Fab from '@mui/material/Fab';
+import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
+import List from '@mui/material/List';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { ThemeProvider } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { MainListItems, secondaryListItems } from './ListItems.tsx';
+import MenuIcon from '@mui/icons-material/Menu';
 import { StyledAppBar } from './StyledAppBar.tsx';
-import { isLandscape } from '../helpers/CommonHelpers.ts';
+import { StyledDrawer } from './StyledDrawer.tsx';
 import DynamicChip from './DynamicChip.tsx';
-import { useLastClicked, useTheme } from '../hooks/CommonHooks.js';
+import { MainListItems, secondaryListItems } from './ListItems.tsx';
 import HomeContent from './HomeContent.tsx';
 import ExperienceContent from './ExperienceContent.tsx';
 import HobbyContent from './HobbyContent.tsx';
 import AsherZoneContent from './AsherZoneContent.tsx';
+import { isLandscape } from '../helpers/CommonHelpers.ts';
+import { useLastClicked, useTheme } from '../hooks/CommonHooks.js';
 import { disableAsherZone } from '../modules/AsherZone.ts';
 
 interface CopyrightInterface {
@@ -68,7 +69,7 @@ export default function Home() {
   const { theme, toggleTheme } = useTheme();
 
   const { getLastClicked } = useLastClicked();
-  if(getLastClicked() !== 'Asher Zone') {
+  if (getLastClicked() !== 'Asher Zone') {
     disableAsherZone();
   }
 
@@ -153,6 +154,13 @@ export default function Home() {
             {getLastClicked() === 'Asher Zone' && <AsherZoneContent />}
           </Container>
         </Box>
+        <Fab
+          color="primary"
+          aria-label="menu"
+          sx={{ position: 'fixed', bottom: 16, right: 16 }}
+          onClick={toggleDrawer}>
+          <MenuIcon />
+        </Fab>
       </Box>
     </ThemeProvider>
   );
