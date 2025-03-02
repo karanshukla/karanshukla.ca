@@ -66,7 +66,7 @@ function animateImage(image: HTMLImageElement): void {
 export function AsherZone() {
     disableAsherZone();
     let newImageArray = [] as Array<HTMLImageElement>;
-    const randomNumber: number = Math.floor(Math.random() * 50) + 10;
+    const randomNumber: number = Math.floor(Math.random() * 75) + 10;
 
     for (let i: number = 0; i < randomNumber; i++) {
         newImageArray.push(createAndPlaceImage(asherImageUrls));

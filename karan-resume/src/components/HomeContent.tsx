@@ -1,39 +1,44 @@
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { Slide } from '@mui/material';
+import { CardMedia, Slide } from '@mui/material';
+import { getRawGithubImageUrl } from '../helpers/CommonHelpers';
 
 function HomeContent() {
   return (
     <>
-        <Grid item xs={12}>
-          <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+      <Grid item xs={12}>
+        <Slide direction="up" in={true} mountOnEnter unmountOnExit>
             <Paper
-              sx={{
-                p: 2,
-                mt: 2,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
+            sx={{
+              p: 2,
+              mt: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
             >
-              <Typography variant="h4" gutterBottom>
-                Karan Shukla
-              </Typography>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                Software Engineer • Mechanical Engineer
-              </Typography>
+            <CardMedia
+              component="img"
+              sx={{
+              width: 200,
+              height: 200,
+              borderRadius: '50%',
+              objectFit: 'cover',
+              mb: 2
+              }}
+              image={getRawGithubImageUrl("karanprofile.jpg")}
+              alt="Karan Shukla"
+            />
+            <Typography variant="h4" gutterBottom>
+              Karan Shukla
+            </Typography>
+            <Typography variant="h6" color="text.secondary" gutterBottom>
+              Software Engineer • Mechanical Engineer
+            </Typography>
             </Paper>
-          </Slide>
-        </Grid>
-        <Grid item xs={12}>
-          <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Typography variant="body1">
-                Use the drawer on the left for navigation
-              </Typography>
-            </Paper>
-          </Slide>
-        </Grid>
+        </Slide>
+      </Grid>
     </>
   );
 }
