@@ -30,8 +30,11 @@ function HomeContent() {
               image={getRawGithubImageUrl("karanprofile.jpg")}
               alt="Karan Shukla"
             />
-            <Typography variant="h6" color="text.secondary" gutterBottom>
+            <Typography variant="h5" color="text.primary" gutterBottom>
               software/mechanical engineer
+            </Typography>
+            <Typography variant="h6" color="text.secondary" gutterBottom>
+              karan@karanshukla.ca
             </Typography>
             </Paper>
         </Slide>

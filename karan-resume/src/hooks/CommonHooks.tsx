@@ -17,14 +17,14 @@ export const useTheme = (): { theme: Theme; toggleTheme: () => void } => {
     palette: {
       mode: themeMode,
       primary: {
-        main: themeMode === 'dark' ? '#0A192F' : '#4B92E5',
+        main: themeMode === 'dark' ? '#000080' : '#1a237e',
       },
       info: {
         main: '#FFFFFF',
       },
       background: {
-        default: themeMode === 'dark' ? '#0A192F' : '#F8FAFC',
-        paper: themeMode === 'dark' ? '#112240' : '#FFFFFF',
+        default: themeMode === 'dark' ? '#121212' : '#F5F5F5',
+        paper: themeMode === 'dark' ? '#1C1C1C' : '#FFFFFF',
       },
     },
   });

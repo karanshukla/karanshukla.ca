@@ -95,7 +95,7 @@ export const secondaryListItems: React.ReactElement = (
       <ListItemIcon>
         <EmailIcon />
       </ListItemIcon>
-      <ListItemText primary="email Me" />
+      <ListItemText primary="email" />
     </ListItemButton>
   </React.Fragment>
 );
