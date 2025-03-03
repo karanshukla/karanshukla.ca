@@ -33,19 +33,19 @@ export const MainListItems: React.FC = () => {
         <ListItemIcon>
           <HomeIcon />
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <ListItemText primary="home" />
       </ListItemButton>
       <ListItemButton onClick={() => handleClick('Experience')}>
         <ListItemIcon>
           <WorkHistoryIcon />
         </ListItemIcon>
-        <ListItemText primary="Experience" />
+        <ListItemText primary="experience" />
       </ListItemButton>
       <ListItemButton onClick={() => handleClick('Hobbies')}>
         <ListItemIcon>
           <SportsRugbyIcon />
         </ListItemIcon>
-        <ListItemText primary="Hobbies" />
+        <ListItemText primary="hobbies" />
       </ListItemButton>
       <ListItemButton 
         disabled={getLastClicked() === 'Asher Zone'} 
@@ -57,14 +57,14 @@ export const MainListItems: React.FC = () => {
         <ListItemIcon>
           <PetsIcon />
         </ListItemIcon>
-        <ListItemText primary="Asher Zone" />
+        <ListItemText primary="asher zone" />
       </ListItemButton>
       {getLastClicked() === 'Asher Zone' ? (
         <ListItemButton onClick={() => window.location.reload()}>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
-          <ListItemText primary="Exit the Asher Zone" />
+          <ListItemText primary="exit the asher zone" />
         </ListItemButton>
       ) : null}
     </React.Fragment>
@@ -77,25 +77,25 @@ export const secondaryListItems: React.ReactElement = (
       <ListItemIcon>
         <CodeIcon />
       </ListItemIcon>
-      <ListItemText primary="Github" />
+      <ListItemText primary="github" />
     </ListItemButton>
     <ListItemButton href={linkedinLink}>
       <ListItemIcon>
         <LinkedInIcon />
       </ListItemIcon>
-      <ListItemText primary="Linkedin" />
+      <ListItemText primary="linkedin" />
     </ListItemButton>
     <ListItemButton href={blueskyLink}>
       <ListItemIcon>
         <TwitterIcon />
       </ListItemIcon>
-      <ListItemText primary="BlueSky" />
+      <ListItemText primary="bluesky" />
     </ListItemButton>
     <ListItemButton href={emailLink}>
       <ListItemIcon>
         <EmailIcon />
       </ListItemIcon>
-      <ListItemText primary="Email Me" />
+      <ListItemText primary="email Me" />
     </ListItemButton>
   </React.Fragment>
 );

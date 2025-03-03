@@ -102,7 +102,7 @@ export default function Home() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Karan Shukla
+              karan shukla
             </Typography>
             {!isLandscape() && (
               <DynamicChip initialLabel={getLastClicked()} />
