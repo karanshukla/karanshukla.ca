@@ -1,8 +1,7 @@
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { CardMedia, Slide } from '@mui/material';
-import { getRawGithubImageUrl } from '../helpers/CommonHelpers';
+import Slide  from '@mui/material/Slide';
 
 function HomeContent() {
   return (
@@ -18,19 +17,7 @@ function HomeContent() {
               alignItems: 'center',
             }}
             >
-            <CardMedia
-              component="img"
-              sx={{
-              width: 200,
-              height: 200,
-              borderRadius: '50%',
-              objectFit: 'cover',
-              mb: 2
-              }}
-              image={getRawGithubImageUrl("karanprofile.jpg")}
-              alt="Karan Shukla"
-            />
-            <Typography variant="h5" color="text.primary" gutterBottom>
+            <Typography variant="h5" color="text.primary" gutterBottom align='center'>
               software/mechanical engineer
             </Typography>
             <Typography variant="h6" color="text.secondary" gutterBottom>

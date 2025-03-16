@@ -148,10 +148,10 @@ export default function Home() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            {getLastClicked() === 'Home' && <HomeContent />}
-            {getLastClicked() === 'Experience' && <ExperienceContent />}
-            {getLastClicked() === 'Hobbies' && <HobbyContent />}
-            {getLastClicked() === 'Asher Zone' && <AsherZoneContent />}
+            {getLastClicked() === 'home' && <HomeContent />}
+            {getLastClicked() === 'experience' && <ExperienceContent />}
+            {getLastClicked() === 'hobbies' && <HobbyContent />}
+            {getLastClicked() === 'asher zone' && <AsherZoneContent />}
           </Container>
         </Box>
         <Fab

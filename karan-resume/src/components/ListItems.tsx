@@ -29,19 +29,19 @@ export const MainListItems: React.FC = () => {
 
   return (
     <React.Fragment>
-      <ListItemButton onClick={() => handleClick('Home')}>
+      <ListItemButton onClick={() => handleClick('home')}>
         <ListItemIcon>
           <HomeIcon />
         </ListItemIcon>
         <ListItemText primary="home" />
       </ListItemButton>
-      <ListItemButton onClick={() => handleClick('Experience')}>
+      <ListItemButton onClick={() => handleClick('experience')}>
         <ListItemIcon>
           <WorkHistoryIcon />
         </ListItemIcon>
         <ListItemText primary="experience" />
       </ListItemButton>
-      <ListItemButton onClick={() => handleClick('Hobbies')}>
+      <ListItemButton onClick={() => handleClick('hobbies')}>
         <ListItemIcon>
           <SportsRugbyIcon />
         </ListItemIcon>

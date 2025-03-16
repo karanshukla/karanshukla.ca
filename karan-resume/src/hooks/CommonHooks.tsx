@@ -39,7 +39,7 @@ interface LastClickedStore {
 }
 
 export const useLastClicked = create<LastClickedStore>((set, get) => ({
-  lastClicked: 'Home',
+  lastClicked: 'home',
   handleClick: (name: string) => set({ lastClicked: name }),
   getLastClicked: () => get().lastClicked
 }));

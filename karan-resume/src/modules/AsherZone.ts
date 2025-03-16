@@ -19,8 +19,8 @@ function createAndPlaceImage(imageUrls: Array<string>): HTMLImageElement {
     image.src = randomImageUrl;
     image.style.position = 'absolute';
     image.style.width = '200px';
-    image.style.left = `${Math.random() * (window.innerWidth - 300)}px`;
-    image.style.top = `${Math.random() * (window.innerHeight - 300)}px`;
+    image.style.left = `${Math.random() * (window.innerWidth)}px`;
+    image.style.top = `${Math.random() * (window.innerHeight)}px`;
     if (rootContainer) {
         rootContainer.appendChild(image);
     } else {

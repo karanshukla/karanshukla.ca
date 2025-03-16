@@ -5,7 +5,7 @@ interface DynamicChipProps {
     initialLabel?: string;
 }
 
-const DynamicChip: React.FC<DynamicChipProps> = ({ initialLabel = 'Home' }) => {
+const DynamicChip: React.FC<DynamicChipProps> = ({ initialLabel = 'home' }) => {
     return (
         <Chip
             label={ initialLabel}
