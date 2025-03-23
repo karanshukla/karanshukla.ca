@@ -1,57 +1,42 @@
 name: Deploy React (Vite, Material UI) on Push
-
 on:
   push:
     branches:
       - main # Or your main branch name
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup Node.js (Version 18 or your project's version)
+          
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-
-      - name: Install dependencies (Yarn)
+          cache: 'yarn'
+          cache-dependency-path: 'karan-resume/yarn.lock'
+          
+      - name: Install dependencies
         run: |
           cd karan-resume
           yarn install
-
-      # Check if Vite is globally installed; install if needed.
-      - name: Install Vite CLI (if not globally present)
-        run: |
-          cd karan-resume
-          if ! command -v vite &> /dev/null; then
-            echo "Vite CLI not found globally. Installing..."
-            yarn global add vite
-          else
-            echo "Vite CLI already globally installed."
-          fi
-
-      # Add a cache step to speed up yarn install.
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('karan-resume/yarn.lock') }} #updated path
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
+          
       - name: Build with Vite (Production build)
         run: |
           cd karan-resume
           yarn build
-
-      - name: Deploy to GitHub Pages
+          
+      - name: Create CNAME file
         run: |
           cd karan-resume
           echo karanshukla.ca > ./dist/CNAME
-          npx gh-pages -d dist
+          
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./karan-resume/dist
+          cname: karanshukla.ca
