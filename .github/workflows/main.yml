@@ -43,10 +43,15 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Build with Vite (Production build)
-        run: cd karan-resume && yarn build
+        run: yarn build
 
       - name: Run deploy script (Deploy the contents of the dist folder)
-        run: cd karan-resume && yarn deploy
+        run: yarn deploy
+        env:
+          # Add environment variables here. Example:
+          # API_KEY: ${{ secrets.API_KEY }}
+          # DEPLOY_TARGET: production
+          # Any other environment variables your deploy script requires
 
       - name: Verify dist folder exists.
         run: ls dist # optional debugging step.
