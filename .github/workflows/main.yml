@@ -1,0 +1,43 @@
+name: Deploy on Push (Vite)
+
+on:
+  push:
+    branches:
+      - main # Or your main branch name (e.g., develop, master)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: #Ensures a full git history for accurate builds.
+          fetch-depth: 0
+
+      - name: Setup Node.js (Version 18 or your project's version)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies (Yarn)
+        run: yarn install
+
+      # Check if Vite is globally installed; install if needed.
+      - name: Install Vite CLI (if not globally present)
+        run: |
+          if ! command -v vite &> /dev/null; then
+            echo "Vite CLI not found globally. Installing..."
+            yarn global add vite
+          else
+            echo "Vite CLI already globally installed."
+          fi
+
+      - name: Build with Vite (Production build)
+        run: cd karan-resume && yarn build
+
+      - name: Run deploy script (Deploy the contents of the dist folder)
+        run: cd karan-resume && yarn deploy
+
+      - name: Verify dist folder exists.
+        run: ls dist # optional debugging step.
