@@ -32,7 +32,7 @@ jobs:
       - name: Create CNAME file
         run: |
           cd karan-resume
-          echo karanshukla.ca > ./dist/CNAME
+          echo karanshukla.ca > dist/CNAME
           
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
