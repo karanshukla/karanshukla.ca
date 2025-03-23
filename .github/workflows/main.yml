@@ -32,24 +32,11 @@ jobs:
       - name: Create CNAME file
         run: |
           cd karan-resume
-          # Debug - list directories to verify build output
-          ls -la
-          
-          # Check if dist directory exists
-          if [ -d "dist" ]; then
-            echo "dist directory found, creating CNAME file"
-            echo karanshukla.ca > dist/CNAME
-          else
-            echo "dist directory not found. Checking current working directory:"
-            pwd
-            echo "Listing all files and directories:"
-            ls -la
-            exit 1
-          fi
+          echo karanshukla.ca > build/CNAME
           
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./karan-resume/dist
+          publish_dir: ./karan-resume/build
           cname: karanshukla.ca
