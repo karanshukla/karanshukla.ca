@@ -50,12 +50,7 @@ jobs:
           cd karan-resume
           yarn build
 
-      - name: Run deploy script (Deploy the contents of the dist folder)
+      - name: Deploy to GitHub Pages
         run: |
           cd karan-resume
           yarn deploy
-
-      - name: Verify dist folder exists.
-        run: |
-          cd karan-resume
-          ls dist # optional debugging step.
