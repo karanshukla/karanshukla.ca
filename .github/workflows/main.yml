@@ -2,7 +2,7 @@ name: Deploy React (Vite, Material UI) on Push
 on:
   push:
     branches:
-      - main # Or your main branch name
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
