@@ -1,9 +1,9 @@
-name: Deploy on Push (Vite)
+name: Deploy React (Vite, Material UI) on Push
 
 on:
   push:
     branches:
-      - main # Or your main branch name (e.g., develop, master)
+      - main # Or your main branch name
 
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with: #Ensures a full git history for accurate builds.
+        with:
           fetch-depth: 0
 
       - name: Setup Node.js (Version 18 or your project's version)
@@ -32,6 +32,15 @@ jobs:
           else
             echo "Vite CLI already globally installed."
           fi
+
+      # Add a cache step to speed up yarn install.
+      - name: Cache Node.js modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Build with Vite (Production build)
         run: cd karan-resume && yarn build
