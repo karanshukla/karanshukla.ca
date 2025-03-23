@@ -21,11 +21,14 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies (Yarn)
-        run: yarn install
+        run: |
+          cd karan-resume
+          yarn install
 
       # Check if Vite is globally installed; install if needed.
       - name: Install Vite CLI (if not globally present)
         run: |
+          cd karan-resume
           if ! command -v vite &> /dev/null; then
             echo "Vite CLI not found globally. Installing..."
             yarn global add vite
@@ -38,20 +41,21 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('karan-resume/yarn.lock') }} #updated path
           restore-keys: |
             ${{ runner.os }}-yarn-
 
       - name: Build with Vite (Production build)
-        run: yarn build
+        run: |
+          cd karan-resume
+          yarn build
 
       - name: Run deploy script (Deploy the contents of the dist folder)
-        run: yarn deploy
-        env:
-          # Add environment variables here. Example:
-          # API_KEY: ${{ secrets.API_KEY }}
-          # DEPLOY_TARGET: production
-          # Any other environment variables your deploy script requires
+        run: |
+          cd karan-resume
+          yarn deploy
 
       - name: Verify dist folder exists.
-        run: ls dist # optional debugging step.
+        run: |
+          cd karan-resume
+          ls dist # optional debugging step.
