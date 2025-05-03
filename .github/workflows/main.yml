@@ -54,4 +54,4 @@ jobs:
         uses: actions/configure-pages@v4 # Use the official GitHub Pages action
         with:
           # Needed for CNAME
-          static_site_location: ./karan-resume/build
+          source: ./karan-resume/build
