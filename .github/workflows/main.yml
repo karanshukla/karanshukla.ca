@@ -1,4 +1,7 @@
 name: Deploy React (Vite, Material UI) on Push
+permissions:
+  contents: read
+  pages: write
 on:
   push:
     branches:
