@@ -49,6 +49,8 @@ jobs:
           publish_dir: ./karan-resume/build # Correct publish directory
           cname: karanshukla.ca # Set the CNAME
           force: true # Add force to overwrite existing content.
+          user_name: 'github-actions[bot]' # Add user name
+          user_email: 'github-actions[bot]@users.noreply.github.com' # Add email
 
       - name: Set up GitHub Pages
         uses: actions/configure-pages@v4 # Use the official GitHub Pages action
