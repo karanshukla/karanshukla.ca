@@ -1,11 +1,16 @@
 name: Deploy React (Vite, Material UI) on Push
+
+# Permissions for GitHub Pages
 permissions:
   contents: read
   pages: write
+  id-token: write # Needed for deploying to GitHub Pages
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,33 +18,40 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          
+          fetch-depth: 0 # Important for GitHub Pages
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'yarn'
-          cache-dependency-path: 'karan-resume/yarn.lock'
-          
+          cache: 'yarn' # Use yarn cache
+          cache-dependency-path: 'karan-resume/yarn.lock' # Correct path
+
       - name: Install dependencies
         run: |
           cd karan-resume
-          yarn install
-          
+          yarn install # Use yarn install
+
       - name: Build with Vite (Production build)
         run: |
           cd karan-resume
-          yarn build
-          
+          yarn build # Use yarn build
+
       - name: Create CNAME file
         run: |
           cd karan-resume
-          echo karanshukla.ca > build/CNAME
-          
+          echo "karanshukla.ca" > build/CNAME # Correct CNAME creation
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./karan-resume/build
-          cname: karanshukla.ca
+          publish_dir: ./karan-resume/build # Correct publish directory
+          cname: karanshukla.ca # Set the CNAME
+          force: true # Add force to overwrite existing content.
+
+      - name: Set up GitHub Pages
+        uses: actions/configure-pages@v4 # Use the official GitHub Pages action
+        with:
+          # Needed for CNAME
+          static_site_location: ./karan-resume/build
