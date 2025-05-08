@@ -2,7 +2,7 @@ export const drawerWidth = 240 as Number;
 
 export const githubLink = 'https://github.com/karanshukla/karanshukla.ca';
 
-export const linkedinLink = 'https://www.linkedin.com/in/karanshukla1/';
+export const linkedinLink = 'https://www.linkedin.com/in/shuklakaran'
 
 export const emailLink = 'mailto:karan@karanshukla.ca';
 
