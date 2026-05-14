@@ -1,4 +1,4 @@
-export const drawerWidth = 240 as Number;
+export const drawerWidth = 240;
 
 export const githubLink = 'https://github.com/karanshukla/karanshukla.ca';
 
