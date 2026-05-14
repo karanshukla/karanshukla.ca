@@ -1,87 +1,77 @@
-import { getRawGithubImageUrl } from "../helpers/CommonHelpers";
+import asher1 from '../assets/asher1.jpg';
+import asher2 from '../assets/asher2.jpg';
+import asher3 from '../assets/asher3.jpg';
+import asher4 from '../assets/asher4.jpg';
+import asher5 from '../assets/asher5.jpg';
+import asher6 from '../assets/asher6.jpg';
+import asher7 from '../assets/asher7.jpg';
+import asher8 from '../assets/asher8.jpg';
 
-const asherImageUrls: Array<string> = [
-    getRawGithubImageUrl('asher1.jpg'),
-    getRawGithubImageUrl('asher2.jpg'),
-    getRawGithubImageUrl('asher3.jpg'),
-    getRawGithubImageUrl('asher4.jpg'),
-    getRawGithubImageUrl('asher5.jpg'),
-    getRawGithubImageUrl('asher6.jpg'),
-    getRawGithubImageUrl('asher7.jpg'),
-    getRawGithubImageUrl('asher8.jpg'),
-];
+const asherImages: string[] = [asher1, asher2, asher3, asher4, asher5, asher6, asher7, asher8];
 
-function createAndPlaceImage(imageUrls: Array<string>): HTMLImageElement {
-    const image: HTMLImageElement = new Image();
-    const randomImageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-    const rootContainer: HTMLElement = document.getElementById('root')!;
+let isRunning = false;
 
-    image.src = randomImageUrl;
-    image.style.position = 'absolute';
-    image.style.width = '200px';
-    image.style.left = `${Math.random() * (window.innerWidth)}px`;
-    image.style.top = `${Math.random() * (window.innerHeight)}px`;
-    if (rootContainer) {
-        rootContainer.appendChild(image);
-    } else {
-        document.body.appendChild(image);
-    }
+function createAndPlaceImage(): HTMLImageElement {
+    const image = new Image();
+    image.src = asherImages[Math.floor(Math.random() * asherImages.length)];
+    image.dataset.asher = 'true';
+    image.style.position = 'fixed';
+    image.alt = '';
+    image.setAttribute('aria-hidden', 'true');
+    image.style.width = '240px';
+    image.style.height = 'auto';
+    image.style.left = `${Math.random() * Math.max(0, window.innerWidth - 280)}px`;
+    image.style.top = `${Math.random() * Math.max(0, window.innerHeight - 280)}px`;
+    image.style.zIndex = '9999';
+    image.style.pointerEvents = 'none';
+    image.style.borderRadius = '12px';
+    image.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+    document.body.appendChild(image);
     return image;
 }
 
-function recursiveAnimate(image: HTMLImageElement, x: number, y: number, dx: number, dy: number, rotation: number = 0, rotationFactor: number): void {
-    const padding = 100;
-    if (x + image.width + padding >= window.innerWidth || x <= padding) {
-        dx = -dx;
-    }
-
-    if (y + image.height + padding >= window.innerHeight || y <= padding) {
-        dy = -dy;
-    }
-    x += dx;
-    y += dy;
-
-    // Slower and randomized rotation per image
-    const rotationSpeed = Math.sin(Date.now() / 2000) * 180 * rotationFactor;
-    rotation += rotationSpeed;
-
-    image.style.left = `${x}px`;
-    image.style.top = `${y}px`;
-    image.style.transform = `rotate(${rotation}deg)`;
-    image.style.transition = `transform ${1 + Math.random()}s ease-in-out`;
-
-    requestAnimationFrame(() => recursiveAnimate(image, x, y, dx, dy, rotation, rotationFactor));
-}
-
 function animateImage(image: HTMLImageElement): void {
-    let x = Math.random() * (window.innerWidth - 400);
-    let y = Math.random() * (window.innerHeight - 400);
-    let dx = (Math.random() - 0.5) * 5;
-    let dy = (Math.random() - 0.5) * 5;
-    let rotationFactor = Math.random() * 0.5; // Random rotation speed factor per image
+    let x = parseFloat(image.style.left);
+    let y = parseFloat(image.style.top);
+    // Guarantee non-trivial velocity in both axes
+    let dx = (Math.random() - 0.5) * 3 + (Math.random() > 0.5 ? 1.5 : -1.5);
+    let dy = (Math.random() - 0.5) * 3 + (Math.random() > 0.5 ? 1.5 : -1.5);
+    const spinSpeed = (Math.random() * 1.2 + 0.3) * (Math.random() > 0.5 ? 1 : -1);
+    let rotation = 0;
 
-    recursiveAnimate(image, x, y, dx, dy, 0, rotationFactor);
-}
+    function frame() {
+        if (!isRunning) return;
 
-export function AsherZone() {
-    disableAsherZone();
-    let newImageArray = [] as Array<HTMLImageElement>;
-    const randomNumber: number = Math.floor(Math.random() * 75) + 10;
+        const w = image.offsetWidth || 240;
+        const h = image.offsetHeight || 240;
 
-    for (let i: number = 0; i < randomNumber; i++) {
-        newImageArray.push(createAndPlaceImage(asherImageUrls));
+        if (x + w >= window.innerWidth || x <= 0) dx = -dx;
+        if (y + h >= window.innerHeight || y <= 0) dy = -dy;
+
+        x += dx;
+        y += dy;
+        rotation += spinSpeed;
+
+        image.style.left = `${x}px`;
+        image.style.top = `${y}px`;
+        image.style.transform = `rotate(${rotation}deg)`;
+
+        requestAnimationFrame(frame);
     }
 
-    newImageArray.forEach((image) => {
-        animateImage(image);
-    });
+    requestAnimationFrame(frame);
 }
 
-export function disableAsherZone() {
-    const rootContainer: HTMLElement = document.getElementById('root')!;
-    const images: NodeListOf<HTMLImageElement> = rootContainer.querySelectorAll('img');
-    images.forEach((image) => {
-        image.remove();
-    });
+export function AsherZone(): void {
+    disableAsherZone();
+    isRunning = true;
+    const count = Math.floor(Math.random() * 50) + 30;
+    for (let i = 0; i < count; i++) {
+        animateImage(createAndPlaceImage());
+    }
 }
 
+export function disableAsherZone(): void {
+    isRunning = false;
+    document.querySelectorAll<HTMLImageElement>('img[data-asher]').forEach(img => img.remove());
+}

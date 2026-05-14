@@ -1,45 +1,206 @@
-import { useState } from 'react';
-import { create } from 'zustand';
-import { createTheme, Theme } from '@mui/material/styles';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createTheme, Theme, alpha } from '@mui/material/styles';
 
-export const useTheme = (): { theme: Theme; toggleTheme: () => void } => {
-  const [themeMode, setThemeMode] = useState<'light' | 'dark'>(
-    (localStorage.getItem('theme') as 'light' | 'dark') || 'dark'
+// --- GitHub API ---
+
+interface GitHubRepo {
+  html_url: string;
+  stargazers_count: number;
+  forks_count: number;
+  language: string | null;
+  updated_at: string;
+}
+
+export const useGitHubRepo = (owner: string, repo: string) => {
+  const [data, setData] = useState<GitHubRepo | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`https://api.github.com/repos/${owner}/${repo}`)
+      .then((r) => r.json())
+      .then(setData)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [owner, repo]);
+
+  return { data, loading };
+};
+
+// --- Keyboard shortcuts ---
+
+export const navShortcuts: Record<string, string> = {
+  '1': '/',
+  '2': '/experience',
+  '3': '/hobbies',
+  '4': '/asher-zone',
+};
+
+export const useKeyboardShortcuts = (): void => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
+
+      const route = navShortcuts[e.key];
+      if (route !== undefined) {
+        e.preventDefault();
+        navigate(route);
+      }
+    };
+
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [navigate]);
+};
+
+// --- Theme ---
+
+export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: boolean } => {
+  const [mode, setMode] = useState<'light' | 'dark'>(
+    (localStorage.getItem('theme') as 'light' | 'dark') || 'dark',
   );
 
   const toggleTheme = (): void => {
-    const newThemeMode = themeMode === 'dark' ? 'light' : 'dark';
-    setThemeMode(newThemeMode);
-    localStorage.setItem('theme', newThemeMode);
+    const next = mode === 'dark' ? 'light' : 'dark';
+    setMode(next);
+    localStorage.setItem('theme', next);
   };
 
-  const theme = createTheme({
-    palette: {
-      mode: themeMode,
-      primary: {
-        main: themeMode === 'dark' ? '#000080' : '#1a237e',
-      },
-      info: {
-        main: '#FFFFFF',
-      },
-      background: {
-        default: themeMode === 'dark' ? '#121212' : '#F5F5F5',
-        paper: themeMode === 'dark' ? '#1C1C1C' : '#FFFFFF',
-      },
-    },
-  });
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+          primary: {
+            main: mode === 'dark' ? '#5c8ee8' : '#1565c0',
+            light: mode === 'dark' ? '#82aaff' : '#5e92f3',
+            dark: mode === 'dark' ? '#3a6bc7' : '#003c8f',
+            contrastText: '#ffffff',
+          },
+          secondary: {
+            main: mode === 'dark' ? '#90caf9' : '#1976d2',
+          },
+          background: {
+            default: mode === 'dark' ? '#0d1117' : '#f0f4f8',
+            paper: mode === 'dark' ? '#161b22' : '#ffffff',
+          },
+          text: {
+            primary: mode === 'dark' ? '#e6edf3' : '#1a1a2e',
+            secondary: mode === 'dark' ? '#8b949e' : '#4a5568',
+          },
+          divider: mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+        },
+        typography: {
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          h3: { fontWeight: 600 },
+          h4: { fontWeight: 600 },
+          h5: { fontWeight: 600 },
+          h6: { fontWeight: 600 },
+        },
+        shape: {
+          borderRadius: 10,
+        },
+        components: {
+          MuiPaper: {
+            styleOverrides: {
+              root: ({ theme }) => ({
+                backgroundImage: 'none',
+                ...(theme.palette.mode === 'light' && {
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06)',
+                  border: '1px solid rgba(0,0,0,0.07)',
+                }),
+              }),
+            },
+          },
+          MuiAppBar: {
+            styleOverrides: {
+              root: ({ theme }) => ({
+                backgroundImage: 'none',
+                ...(theme.palette.mode === 'light'
+                  ? {
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.primary.contrastText,
+                      boxShadow: '0 1px 8px rgba(0,0,0,0.15)',
+                    }
+                  : {
+                      backgroundColor: '#161b22',
+                      borderBottom: '1px solid rgba(255,255,255,0.08)',
+                      boxShadow: 'none',
+                    }),
+              }),
+            },
+          },
+          MuiDrawer: {
+            styleOverrides: {
+              paper: ({ theme }) => ({
+                backgroundImage: 'none',
+                ...(theme.palette.mode === 'light'
+                  ? {
+                      backgroundColor: '#ffffff',
+                      borderRight: '1px solid rgba(0,0,0,0.1)',
+                    }
+                  : {
+                      backgroundColor: '#161b22',
+                      borderRight: '1px solid rgba(255,255,255,0.08)',
+                    }),
+              }),
+            },
+          },
+          MuiListItemButton: {
+            styleOverrides: {
+              root: ({ theme }) => ({
+                borderRadius: 8,
+                margin: '2px 8px',
+                width: 'calc(100% - 16px)',
+                '&.active, &[aria-current="page"]': {
+                  backgroundColor:
+                    theme.palette.mode === 'light'
+                      ? alpha(theme.palette.primary.main, 0.12)
+                      : alpha(theme.palette.primary.main, 0.2),
+                  color: theme.palette.primary.main,
+                  '& .MuiListItemIcon-root': {
+                    color: theme.palette.primary.main,
+                  },
+                },
+                '&:hover': {
+                  backgroundColor:
+                    theme.palette.mode === 'light'
+                      ? alpha(theme.palette.primary.main, 0.08)
+                      : alpha(theme.palette.primary.main, 0.12),
+                },
+              }),
+            },
+          },
+          MuiListItemIcon: {
+            styleOverrides: {
+              root: {
+                minWidth: 40,
+              },
+            },
+          },
+          MuiChip: {
+            styleOverrides: {
+              root: {
+                fontWeight: 500,
+              },
+            },
+          },
+          MuiFab: {
+            styleOverrides: {
+              root: ({ theme }) => ({
+                ...(theme.palette.mode === 'light' && {
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
+                }),
+              }),
+            },
+          },
+        },
+      }),
+    [mode],
+  );
 
-  return { theme, toggleTheme };
+  return { theme, toggleTheme, isDark: mode === 'dark' };
 };
-
-interface LastClickedStore {
-  lastClicked: string;
-  handleClick: (name: string) => void;
-  getLastClicked: () => string;
-}
-
-export const useLastClicked = create<LastClickedStore>((set, get) => ({
-  lastClicked: 'home',
-  handleClick: (name: string) => set({ lastClicked: name }),
-  getLastClicked: () => get().lastClicked
-}));
