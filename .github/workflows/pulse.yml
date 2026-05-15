@@ -62,4 +62,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./karan-resume/build
           cname: karanshukla.ca
-          force_orphan: true

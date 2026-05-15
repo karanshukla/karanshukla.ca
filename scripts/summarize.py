@@ -21,25 +21,27 @@ if not token:
 
 github_token = os.environ.get("GITHUB_TOKEN")
 
+
+def gh_get(url):
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "pulse-summarizer/1.0",
+    }
+    if github_token:
+        headers["Authorization"] = f"Bearer {github_token}"
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req) as resp:
+        return json.loads(resp.read())
+
+
 # 1. Fetch recent public events
 events_url = f"https://api.github.com/users/{GITHUB_USER}/events/public?per_page=50"
 print(f"[debug] fetching events: {events_url}")
 print(f"[debug] github_token present: {bool(github_token)}")
 
-events_headers = {
-    "Accept": "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "pulse-summarizer/1.0",
-}
-if github_token:
-    events_headers["Authorization"] = f"Bearer {github_token}"
-
-req = urllib.request.Request(events_url, headers=events_headers)
-
 try:
-    with urllib.request.urlopen(req) as resp:
-        print(f"[debug] events API status: {resp.status}")
-        events = json.loads(resp.read())
+    events = gh_get(events_url)
 except Exception as e:
     print(f"GitHub API error: {e}", file=sys.stderr)
     sys.exit(1)
@@ -52,38 +54,53 @@ print(f"[debug] cutoff date: {cutoff.isoformat()}")
 commits = []
 
 for event in events:
-    event_type = event.get("type")
-    created_at_str = event.get("created_at", "")
-    if event_type == "PushEvent":
-        created_at = datetime.fromisoformat(created_at_str.replace("Z", "+00:00"))
-        repo = event["repo"]["name"]
-        commit_count = len(event.get("payload", {}).get("commits", []))
-        print(f"[debug] PushEvent: {repo} at {created_at_str} ({commit_count} commits), within cutoff: {created_at >= cutoff}")
-
-for event in events:
     if event.get("type") != "PushEvent":
         continue
     created_at = datetime.fromisoformat(event["created_at"].replace("Z", "+00:00"))
     if created_at < cutoff:
         continue
-    repo = event["repo"]["name"].replace(f"{GITHUB_USER}/", "")
-    for commit in event.get("payload", {}).get("commits", []):
-        msg = commit.get("message", "").split("\n")[0]
-        commits.append(f"[{repo}] {msg}")
-        if len(commits) >= 20:
-            break
+
+    repo = event["repo"]["name"]
+    payload = event.get("payload", {})
+    before = payload.get("before", "")
+    head = payload.get("head", "")
+    inline_commits = payload.get("commits", [])
+
+    print(f"[debug] PushEvent: {repo} at {event['created_at']} | inline={len(inline_commits)} | before={before[:7]} head={head[:7]}")
+
+    # Use inline commits if present, otherwise compare before..head
+    if inline_commits:
+        for commit in inline_commits:
+            msg = commit.get("message", "").split("\n")[0]
+            short_repo = repo.replace(f"{GITHUB_USER}/", "")
+            commits.append(f"[{short_repo}] {msg}")
+    elif before and head and before != "0" * 40:
+        compare_url = f"https://api.github.com/repos/{repo}/compare/{before}...{head}"
+        print(f"[debug]   falling back to compare API: {compare_url}")
+        try:
+            compare = gh_get(compare_url)
+            for commit in compare.get("commits", []):
+                msg = commit["commit"]["message"].split("\n")[0]
+                # skip bot commits
+                author = commit.get("author") or {}
+                if author.get("login", "").endswith("[bot]"):
+                    continue
+                short_repo = repo.replace(f"{GITHUB_USER}/", "")
+                commits.append(f"[{short_repo}] {msg}")
+                print(f"[debug]     got commit: {msg[:60]}")
+        except Exception as e:
+            print(f"[debug]   compare API error: {e}")
+
     if len(commits) >= 20:
         break
 
 print(f"[debug] commits within 7 days: {len(commits)}")
-for c in commits:
-    print(f"[debug]   {c}")
 
 if not commits:
     print("No recent commits found -- pulse.json unchanged.")
     sys.exit(0)
 
-commit_text = "\n".join(commits)
+commit_text = "\n".join(commits[:20])
 
 # 2. Call GitHub Models (Mistral)
 payload = json.dumps({
@@ -127,7 +144,7 @@ except urllib.error.HTTPError as e:
     sys.exit(1)
 
 summary = model_data["choices"][0]["message"]["content"].strip()
-print(f"[debug] summary length: {len(summary)} chars")
+print(f"[debug] summary ({len(summary)} chars): {summary}")
 
 # 3. Write pulse.json
 pulse = {
