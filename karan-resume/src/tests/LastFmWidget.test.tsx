@@ -37,7 +37,7 @@ describe('LastFmWidget', () => {
   it('renders the last.fm label', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve({}) }));
     render(<LastFmWidget />);
-    expect(screen.getByText('last.fm')).toBeInTheDocument();
+    expect(screen.getByText('last.fm (real time)')).toBeInTheDocument();
   });
 
   it('shows fallback text before fetch resolves', () => {

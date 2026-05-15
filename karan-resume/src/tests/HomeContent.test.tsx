@@ -73,7 +73,7 @@ describe('HomeContent', () => {
 
   it('renders the last.fm widget', () => {
     render(<HomeContent />);
-    expect(screen.getByText('last.fm')).toBeInTheDocument();
+    expect(screen.getByText('last.fm (real time)')).toBeInTheDocument();
   });
 
   it('shows now playing track after last.fm fetch', async () => {

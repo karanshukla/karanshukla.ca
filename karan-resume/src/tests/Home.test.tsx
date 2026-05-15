@@ -60,8 +60,8 @@ describe('Home', () => {
   it('opens drawer when menu button is clicked', () => {
     renderHome();
     fireEvent.click(getDrawerToggleBtn(/open navigation drawer/i));
-    // Copyright link only appears when the drawer is open
-    expect(screen.getByRole('link', { name: 'Karan Shukla' })).toBeInTheDocument();
+    // Stats widget heading only appears when the drawer is open
+    expect(screen.getByText(/site stats/i)).toBeInTheDocument();
   });
 
   it('closes drawer via chevron button', () => {

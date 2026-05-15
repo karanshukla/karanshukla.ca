@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import GitHubPulse from '../components/GitHubPulse';
+import pulseData from '../data/pulse.json';
 
 describe('GitHubPulse', () => {
   it('renders the github pulse label', () => {
@@ -9,7 +10,7 @@ describe('GitHubPulse', () => {
 
   it('renders the summary text from pulse.json', () => {
     render(<GitHubPulse />);
-    expect(screen.getByText(/building out a personal site/i)).toBeInTheDocument();
+    expect(screen.getByText(`"${pulseData.summary}"`)).toBeInTheDocument();
   });
 
   it('renders the commit count chip', () => {
