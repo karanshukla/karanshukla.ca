@@ -6,7 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Fab from '@mui/material/Fab';
 import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -20,20 +19,10 @@ import { StyledAppBar } from './StyledAppBar.tsx';
 import { StyledDrawer } from './StyledDrawer.tsx';
 import DynamicChip from './DynamicChip.tsx';
 import { MainListItems, SecondaryListItems } from './ListItems.tsx';
+import SiteStatsWidget from './SiteStatsWidget.tsx';
 import { isLandscape } from '../helpers/CommonHelpers.ts';
 import { useAppTheme, useKeyboardShortcuts } from '../hooks/CommonHooks.tsx';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" sx={{ pt: 4, pb: 2 }}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://karanshukla.ca/">
-        Karan Shukla
-      </Link>{' '}
-      {new Date().getFullYear()}
-    </Typography>
-  );
-}
 
 function SkipLink() {
   const handleClick = () => {
@@ -106,16 +95,17 @@ export default function Home() {
         <SkipLink />
 
         <StyledAppBar position="fixed" open={drawerOpen}>
-          <Toolbar>
+          <Toolbar disableGutters sx={{ pr: 1, ...(!isMobile && drawerOpen && { pl: 2 }) }}>
             <IconButton
               color="inherit"
-              edge="start"
               aria-label={drawerOpen ? 'close navigation drawer' : 'open navigation drawer'}
               aria-expanded={drawerOpen}
               aria-controls="nav-drawer"
               onClick={toggleDrawer}
               sx={{
-                mr: 2,
+                width: 64,
+                flexShrink: 0,
+                borderRadius: 0,
                 ...(!isMobile && drawerOpen && { display: 'none' }),
               }}
             >
@@ -147,7 +137,8 @@ export default function Home() {
           aria-label="site navigation"
         >
           <Toolbar
-            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', px: 1 }}
+            disableGutters
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', pl: 1, pr: 1 }}
           >
             <IconButton
               onClick={closeDrawer}
@@ -165,7 +156,7 @@ export default function Home() {
             <SecondaryListItems />
           </List>
           <Divider />
-          {drawerOpen && <Copyright />}
+          <SiteStatsWidget open={drawerOpen} />
         </StyledDrawer>
 
         <Box

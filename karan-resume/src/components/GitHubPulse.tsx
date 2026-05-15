@@ -5,16 +5,21 @@ import Chip from '@mui/material/Chip';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import pulseData from '../data/pulse.json';
 
-function timeAgo(isoString: string): string {
-  const days = Math.floor((Date.now() - new Date(isoString).getTime()) / (1000 * 60 * 60 * 24));
-  if (days === 0) return 'today';
-  if (days === 1) return '1 day ago';
-  return `${days} days ago`;
+function formatUTC(isoString: string): string {
+  const d = new Date(isoString);
+  const date = d.toLocaleDateString('en-CA', { timeZone: 'UTC' });
+  const time = d.toLocaleTimeString('en-US', {
+    timeZone: 'UTC',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+  return `${date} ${time} UTC`;
 }
 
 function GitHubPulse() {
   return (
-    <Paper sx={{ p: 3 }}>
+    <Paper sx={{ p: 3, height: '100%' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
         <GitHubIcon fontSize="small" sx={{ color: 'text.secondary' }} />
         <Typography
@@ -35,7 +40,7 @@ function GitHubPulse() {
         "{pulseData.summary}"
       </Typography>
       <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
-        generated {timeAgo(pulseData.generatedAt)}
+        generated at {formatUTC(pulseData.generatedAt)}
       </Typography>
     </Paper>
   );

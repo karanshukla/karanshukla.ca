@@ -17,7 +17,7 @@ function LastFmWidget() {
   const track = useLastFm();
 
   return (
-    <Paper sx={{ p: 3 }}>
+    <Paper sx={{ p: 3, height: '100%' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
         <MusicNoteIcon fontSize="small" sx={{ color: 'text.secondary' }} />
         <Typography
@@ -25,7 +25,7 @@ function LastFmWidget() {
           color="text.secondary"
           sx={{ textTransform: 'none', lineHeight: 1 }}
         >
-          last.fm
+          last.fm (real time)
         </Typography>
         {track?.isNowPlaying && (
           <Chip
@@ -68,12 +68,21 @@ function LastFmWidget() {
                 {track.artist}
               </Typography>
               {track.album && (
-                <Typography variant="caption" color="text.disabled" noWrap sx={{ display: 'block' }}>
+                <Typography
+                  variant="caption"
+                  color="text.disabled"
+                  noWrap
+                  sx={{ display: 'block' }}
+                >
                   {track.album}
                 </Typography>
               )}
               {!track.isNowPlaying && (
-                <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 0.25 }}>
+                <Typography
+                  variant="caption"
+                  color="text.disabled"
+                  sx={{ display: 'block', mt: 0.25 }}
+                >
                   last played
                 </Typography>
               )}

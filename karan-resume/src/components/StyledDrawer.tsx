@@ -31,6 +31,23 @@ export const StyledDrawer = styled(MuiDrawer, {
         [theme.breakpoints.up('sm')]: {
           width: theme.spacing(8),
         },
+        '& .MuiListItemButton-root': {
+          justifyContent: 'center',
+          margin: '2px 4px',
+          width: 'calc(100% - 8px)',
+          padding: '8px 0',
+        },
+        '& .MuiListItemIcon-root': {
+          minWidth: 0,
+          marginRight: 0,
+          justifyContent: 'center',
+        },
+        '& .MuiListItemText-root': {
+          display: 'none',
+        },
+        '& .MuiListItemButton-root > span': {
+          display: 'none',
+        },
       }),
     },
   }),
