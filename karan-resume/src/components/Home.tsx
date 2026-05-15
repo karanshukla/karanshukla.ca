@@ -106,19 +106,16 @@ export default function Home() {
         <SkipLink />
 
         <StyledAppBar position="fixed" open={drawerOpen}>
-          <Toolbar
-            sx={{
-              pr: { xs: '8px', sm: '24px' },
-            }}
-          >
+          <Toolbar>
             <IconButton
               color="inherit"
+              edge="start"
               aria-label={drawerOpen ? 'close navigation drawer' : 'open navigation drawer'}
               aria-expanded={drawerOpen}
               aria-controls="nav-drawer"
               onClick={toggleDrawer}
               sx={{
-                mr: { xs: 1, sm: '36px' },
+                mr: 2,
                 ...(!isMobile && drawerOpen && { display: 'none' }),
               }}
             >

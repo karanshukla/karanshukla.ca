@@ -1,0 +1,63 @@
+name: Update GitHub Pulse
+
+# Runs every 3 days: generates an LLM summary of recent commits, commits
+# pulse.json, then builds and deploys the site independently of main.yml.
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+on:
+  schedule:
+    - cron: '0 0 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+          cache-dependency-path: 'karan-resume/yarn.lock'
+
+      - name: Generate pulse summary
+        env:
+          GH_MODELS_TOKEN: ${{ secrets.GH_MODELS_TOKEN }}
+        run: node scripts/summarize.js
+
+      - name: Commit pulse.json if changed
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add karan-resume/src/data/pulse.json
+          git diff --staged --quiet || git commit -m 'chore: update github pulse'
+          git push
+
+      - name: Install dependencies
+        run: |
+          cd karan-resume
+          yarn install
+
+      - name: Build with Vite
+        run: |
+          cd karan-resume
+          yarn build
+
+      - name: Create CNAME file
+        run: echo "karanshukla.ca" > karan-resume/build/CNAME
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847  # v3.9.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./karan-resume/build
+          cname: karanshukla.ca
