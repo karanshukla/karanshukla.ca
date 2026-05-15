@@ -28,6 +28,7 @@ function AsherZoneContent() {
         transform: 'translateX(-50%)',
         zIndex: 10001,
         boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+        textTransform: 'none',
       }}
     >
       exit the asher zone
