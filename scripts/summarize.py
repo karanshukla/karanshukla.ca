@@ -56,7 +56,7 @@ for event in events:
         break
 
 if not commits:
-    print("No recent commits found — pulse.json unchanged.")
+    print("No recent commits found -- pulse.json unchanged.")
     sys.exit(0)
 
 commit_text = "\n".join(commits)
@@ -69,9 +69,11 @@ payload = json.dumps({
             "role": "system",
             "content": (
                 "you are a witty technical writer. summarize what a developer named karan "
-                "has been working on recently based on their commit messages. write 2-3 short "
-                "sentences, casual and interesting. use all lowercase. be specific about what "
-                "they built or fixed. no filler phrases like \"it looks like\" or \"the developer\"."
+                "has been working on recently based on their commit messages. write 1-2 short "
+                "sentences, all lowercase, casual and specific. stay under 160 characters total. "
+                "no filler phrases like \"it looks like\" or \"the developer\". "
+                "example: \"building out a personal site with new sections and layout improvements. "
+                "recent work includes drawer fixes and cat photo additions.\""
             ),
         },
         {
@@ -79,7 +81,7 @@ payload = json.dumps({
             "content": f"recent commits:\n{commit_text}",
         },
     ],
-    "max_tokens": 180,
+    "max_tokens": 80,
     "temperature": 0.7,
 }).encode()
 
