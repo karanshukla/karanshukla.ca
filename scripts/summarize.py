@@ -19,26 +19,46 @@ if not token:
     print("GH_MODELS_TOKEN is not set", file=sys.stderr)
     sys.exit(1)
 
+github_token = os.environ.get("GITHUB_TOKEN")
+
 # 1. Fetch recent public events
-req = urllib.request.Request(
-    f"https://api.github.com/users/{GITHUB_USER}/events/public?per_page=50",
-    headers={
-        "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "pulse-summarizer/1.0",
-    },
-)
+events_url = f"https://api.github.com/users/{GITHUB_USER}/events/public?per_page=50"
+print(f"[debug] fetching events: {events_url}")
+print(f"[debug] github_token present: {bool(github_token)}")
+
+events_headers = {
+    "Accept": "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+    "User-Agent": "pulse-summarizer/1.0",
+}
+if github_token:
+    events_headers["Authorization"] = f"Bearer {github_token}"
+
+req = urllib.request.Request(events_url, headers=events_headers)
 
 try:
     with urllib.request.urlopen(req) as resp:
+        print(f"[debug] events API status: {resp.status}")
         events = json.loads(resp.read())
 except Exception as e:
     print(f"GitHub API error: {e}", file=sys.stderr)
     sys.exit(1)
 
+print(f"[debug] total events returned: {len(events)}")
+
 # Keep commits from the last 7 days
 cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+print(f"[debug] cutoff date: {cutoff.isoformat()}")
 commits = []
+
+for event in events:
+    event_type = event.get("type")
+    created_at_str = event.get("created_at", "")
+    if event_type == "PushEvent":
+        created_at = datetime.fromisoformat(created_at_str.replace("Z", "+00:00"))
+        repo = event["repo"]["name"]
+        commit_count = len(event.get("payload", {}).get("commits", []))
+        print(f"[debug] PushEvent: {repo} at {created_at_str} ({commit_count} commits), within cutoff: {created_at >= cutoff}")
 
 for event in events:
     if event.get("type") != "PushEvent":
@@ -54,6 +74,10 @@ for event in events:
             break
     if len(commits) >= 20:
         break
+
+print(f"[debug] commits within 7 days: {len(commits)}")
+for c in commits:
+    print(f"[debug]   {c}")
 
 if not commits:
     print("No recent commits found -- pulse.json unchanged.")
@@ -103,6 +127,7 @@ except urllib.error.HTTPError as e:
     sys.exit(1)
 
 summary = model_data["choices"][0]["message"]["content"].strip()
+print(f"[debug] summary length: {len(summary)} chars")
 
 # 3. Write pulse.json
 pulse = {

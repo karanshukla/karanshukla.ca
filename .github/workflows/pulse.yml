@@ -25,6 +25,7 @@ jobs:
       - name: Generate pulse summary
         env:
           GH_MODELS_TOKEN: ${{ secrets.GH_MODELS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/summarize.py
 
       - name: Commit pulse.json if changed
