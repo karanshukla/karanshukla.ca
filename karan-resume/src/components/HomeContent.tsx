@@ -3,7 +3,10 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Slide from '@mui/material/Slide';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import { RepoStats } from './ProjectCard';
+import GitHubPulse from './GitHubPulse';
+import LastFmWidget from './LastFmWidget';
 
 function HomeContent() {
   return (
@@ -76,6 +79,23 @@ function HomeContent() {
                 </Typography>
                 <RepoStats owner="karanshukla" repo="openresto" url="https://github.com/karanshukla/openresto" />
               </Paper>
+            </Grid>
+          </Grid>
+
+          <Box sx={{ mt: 4 }} />
+
+          <Divider sx={{ mb: 3 }}>
+            <Typography variant="overline" color="text.secondary" sx={{ textTransform: 'none' }}>
+              currently
+            </Typography>
+          </Divider>
+
+          <Grid container spacing={3}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <GitHubPulse />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <LastFmWidget />
             </Grid>
           </Grid>
         </Box>

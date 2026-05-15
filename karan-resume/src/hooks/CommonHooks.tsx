@@ -204,3 +204,80 @@ export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: 
 
   return { theme, toggleTheme, isDark: mode === 'dark' };
 };
+
+// --- Last.fm ---
+
+const LASTFM_USER = 'nightrunner_ks';
+const LASTFM_API_KEY = '4f3d78ce29dde05263e60e9e32a20eff';
+const LASTFM_POLL_MS = 30_000;
+
+export interface LastFmTrack {
+  name: string;
+  artist: string;
+  album: string;
+  imageUrl: string;
+  isNowPlaying: boolean;
+  url: string;
+}
+
+export const useLastFm = (): LastFmTrack | null => {
+  const [track, setTrack] = useState<LastFmTrack | null>(null);
+
+  useEffect(() => {
+    const fetchTrack = async () => {
+      try {
+        const res = await fetch(
+          `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json&limit=1`,
+        );
+        const data = (await res.json()) as {
+          recenttracks?: {
+            track:
+              | Array<{
+                  name: string;
+                  artist: { '#text': string };
+                  album: { '#text': string };
+                  image: Array<{ '#text': string; size: string }>;
+                  url: string;
+                  '@attr'?: { nowplaying: string };
+                  date?: { uts: string };
+                }>
+              | {
+                  name: string;
+                  artist: { '#text': string };
+                  album: { '#text': string };
+                  image: Array<{ '#text': string; size: string }>;
+                  url: string;
+                  '@attr'?: { nowplaying: string };
+                };
+          };
+        };
+
+        const tracks = data.recenttracks?.track;
+        if (!tracks) return;
+
+        const t = Array.isArray(tracks) ? tracks[0] : tracks;
+        const imageUrl =
+          t.image.find((i) => i.size === 'large')?.['#text'] ??
+          t.image.find((i) => i.size === 'medium')?.['#text'] ??
+          '';
+
+        setTrack({
+          name: t.name,
+          artist: t.artist['#text'],
+          album: t.album['#text'],
+          imageUrl,
+          isNowPlaying: t['@attr']?.nowplaying === 'true',
+          url: t.url,
+        });
+      } catch {
+        // silently fail — Last.fm is non-critical
+      }
+    };
+
+    void fetchTrack();
+    const interval = setInterval(() => void fetchTrack(), LASTFM_POLL_MS);
+    return () => clearInterval(interval);
+  }, []);
+
+  return track;
+};
