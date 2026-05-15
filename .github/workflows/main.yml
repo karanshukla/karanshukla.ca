@@ -23,14 +23,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'yarn' # Use yarn cache
           cache-dependency-path: 'karan-resume/yarn.lock' # Correct path
 
       - name: Install dependencies
         run: |
           cd karan-resume
-          yarn install # Use yarn install
+          yarn install
 
       - name: Build with Vite (Production build)
         run: |
