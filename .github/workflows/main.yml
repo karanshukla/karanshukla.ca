@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd karan-resume
-          yarn install # Use yarn install
+          yarn install
 
       - name: Build with Vite (Production build)
         run: |

@@ -9,8 +9,31 @@ const mockRepoData = {
   updated_at: '2026-01-01T00:00:00Z',
 };
 
+const mockLastFmResponse = {
+  recenttracks: {
+    track: [
+      {
+        name: 'so what',
+        artist: { '#text': 'miles davis' },
+        album: { '#text': 'kind of blue' },
+        image: [{ '#text': '', size: 'large' }],
+        url: 'https://last.fm/track',
+        '@attr': { nowplaying: 'true' },
+      },
+    ],
+  },
+};
+
 beforeEach(() => {
-  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve(mockRepoData) }));
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockImplementation((url: string) => {
+      if (url.includes('audioscrobbler')) {
+        return Promise.resolve({ json: () => Promise.resolve(mockLastFmResponse) });
+      }
+      return Promise.resolve({ json: () => Promise.resolve(mockRepoData) });
+    }),
+  );
 });
 
 afterEach(() => {
@@ -41,5 +64,28 @@ describe('HomeContent', () => {
     await waitFor(() => {
       expect(screen.getAllByText('TypeScript')).toHaveLength(2);
     });
+  });
+
+  it('renders the github pulse section', () => {
+    render(<HomeContent />);
+    expect(screen.getByText('github pulse (llm summarised)')).toBeInTheDocument();
+  });
+
+  it('renders the last.fm widget', () => {
+    render(<HomeContent />);
+    expect(screen.getByText('last.fm')).toBeInTheDocument();
+  });
+
+  it('shows now playing track after last.fm fetch', async () => {
+    render(<HomeContent />);
+    await waitFor(() => {
+      expect(screen.getByText('so what')).toBeInTheDocument();
+      expect(screen.getByText('now playing')).toBeInTheDocument();
+    });
+  });
+
+  it('renders the currently section divider', () => {
+    render(<HomeContent />);
+    expect(screen.getByText('currently')).toBeInTheDocument();
   });
 });

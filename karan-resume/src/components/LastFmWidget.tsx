@@ -42,41 +42,57 @@ function LastFmWidget() {
       </Box>
 
       {track ? (
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          <Avatar
-            src={track.imageUrl || undefined}
-            alt={track.album || track.name}
-            variant="rounded"
-            sx={{ width: 64, height: 64, flexShrink: 0, bgcolor: 'action.selected' }}
-          >
-            <MusicNoteIcon />
-          </Avatar>
-          <Box sx={{ minWidth: 0 }}>
-            <Link
-              href={track.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              underline="hover"
-              color="text.primary"
+        <Box>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Avatar
+              src={track.imageUrl || undefined}
+              alt={track.album || track.name}
+              variant="rounded"
+              sx={{ width: 64, height: 64, flexShrink: 0, bgcolor: 'action.selected' }}
             >
-              <Typography variant="subtitle1" fontWeight={600} noWrap>
-                {track.name}
+              <MusicNoteIcon />
+            </Avatar>
+            <Box sx={{ minWidth: 0 }}>
+              <Link
+                href={track.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="hover"
+                color="text.primary"
+              >
+                <Typography variant="subtitle1" fontWeight={600} noWrap>
+                  {track.name}
+                </Typography>
+              </Link>
+              <Typography variant="body2" color="text.secondary" noWrap>
+                {track.artist}
               </Typography>
-            </Link>
-            <Typography variant="body2" color="text.secondary" noWrap>
-              {track.artist}
-            </Typography>
-            {track.album && (
-              <Typography variant="caption" color="text.disabled" noWrap sx={{ display: 'block' }}>
-                {track.album}
-              </Typography>
-            )}
-            {!track.isNowPlaying && (
-              <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 0.25 }}>
-                last played
-              </Typography>
-            )}
+              {track.album && (
+                <Typography variant="caption" color="text.disabled" noWrap sx={{ display: 'block' }}>
+                  {track.album}
+                </Typography>
+              )}
+              {!track.isNowPlaying && (
+                <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 0.25 }}>
+                  last played
+                </Typography>
+              )}
+            </Box>
           </Box>
+
+          {track.tags.length > 0 && (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 1.5 }}>
+              {track.tags.map((tag) => (
+                <Chip
+                  key={tag}
+                  label={tag}
+                  size="small"
+                  variant="outlined"
+                  sx={{ fontSize: '0.7rem' }}
+                />
+              ))}
+            </Box>
+          )}
         </Box>
       ) : (
         <Typography variant="body2" color="text.secondary">

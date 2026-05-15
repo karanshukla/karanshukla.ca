@@ -218,7 +218,18 @@ export interface LastFmTrack {
   imageUrl: string;
   isNowPlaying: boolean;
   url: string;
+  tags: string[];
 }
+
+type RawTrack = {
+  name: string;
+  artist: { '#text': string };
+  album: { '#text': string };
+  image: Array<{ '#text': string; size: string }>;
+  url: string;
+  '@attr'?: { nowplaying: string };
+  date?: { uts: string };
+};
 
 export const useLastFm = (): LastFmTrack | null => {
   const [track, setTrack] = useState<LastFmTrack | null>(null);
@@ -230,26 +241,7 @@ export const useLastFm = (): LastFmTrack | null => {
           `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json&limit=1`,
         );
         const data = (await res.json()) as {
-          recenttracks?: {
-            track:
-              | Array<{
-                  name: string;
-                  artist: { '#text': string };
-                  album: { '#text': string };
-                  image: Array<{ '#text': string; size: string }>;
-                  url: string;
-                  '@attr'?: { nowplaying: string };
-                  date?: { uts: string };
-                }>
-              | {
-                  name: string;
-                  artist: { '#text': string };
-                  album: { '#text': string };
-                  image: Array<{ '#text': string; size: string }>;
-                  url: string;
-                  '@attr'?: { nowplaying: string };
-                };
-          };
+          recenttracks?: { track: RawTrack[] | RawTrack };
         };
 
         const tracks = data.recenttracks?.track;
@@ -257,9 +249,44 @@ export const useLastFm = (): LastFmTrack | null => {
 
         const t = Array.isArray(tracks) ? tracks[0] : tracks;
         const imageUrl =
-          t.image.find((i) => i.size === 'large')?.['#text'] ??
-          t.image.find((i) => i.size === 'medium')?.['#text'] ??
+          t.image.find((i) => i.size === 'extralarge')?.['#text'] ||
+          t.image.find((i) => i.size === 'large')?.['#text'] ||
+          t.image.find((i) => i.size === 'medium')?.['#text'] ||
           '';
+
+        // Fetch top tags: try track first, fall back to artist (artist tags are more populated)
+        let tags: string[] = [];
+        try {
+          const artistEncoded = encodeURIComponent(t.artist['#text']);
+          const trackEncoded = encodeURIComponent(t.name);
+          const base = `https://ws.audioscrobbler.com/2.0/?api_key=${LASTFM_API_KEY}&format=json&autocorrect=1`;
+
+          const tagRes = await fetch(
+            `${base}&method=track.getTopTags&artist=${artistEncoded}&track=${trackEncoded}`,
+          );
+          const tagData = (await tagRes.json()) as {
+            toptags?: { tag: Array<{ name: string; count: number }> };
+          };
+          tags = (tagData.toptags?.tag ?? [])
+            .slice(0, 3)
+            .map((tag) => tag.name.toLowerCase())
+            .filter((name) => name.length > 0);
+
+          if (tags.length === 0) {
+            const artistTagRes = await fetch(
+              `${base}&method=artist.getTopTags&artist=${artistEncoded}`,
+            );
+            const artistTagData = (await artistTagRes.json()) as {
+              toptags?: { tag: Array<{ name: string; count: number }> };
+            };
+            tags = (artistTagData.toptags?.tag ?? [])
+              .slice(0, 3)
+              .map((tag) => tag.name.toLowerCase())
+              .filter((name) => name.length > 0);
+          }
+        } catch {
+          // tags are non-critical
+        }
 
         setTrack({
           name: t.name,
@@ -268,6 +295,7 @@ export const useLastFm = (): LastFmTrack | null => {
           imageUrl,
           isNowPlaying: t['@attr']?.nowplaying === 'true',
           url: t.url,
+          tags,
         });
       } catch {
         // silently fail — Last.fm is non-critical

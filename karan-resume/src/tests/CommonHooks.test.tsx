@@ -1,6 +1,6 @@
 import { renderHook, act, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { useGitHubRepo, useAppTheme, useKeyboardShortcuts, navShortcuts } from '../hooks/CommonHooks';
+import { useGitHubRepo, useAppTheme, useKeyboardShortcuts, useLastFm, navShortcuts } from '../hooks/CommonHooks';
 
 // ── useGitHubRepo ────────────────────────────────────────────────────────────
 
@@ -108,6 +108,97 @@ describe('useKeyboardShortcuts', () => {
   it('removes event listener on unmount', () => {
     const { unmount } = renderHook(() => useKeyboardShortcuts(), { wrapper });
     unmount();
+  });
+});
+
+// ── useLastFm ────────────────────────────────────────────────────────────────
+
+const mockTagResponse = {
+  toptags: { tag: [{ name: 'jazz', count: 100 }, { name: 'fusion', count: 50 }] },
+};
+
+const makeLastFmResponse = (nowPlaying: boolean) => ({
+  recenttracks: {
+    track: [
+      {
+        name: 'so what',
+        artist: { '#text': 'miles davis' },
+        album: { '#text': 'kind of blue' },
+        image: [{ '#text': 'https://example.com/art.jpg', size: 'large' }],
+        url: 'https://last.fm/track',
+        ...(nowPlaying ? { '@attr': { nowplaying: 'true' } } : { date: { uts: '1234567890' } }),
+      },
+    ],
+  },
+});
+
+const stubLastFmFetch = (nowPlaying: boolean) => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockImplementation((url: string) => {
+      if (url.includes('getTopTags')) {
+        return Promise.resolve({ json: () => Promise.resolve(mockTagResponse) });
+      }
+      return Promise.resolve({ json: () => Promise.resolve(makeLastFmResponse(nowPlaying)) });
+    }),
+  );
+};
+
+describe('useLastFm', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('returns null initially', () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve({}) }));
+    const { result } = renderHook(() => useLastFm());
+    expect(result.current).toBeNull();
+  });
+
+  it('returns track data with isNowPlaying=true when live', async () => {
+    stubLastFmFetch(true);
+    const { result } = renderHook(() => useLastFm());
+    await waitFor(() => expect(result.current).not.toBeNull());
+    expect(result.current?.name).toBe('so what');
+    expect(result.current?.artist).toBe('miles davis');
+    expect(result.current?.album).toBe('kind of blue');
+    expect(result.current?.isNowPlaying).toBe(true);
+    expect(result.current?.imageUrl).toBe('https://example.com/art.jpg');
+  });
+
+  it('returns tags from getTopTags', async () => {
+    stubLastFmFetch(true);
+    const { result } = renderHook(() => useLastFm());
+    await waitFor(() => expect(result.current?.tags.length).toBeGreaterThan(0));
+    expect(result.current?.tags).toContain('jazz');
+  });
+
+  it('returns track data with isNowPlaying=false when not live', async () => {
+    stubLastFmFetch(false);
+    const { result } = renderHook(() => useLastFm());
+    await waitFor(() => expect(result.current).not.toBeNull());
+    expect(result.current?.isNowPlaying).toBe(false);
+  });
+
+  it('stays null when fetch fails silently', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    const { result } = renderHook(() => useLastFm());
+    await new Promise((r) => setTimeout(r, 50));
+    expect(result.current).toBeNull();
+  });
+
+  it('stays null when response has no recenttracks', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve({}) }));
+    const { result } = renderHook(() => useLastFm());
+    await new Promise((r) => setTimeout(r, 50));
+    expect(result.current).toBeNull();
+  });
+
+  it('clears the polling interval on unmount', () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve({}) }));
+    const clearSpy = vi.spyOn(globalThis, 'clearInterval');
+    const { unmount } = renderHook(() => useLastFm());
+    unmount();
+    expect(clearSpy).toHaveBeenCalled();
+    clearSpy.mockRestore();
   });
 });
 

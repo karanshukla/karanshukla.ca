@@ -22,17 +22,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
-        with:
-          node-version: '18'
-          cache: 'yarn'
-          cache-dependency-path: 'karan-resume/yarn.lock'
-
       - name: Generate pulse summary
         env:
           GH_MODELS_TOKEN: ${{ secrets.GH_MODELS_TOKEN }}
-        run: node scripts/summarize.js
+        run: python3 scripts/summarize.py
 
       - name: Commit pulse.json if changed
         run: |
@@ -41,6 +34,13 @@ jobs:
           git add karan-resume/src/data/pulse.json
           git diff --staged --quiet || git commit -m 'chore: update github pulse'
           git push
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          cache-dependency-path: 'karan-resume/yarn.lock'
 
       - name: Install dependencies
         run: |
