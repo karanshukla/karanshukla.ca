@@ -1,5 +1,5 @@
 {
-  "summary": "tweaked summarization prompt for character limits and fixed bugs. updated node.js version and debugged python scripts. merged multiple prs and fixed last fm scrobler.",
-  "generatedAt": "2026-05-15T03:47:08.000Z",
+  "summary": "karan's been tweaking their personal site, adding stats and fixing tests. they've also been debugging python scripts and updating node.js versions. plus, they've been merging branches and adjusting character limits for summaries.",
+  "generatedAt": "2026-05-15T13:50:27.000Z",
   "commitCount": 21
 }
