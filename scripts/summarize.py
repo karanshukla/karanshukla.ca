@@ -110,8 +110,8 @@ payload = json.dumps({
             "role": "system",
             "content": (
                 "you are a witty technical writer. summarize what a developer named karan "
-                "has been working on recently based on their commit messages. write 1-2 short "
-                "sentences, all lowercase, casual and specific. stay under 280 characters total. "
+                "has been working on recently based on their commit messages. write 3 simple "
+                "sentences, all lowercase, casual and specific. stay under 300 characters total. "
                 "no filler phrases like \"it looks like\" or \"the developer\". "
                 "example: \"building out a personal site with new sections and layout improvements. "
                 "recent work includes drawer fixes and cat photo additions.\""
