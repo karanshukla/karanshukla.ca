@@ -51,7 +51,8 @@ print(f"[debug] total events returned: {len(events)}")
 # Keep commits from the last 7 days
 cutoff = datetime.now(timezone.utc) - timedelta(days=7)
 print(f"[debug] cutoff date: {cutoff.isoformat()}")
-commits = []
+push_summaries = []
+commit_count = 0
 
 for event in events:
     if event.get("type") != "PushEvent":
@@ -61,6 +62,7 @@ for event in events:
         continue
 
     repo = event["repo"]["name"]
+    short_repo = repo.replace(f"{GITHUB_USER}/", "")
     payload = event.get("payload", {})
     before = payload.get("before", "")
     head = payload.get("head", "")
@@ -68,39 +70,49 @@ for event in events:
 
     print(f"[debug] PushEvent: {repo} at {event['created_at']} | inline={len(inline_commits)} | before={before[:7]} head={head[:7]}")
 
-    # Use inline commits if present, otherwise compare before..head
-    if inline_commits:
-        for commit in inline_commits:
-            msg = commit.get("message", "").split("\n")[0]
-            short_repo = repo.replace(f"{GITHUB_USER}/", "")
-            commits.append(f"[{short_repo}] {msg}")
-    elif before and head and before != "0" * 40:
+    msgs = [c.get("message", "").split("\n")[0] for c in inline_commits]
+    files_info = []
+
+    if before and head and before != "0" * 40:
         compare_url = f"https://api.github.com/repos/{repo}/compare/{before}...{head}"
-        print(f"[debug]   falling back to compare API: {compare_url}")
+        print(f"[debug]   calling compare API: {compare_url}")
         try:
             compare = gh_get(compare_url)
-            for commit in compare.get("commits", []):
-                msg = commit["commit"]["message"].split("\n")[0]
-                # skip bot commits
-                author = commit.get("author") or {}
-                if author.get("login", "").endswith("[bot]"):
-                    continue
-                short_repo = repo.replace(f"{GITHUB_USER}/", "")
-                commits.append(f"[{short_repo}] {msg}")
-                print(f"[debug]     got commit: {msg[:60]}")
+            if not msgs:
+                for commit in compare.get("commits", []):
+                    author = commit.get("author") or {}
+                    if author.get("login", "").endswith("[bot]"):
+                        continue
+                    msgs.append(commit["commit"]["message"].split("\n")[0])
+            all_files = compare.get("files", [])
+            for f in all_files[:6]:
+                files_info.append(f"{f['filename']} +{f.get('additions', 0)}-{f.get('deletions', 0)}")
+            if len(all_files) > 6:
+                files_info.append(f"...+{len(all_files) - 6} more files")
         except Exception as e:
             print(f"[debug]   compare API error: {e}")
 
-    if len(commits) >= 20:
+    if not msgs:
+        continue
+
+    lines = [f"[{short_repo}] {m}" for m in msgs]
+    if files_info:
+        lines.append("  changed: " + ", ".join(files_info))
+
+    push_summaries.append("\n".join(lines))
+    commit_count += len(msgs)
+    print(f"[debug]   {len(msgs)} commits, {len(files_info)} file entries")
+
+    if commit_count >= 20:
         break
 
-print(f"[debug] commits within 7 days: {len(commits)}")
+print(f"[debug] push events within 7 days: {len(push_summaries)}, total commits: {commit_count}")
 
-if not commits:
+if not push_summaries:
     print("No recent commits found -- pulse.json unchanged.")
     sys.exit(0)
 
-commit_text = "\n".join(commits[:20])
+commit_text = "\n\n".join(push_summaries)
 
 # 2. Call GitHub Models (Mistral)
 payload = json.dumps({
@@ -113,8 +125,7 @@ payload = json.dumps({
                 "has been working on recently based on their commit messages. write 3 simple "
                 "sentences, all lowercase, casual and specific. stay under 300 characters total. "
                 "no filler phrases like \"it looks like\" or \"the developer\". "
-                "example: \"building out a personal site with new sections and layout improvements. "
-                "recent work includes drawer fixes and cat photo additions.\""
+                "focus on highlighting impactful code changes and interesting code"
             ),
         },
         {
@@ -150,11 +161,11 @@ print(f"[debug] summary ({len(summary)} chars): {summary}")
 pulse = {
     "summary": summary,
     "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-    "commitCount": len(commits),
+    "commitCount": commit_count,
 }
 
 with open(OUTPUT_PATH, "w") as f:
     json.dump(pulse, f, indent=2)
     f.write("\n")
 
-print(f"pulse.json updated ({len(commits)} commits): {summary[:80]}...")
+print(f"pulse.json updated ({commit_count} commits): {summary[:80]}...")
