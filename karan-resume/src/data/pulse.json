@@ -1,5 +1,5 @@
 {
-  "summary": "karan's been tweaking their personal site, adding stats and fixing tests. they've also been debugging python scripts and updating node.js versions. plus, they've been merging branches and adjusting character limits for summaries.",
-  "generatedAt": "2026-05-15T13:50:27.000Z",
-  "commitCount": 21
+  "summary": "updated personal site with stats and test fixes, plus tweaks to summarization prompts. tackled navyfragen-app issues like vite dependencies, actions, and claude reviews. also added a git ignore and merged a bunch of branches.",
+  "generatedAt": "2026-05-16T00:20:55.000Z",
+  "commitCount": 20
 }
