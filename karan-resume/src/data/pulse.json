@@ -1,5 +1,5 @@
 {
-  "summary": "updated personal site with stats and test fixes, plus tweaks to summarization prompts. tackled navyfragen-app issues like vite dependencies, actions, and claude reviews. also added a git ignore and merged a bunch of branches.",
-  "generatedAt": "2026-05-16T00:20:55.000Z",
-  "commitCount": 20
+  "summary": "karan revamped github pulse and asher zone, adding 342 lines to AsherZone.ts. they fixed navyfragen-app's vite dependency, actions, and claude review workflows. also added site stats, a new component with 169 lines, and tweaked the summarization script.",
+  "generatedAt": "2026-05-16T18:49:04.000Z",
+  "commitCount": 21
 }
