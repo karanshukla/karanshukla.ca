@@ -6,7 +6,11 @@ Personal website. Live at [karanshukla.ca](https://karanshukla.ca).
 
 ```
 karanshukla.ca/
-└── karan-resume/   # React + TypeScript + Vite app
+├── karan-resume/           # React + TypeScript + Vite app
+│   └── src/data/           # Auto-generated JSON (pulse.json, stats.json)
+└── scripts/                # Python scripts run by GitHub Actions
+    ├── summarize.py         # Fetches recent commits + diffs → generates pulse.json via GitHub Models
+    └── generate_stats.py   # Reads Vitest coverage + Lighthouse results → generates stats.json
 ```
 
 ## Local development
@@ -16,6 +20,17 @@ cd karan-resume
 yarn install
 yarn dev        # http://localhost:5173
 ```
+
+## Automated workflows
+
+| Workflow | Schedule | What it does |
+|---|---|---|
+| `main.yml` | Push to `main` | Build + deploy to GitHub Pages |
+| `pr-check.yml` | Pull requests | Lint, type-check, test |
+| `pulse.yml` | Every 3 days | Fetch recent commits + diffs → summarise via GitHub Models (Mistral) → commit `pulse.json` |
+| `stats.yml` | Weekly (Mon 02:00 UTC) | Run Vitest coverage + Lighthouse CI → commit `stats.json` |
+
+`pulse.json` and `stats.json` are static files baked into the build at deploy time. The sidebar widgets (`GitHubPulse`, `SiteStatsWidget`) read these files at build time — no runtime API calls needed.
 
 ## Deploying
 
