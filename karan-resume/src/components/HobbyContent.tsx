@@ -49,7 +49,7 @@ function HobbyContent() {
             <Typography variant="body1" component="div">
               <List>
                 <ListItem>rugby</ListItem>
-                <ListItem>cricket</ListItem>
+                <ListItem>baseball</ListItem>
                 <ListItem>weightlifting</ListItem>
                 <ListItem>running</ListItem>
               </List>
