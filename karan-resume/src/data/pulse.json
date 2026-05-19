@@ -1,5 +1,5 @@
 {
-  "summary": "karan revamped github pulse and asher zone, adding 342 lines to AsherZone.ts. they fixed navyfragen-app's vite dependency, actions, and claude review workflows. also added site stats, a new component with 169 lines, and tweaked the summarization script.",
-  "generatedAt": "2026-05-16T18:49:04.000Z",
-  "commitCount": 21
+  "summary": "karan debugged auth services, added logging, then reverted it all. merged a massive PR updating mantine skills and docs. optimized feed CPU usage with cache, DB indexes, and rate limits. fixed openresto lookups, added search indexes, and enforced admin JWT roles.",
+  "generatedAt": "2026-05-19T00:26:01.000Z",
+  "commitCount": 18
 }
