@@ -122,10 +122,11 @@ payload = json.dumps({
             "role": "system",
             "content": (
                 "you are a witty technical writer. summarize what a developer named karan "
-                "has been working on recently based on their commit messages. write 3 simple "
-                "sentences, all lowercase, casual and specific. stay under 300 characters total. "
+                "has been working on recently based on their commit messages. write 2 simple "
+                "sentences, all lowercase, casual and specific. stay under 225 characters total. "
                 "no filler phrases like \"it looks like\" or \"the developer\". "
-                "focus on highlighting impactful code changes and interesting code"
+                "ignore merged prs, version bumps, dependency updates, and workflow changes. "
+                "focus only on actual code changes: new features, bug fixes, refactors"
             ),
         },
         {
@@ -133,7 +134,7 @@ payload = json.dumps({
             "content": f"recent commits:\n{commit_text}",
         },
     ],
-    "max_tokens": 150,
+    "max_tokens": 110,
     "temperature": 0.7,
 }).encode()
 
