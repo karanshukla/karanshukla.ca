@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed a test flakiness in homecontent and tweaked the pulse summary script. they also revamped navyfragen's ui, fixing card styles, profile speed, and enlarging the delete button.",
-  "generatedAt": "2026-05-20T03:13:15.000Z",
+  "summary": "karan refactored openresto's frontend and fixed token issues, layout types, and linting errors. they also revamped navyfragen-app's frontend with css tokens and fixed pwa, icons, and burger menu refs.",
+  "generatedAt": "2026-05-22T00:25:17.000Z",
   "commitCount": 20
 }
