@@ -19,7 +19,7 @@ function formatUTC(isoString: string): string {
 
 function GitHubPulse() {
   return (
-    <Paper sx={{ p: 3, height: '100%' }}>
+    <Paper sx={{ p: 3, width: '100%' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
         <GitHubIcon fontSize="small" sx={{ color: 'text.secondary' }} />
         <Typography
@@ -36,7 +36,17 @@ function GitHubPulse() {
           sx={{ ml: 'auto', fontSize: '0.7rem' }}
         />
       </Box>
-      <Typography variant="body1" color="text.primary" sx={{ fontStyle: 'italic' }}>
+      <Typography
+        variant="body1"
+        color="text.primary"
+        sx={{
+          fontStyle: 'italic',
+          display: '-webkit-box',
+          WebkitLineClamp: 4,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+        }}
+      >
         "{pulseData.summary}"
       </Typography>
       <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>

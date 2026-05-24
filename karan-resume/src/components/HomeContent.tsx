@@ -92,11 +92,11 @@ function HomeContent() {
             </Typography>
           </Divider>
 
-          <Grid container spacing={3}>
-            <Grid size={{ xs: 12, md: 6 }}>
+          <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
+            <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
               <GitHubPulse />
             </Grid>
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
               <LastFmWidget />
             </Grid>
           </Grid>
