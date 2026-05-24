@@ -59,8 +59,7 @@ function HomeContent() {
                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
                   anonymous q&a platform on bluesky's at protocol - users receive questions
                   and post answers to their followers. node.js/react (mantine ui), waf-protected,
-                  with a microservice for answer card images and crons for feed and notification
-                  processing.
+                  with a microservice for answer card images and crons for notification processing
                 </Typography>
                 <RepoStats owner="karanshukla" repo="navyfragen-app" url="https://github.com/karanshukla/navyfragen-app" />
               </Paper>
