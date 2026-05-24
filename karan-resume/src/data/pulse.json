@@ -1,5 +1,5 @@
 {
-  "summary": "karan tweaked github pulse summary length and added logging to multiple projects. they also fixed a rate limit issue, added a wakeup request, and introduced a twitter card export preview.",
-  "generatedAt": "2026-05-23T04:03:26.000Z",
-  "commitCount": 22
+  "summary": "karan tweaked his homepage, making project cards and widgets equal height. he swapped openresto with sportsbook-meow in the experience section and fixed related tests. he also expanded the navyfragen project description with stack details. for sportsbook-meow, he enhanced the readme with images and fixed a formatting issue.",
+  "generatedAt": "2026-05-24T02:33:29.000Z",
+  "commitCount": 20
 }
