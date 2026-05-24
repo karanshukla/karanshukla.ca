@@ -15,7 +15,7 @@ const projects = [
     title: 'navyfragen',
     subtitle: 'anonymous q&a platform on bluesky',
     description:
-      'a q&a messaging system built on top of bluesky\'s AT Protocol, similar to ask.fm or curiouscat. users receive anonymous questions and post answers directly to their bluesky followers. includes a companion feed generator (navyfragen-feed) that surfaces answered questions across the network.',
+      'a q&a messaging system built on top of bluesky\'s AT Protocol, similar to ask.fm or curiouscat. users receive anonymous questions and post answers directly to their bluesky followers. node.js backend with a react/mantine ui frontend, waf-protected, with a microservice for generating answer card images and cron jobs for notification processing. includes a companion feed generator (navyfragen-feed) that surfaces answered questions across the network.',
     techStack: ['TypeScript', 'Node.js', 'React', 'Mantine UI', 'AT Protocol'],
     liveUrl: 'https://navyfragen.app',
   },
@@ -25,7 +25,7 @@ const projects = [
     title: 'openresto',
     subtitle: 'open source restaurant booking system',
     description:
-      'a self-hosted, cloudless table booking system for restaurants - no fees, no data collection, no vendor lock-in. supports multiple restaurant instances per deployment, customer-facing email confirmations via your own address, and a mobile-friendly booking UI. dockerized for easy self-deployment.',
+      'a self-hosted, cloudless table booking system for restaurants - no fees, no data collection, no vendor lock-in. asp.net backend with a react native mobile frontend, dockerized for easy self-deployment. supports multiple restaurant instances per deployment, customer-facing email confirmations via your own smtp address, and a mobile-friendly booking ui.',
     techStack: ['TypeScript', 'ASP.NET', 'React Native', 'Docker'],
     liveUrl: 'https://openres.to',
   },
@@ -35,8 +35,8 @@ const projects = [
     title: 'twtournament',
     subtitle: 'tournament organizer for total war: warhammer',
     description:
-      'a utility app for organizing and managing tournaments for the total war warhammer games. handles bracket generation, match tracking, and results. built for the community as a planning and coordination tool.',
-    techStack: ['TypeScript', 'React'],
+      'a utility app for organizing and managing tournaments for the total war warhammer series. handles bracket generation, match tracking, and results with real-time updates via websockets. react frontend with chakra ui, mongodb for persistent tournament data, and redis for sessions and live statistics. built for the community as a planning and coordination tool.',
+    techStack: ['TypeScript', 'React', 'Chakra UI', 'MongoDB', 'Redis', 'WebSocket'],
     liveUrl: 'https://twtournament.app',
   },
   {
@@ -45,7 +45,7 @@ const projects = [
     title: 'sportsbook-meow',
     subtitle: 'real-time sportsbook ad replacement with cats',
     description:
-      'detects and replaces sportsbook betting logos in sports broadcast video - local files and live streams - with random cat photos in real time. uses a fine-tuned yolov8s model (mAP50 0.94+), a local websocket inference server, and a browser extension for chrome, edge, and firefox.',
+      'detects and replaces sportsbook betting logos in sports broadcast video - local files and live streams - with random cat photos in real time. uses a fine-tuned yolov8s model (mAP50 0.94+), a local websocket inference server for streaming frame data to the browser, and an extension for chrome, edge, and firefox that handles the live replacement.',
     techStack: ['Python', 'YOLOv8', 'TypeScript', 'WebSocket'],
   },
 ];
@@ -57,13 +57,14 @@ function ExperienceContent() {
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
             <Typography variant="h5" gutterBottom>
-              full stack software engineer
+              software developer / technical support engineer
             </Typography>
             <Typography variant="body1" component="div">
               <List>
-                <ListItem>working with php/react to build saas products</ListItem>
-                <ListItem>developing apis and integrations to connect to other saas apps</ListItem>
-                <ListItem>internal tooling for BI and CX use cases</ListItem>
+                <ListItem>working with a php backend and react frontend to build and ship new features and bug fixes</ListItem>
+                <ListItem>developing restful apis and integrations with other saas platforms to improve customer workflows</ListItem>
+                <ListItem>reworked in-app user permission systems to improve access control</ListItem>
+                <ListItem>built internal tooling to improve efficiency across customer experience teams</ListItem>
               </List>
             </Typography>
           </Paper>
@@ -78,8 +79,8 @@ function ExperienceContent() {
             </Typography>
             <Typography variant="body2" component="div">
               <List>
-                <ListItem>technical lead (software support)</ListItem>
-                <ListItem>cad software engineer/mechanical engineer</ListItem>
+                <ListItem>technical lead and analyst (saas support, escalations, sql reporting)</ListItem>
+                <ListItem>engineering intern (plm automation, .net/c++, cad workflows)</ListItem>
               </List>
             </Typography>
           </Paper>
@@ -94,7 +95,7 @@ function ExperienceContent() {
             </Typography>
             <Typography variant="body1" component="div">
               <List>
-                <ListItem>bachelor of applied science (university of toronto)</ListItem>
+                <ListItem>b.a.sc in mechanical engineering (university of toronto)</ListItem>
                 <ListItem>minor in sustainable energy engineering</ListItem>
               </List>
             </Typography>

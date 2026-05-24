@@ -38,10 +38,11 @@ function HomeContent() {
 
           <Paper sx={{ p: 3 }}>
             <Typography variant="body1" color="text.primary" align="center">
-              hello! if you've made it here, it means you're interested in learning more about my
-              experience and career! as this is a public website, my experience is kept vague
-              intentionally, however, please feel free to reach out to me on linkedin or email!
-              below are two of my personal projects that i'm most proud of. cheers!
+              hello! if you've made it here, you're probably curious about my background. i'm a
+              software developer with a mechanical engineering degree, working primarily in web
+              development and saas. as this is a public website, i keep things intentionally vague,
+              but feel free to reach out via linkedin or email if you'd like to connect! below are a
+              couple of personal projects i'm particularly proud of.
             </Typography>
           </Paper>
 

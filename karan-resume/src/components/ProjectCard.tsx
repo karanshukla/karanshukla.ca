@@ -64,9 +64,13 @@ export default function ProjectCard({
     <Paper sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
         <Typography variant="h6">{title}</Typography>
-        {liveUrl && (
+        {liveUrl ? (
           <Link href={liveUrl} target="_blank" rel="noopener noreferrer" variant="caption">
             {liveUrl.replace(/^https?:\/\//, '')}
+          </Link>
+        ) : (
+          <Link href={githubUrl} target="_blank" rel="noopener noreferrer" variant="caption">
+            github
           </Link>
         )}
       </Box>
