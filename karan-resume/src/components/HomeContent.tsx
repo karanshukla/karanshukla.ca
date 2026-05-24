@@ -47,9 +47,9 @@ function HomeContent() {
 
           <Box sx={{ mt: 2 }} />
 
-          <Grid container spacing={3}>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Paper sx={{ p: 3, height: '100%' }}>
+          <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
+            <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
+              <Paper sx={{ p: 3, width: '100%' }}>
                 <Typography variant="h6" gutterBottom>
                   navyfragen
                 </Typography>
@@ -64,8 +64,8 @@ function HomeContent() {
                 <RepoStats owner="karanshukla" repo="navyfragen-app" url="https://github.com/karanshukla/navyfragen-app" />
               </Paper>
             </Grid>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Paper sx={{ p: 3, height: '100%' }}>
+            <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
+              <Paper sx={{ p: 3, width: '100%' }}>
                 <Typography variant="h6" gutterBottom>
                   sportsbook-meow
                 </Typography>
