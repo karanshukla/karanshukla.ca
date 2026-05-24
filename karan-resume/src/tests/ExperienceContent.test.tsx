@@ -33,7 +33,7 @@ describe('ExperienceContent', () => {
     expect(screen.getByText('navyfragen')).toBeInTheDocument();
     expect(screen.getByText('openresto')).toBeInTheDocument();
     expect(screen.getByText('twtournament')).toBeInTheDocument();
-    expect(screen.getAllByText('karanshukla.ca').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText('sportsbook-meow')).toBeInTheDocument();
   });
 
   it('renders live urls for projects', () => {
