@@ -67,17 +67,17 @@ function HomeContent() {
             <Grid size={{ xs: 12, md: 6 }}>
               <Paper sx={{ p: 3, height: '100%' }}>
                 <Typography variant="h6" gutterBottom>
-                  openresto - table booking system for restaurants
+                  sportsbook-meow
                 </Typography>
                 <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                  foss booking system for restaurants as an alternative to cloud solutions
+                  real-time sportsbook ad replacement with cats
                 </Typography>
                 <Typography variant="body1">
-                  a cloudless table booking system built with asp.net for speed and reliability,
-                  with a react native frontend. dockerized for easy deployment. no cloud, no vendor
-                  lock-in, just a simple solution for restaurants
+                  detects and replaces sportsbook betting logos in sports broadcast video with
+                  random cat photos in real time. uses a fine-tuned yolov8s model, a local
+                  websocket inference server, and a browser extension for chrome, edge, and firefox
                 </Typography>
-                <RepoStats owner="karanshukla" repo="openresto" url="https://github.com/karanshukla/openresto" />
+                <RepoStats owner="karanshukla" repo="sportsbook-meow" url="https://github.com/karanshukla/sportsbook-meow" />
               </Paper>
             </Grid>
           </Grid>

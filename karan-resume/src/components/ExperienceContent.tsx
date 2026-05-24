@@ -25,7 +25,7 @@ const projects = [
     title: 'openresto',
     subtitle: 'open source restaurant booking system',
     description:
-      'a self-hosted, cloudless table booking system for restaurants — no fees, no data collection, no vendor lock-in. supports multiple restaurant instances per deployment, customer-facing email confirmations via your own address, and a mobile-friendly booking UI. dockerized for easy self-deployment.',
+      'a self-hosted, cloudless table booking system for restaurants - no fees, no data collection, no vendor lock-in. supports multiple restaurant instances per deployment, customer-facing email confirmations via your own address, and a mobile-friendly booking UI. dockerized for easy self-deployment.',
     techStack: ['TypeScript', 'ASP.NET', 'React Native', 'Docker'],
     liveUrl: 'https://openres.to',
   },
@@ -41,13 +41,12 @@ const projects = [
   },
   {
     owner: 'karanshukla',
-    repo: 'karanshukla.ca',
-    title: 'karanshukla.ca',
-    subtitle: 'this website',
+    repo: 'sportsbook-meow',
+    title: 'sportsbook-meow',
+    subtitle: 'real-time sportsbook ad replacement with cats',
     description:
-      'personal portfolio and resume site built with react, typescript, and vite. deployed automatically to github pages via github actions on every push to main. features dark/light mode, responsive layout, and live github repo stats pulled from the public github api.',
-    techStack: ['TypeScript', 'React', 'Vite', 'MUI', 'GitHub Actions'],
-    liveUrl: 'https://karanshukla.ca',
+      'detects and replaces sportsbook betting logos in sports broadcast video - local files and live streams - with random cat photos in real time. uses a fine-tuned yolov8s model (mAP50 0.94+), a local websocket inference server, and a browser extension for chrome, edge, and firefox.',
+    techStack: ['Python', 'YOLOv8', 'TypeScript', 'WebSocket'],
   },
 ];
 
