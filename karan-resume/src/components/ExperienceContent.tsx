@@ -15,7 +15,7 @@ const projects = [
     title: 'navyfragen',
     subtitle: 'anonymous q&a platform on bluesky',
     description:
-      'a q&a messaging system built on top of bluesky\'s AT Protocol, similar to ask.fm or curiouscat. users receive anonymous questions and post answers directly to their bluesky followers. node.js backend with a react/mantine ui frontend, waf-protected, with a microservice for generating answer card images and cron jobs for notification processing. includes a companion feed generator (navyfragen-feed) that surfaces answered questions across the network.',
+      'a q&a messaging system built on top of bluesky\'s AT Protocol, similar to ask.fm or curiouscat. users receive anonymous questions and post answers directly to their bluesky followers. node.js backend, react/mantine ui frontend, waf-protected. includes a microservice for answer card image generation, cron jobs for notification processing, and a companion feed generator (navyfragen-feed) that surfaces answered questions across the network.',
     techStack: ['TypeScript', 'Node.js', 'React', 'Mantine UI', 'AT Protocol'],
     liveUrl: 'https://navyfragen.app',
   },
@@ -25,8 +25,8 @@ const projects = [
     title: 'openresto',
     subtitle: 'open source restaurant booking system',
     description:
-      'a self-hosted, cloudless table booking system for restaurants - no fees, no data collection, no vendor lock-in. asp.net backend with a react native mobile frontend, dockerized for easy self-deployment. supports multiple restaurant instances per deployment, customer-facing email confirmations via your own smtp address, and a mobile-friendly booking ui.',
-    techStack: ['TypeScript', 'ASP.NET', 'React Native', 'Docker'],
+      'a self-hosted, cloudless table booking system for restaurants - no fees, no data collection, no vendor lock-in. asp.net backend with sqlite, a react native mobile frontend, and full brand customisability built in. supports multiple restaurant instances per deployment with customer-facing email confirmations via your own smtp address. fully dockerised for quick self-deployment, with playwright covering e2e testing.',
+    techStack: ['TypeScript', 'ASP.NET', 'React Native', 'SQLite', 'Docker', 'Playwright'],
     liveUrl: 'https://openres.to',
   },
   {

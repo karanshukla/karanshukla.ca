@@ -66,9 +66,9 @@ function HobbyContent() {
             </Typography>
             <Typography variant="body1" component="div">
               <List>
-                <ListItem>promoting the responsible use of generative AI</ListItem>
+                <ListItem>promoting the responsible use of generative ai</ListItem>
                 <ListItem>
-                  donation and advocacy for companies and groups to fight against climate change
+                  donating to and advocating for organizations fighting climate change
                 </ListItem>
                 <ListItem>supporting urbanist development of cities and towns</ListItem>
               </List>
