@@ -17,7 +17,7 @@ function LastFmWidget() {
   const track = useLastFm();
 
   return (
-    <Paper sx={{ p: 3, height: '100%' }}>
+    <Paper sx={{ p: 3, width: '100%' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
         <MusicNoteIcon fontSize="small" sx={{ color: 'text.secondary' }} />
         <Typography
