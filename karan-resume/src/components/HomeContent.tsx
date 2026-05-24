@@ -57,9 +57,11 @@ function HomeContent() {
                   bluesky q&a messaging platform
                 </Typography>
                 <Typography variant="body1">
-                  similar to ask.fm, curiouscat, or formspring, navyfragen is a q&a messaging
-                  system built on top of bluesky's decentralized social graph. built upon node js
-                  and react (mantine ui)
+                  anonymous q&a platform built on bluesky's at protocol - users receive questions
+                  and post answers directly to their bluesky followers. node.js backend with a
+                  react frontend (mantine ui), protected by a waf. includes a dedicated microservice
+                  for generating shareable answer card images, and cron jobs for feed and
+                  notification processing.
                 </Typography>
                 <RepoStats owner="karanshukla" repo="navyfragen-app" url="https://github.com/karanshukla/navyfragen-app" />
               </Paper>
