@@ -1,5 +1,5 @@
 {
-  "summary": "karan tweaked his homepage, making project cards and widgets equal height. he swapped openresto with sportsbook-meow in the experience section and fixed related tests. he also expanded the navyfragen project description with stack details. for sportsbook-meow, he enhanced the readme with images and fixed a formatting issue.",
-  "generatedAt": "2026-05-24T02:33:29.000Z",
+  "summary": "karan fixed a bunch of stuff in openresto, like the restaurant card, brand tests, and media controller. they also added booking confirmation code and did a big refactor. on their personal site, they tweaked content and project cards. for navyfragen-app, they improved the image generator and fixed spacing.",
+  "generatedAt": "2026-05-25T00:25:07.000Z",
   "commitCount": 20
 }
