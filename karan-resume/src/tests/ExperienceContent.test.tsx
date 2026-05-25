@@ -20,7 +20,7 @@ afterEach(() => {
 describe('ExperienceContent', () => {
   it('renders the current role', () => {
     render(<ExperienceContent />);
-    expect(screen.getByText(/full stack software engineer/i)).toBeInTheDocument();
+    expect(screen.getByText(/software developer \/ technical support engineer/i)).toBeInTheDocument();
   });
 
   it('renders the education section', () => {
