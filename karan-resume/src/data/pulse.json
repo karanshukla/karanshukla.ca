@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed a bunch of stuff in openresto, like the restaurant card, brand tests, and media controller. they also added booking confirmation code and did a big refactor. on their personal site, they tweaked content and project cards. for navyfragen-app, they improved the image generator and fixed spacing.",
-  "generatedAt": "2026-05-25T00:25:07.000Z",
+  "summary": "karan fixed timezone handling in openresto's bookings and timetable views, added branded placeholders for restaurants, and ensured the homepage shows real-time availability. they also added tests and fixed a header test in navyfragen-app.",
+  "generatedAt": "2026-05-28T00:24:24.000Z",
   "commitCount": 20
 }
