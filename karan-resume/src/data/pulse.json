@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed timezone handling in openresto's bookings and timetable views, added branded placeholders for restaurants, and ensured the homepage shows real-time availability. they also added tests and fixed a header test in navyfragen-app.",
-  "generatedAt": "2026-05-28T00:24:24.000Z",
+  "summary": "karan fixed timezone handling in tests and database migrations, making schema detection more flexible. they also squashed bugs in booking tests, restaurant card displays, and connection state handling. plus, they added missing props and cleaned up some broken code.",
+  "generatedAt": "2026-05-31T00:26:02.000Z",
   "commitCount": 20
 }
