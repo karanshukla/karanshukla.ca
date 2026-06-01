@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed timezone handling in tests and database migrations, making schema detection more flexible. they also squashed bugs in booking tests, restaurant card displays, and connection state handling. plus, they added missing props and cleaned up some broken code.",
-  "generatedAt": "2026-05-31T00:26:02.000Z",
-  "commitCount": 20
+  "summary": "karan's been busy. they fixed flaky e2e tests, added new tests, and adjusted the favicon for openresto. they also tweaked the booking confirmation page and service worker. for the totalwarhammer-tournament-app, they fixed a test import and updated the match controller.",
+  "generatedAt": "2026-06-01T00:26:28.000Z",
+  "commitCount": 21
 }
