@@ -54,7 +54,7 @@ function StatRow({ label, sublabel, value, displayValue, color, tooltip, childre
             </Typography>
           )}
         </Box>
-        <Typography variant="body2" fontWeight={700} color={`${color}.main`}>
+        <Typography variant="body2" sx={{ fontWeight: 700 }} color={`${color}.main`}>
           {displayValue}
         </Typography>
       </Box>
@@ -138,7 +138,7 @@ function SiteStatsWidget({ open }: SiteStatsWidgetProps) {
                 <Typography variant="caption" color="text.secondary">
                   largest contentful paint
                 </Typography>
-                <Typography variant="caption" fontWeight={600} color={`${lcpColor(lighthouse.lcp)}.main`}>
+                <Typography variant="caption" sx={{ fontWeight: 600 }} color={`${lcpColor(lighthouse.lcp)}.main`}>
                   {(lighthouse.lcp / 1000).toFixed(1)}s
                 </Typography>
               </Box>
@@ -148,7 +148,7 @@ function SiteStatsWidget({ open }: SiteStatsWidgetProps) {
                 </Typography>
                 <Typography
                   variant="caption"
-                  fontWeight={600}
+                  sx={{ fontWeight: 600 }}
                   color={lighthouse.cls <= 0.1 ? 'success.main' : lighthouse.cls <= 0.25 ? 'warning.main' : 'error.main'}
                 >
                   {lighthouse.cls.toFixed(3)}

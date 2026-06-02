@@ -60,7 +60,7 @@ function LastFmWidget() {
                 underline="hover"
                 color="text.primary"
               >
-                <Typography variant="subtitle1" fontWeight={600} noWrap>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
                   {track.name}
                 </Typography>
               </Link>
