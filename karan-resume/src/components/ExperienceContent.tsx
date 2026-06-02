@@ -7,6 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import ProjectCard from './ProjectCard';
+import { usePageTitle } from '../hooks/CommonHooks';
 
 const projects = [
   {
@@ -51,12 +52,13 @@ const projects = [
 ];
 
 function ExperienceContent() {
+  usePageTitle('experience');
   return (
     <Grid container spacing={3}>
       <Grid size={{ xs: 12, md: 8, lg: 9 }}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography component="h2" variant="h5" gutterBottom>
               software developer / technical support engineer
             </Typography>
             <Typography variant="body1" component="div">
@@ -74,7 +76,7 @@ function ExperienceContent() {
       <Grid size={{ xs: 12, md: 4, lg: 3 }}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
-            <Typography variant="h6" gutterBottom>
+            <Typography component="h2" variant="h6" gutterBottom>
               prior experience
             </Typography>
             <Typography variant="body2" component="div">
@@ -90,7 +92,7 @@ function ExperienceContent() {
       <Grid size={12}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3, display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography component="h2" variant="h5" gutterBottom>
               education
             </Typography>
             <Typography variant="body1" component="div">
