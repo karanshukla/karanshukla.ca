@@ -7,6 +7,7 @@ import Slide from '@mui/material/Slide';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
+import { usePageTitle } from '../hooks/CommonHooks';
 import asher1 from '../assets/asher1.jpg';
 import asher3 from '../assets/asher3.jpg';
 import asher5 from '../assets/asher5.jpg';
@@ -38,12 +39,13 @@ const recentlyEnjoyed = [
 const catPhotos = [asher1, asher3, asher5, asher7];
 
 function HobbyContent() {
+  usePageTitle('hobbies');
   return (
     <Grid container spacing={3}>
       <Grid size={{ xs: 12, md: 6 }}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography component="h2" variant="h5" gutterBottom>
               sport
             </Typography>
             <Typography variant="body1" component="div">
@@ -61,7 +63,7 @@ function HobbyContent() {
       <Grid size={{ xs: 12, md: 6 }}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography component="h2" variant="h5" gutterBottom>
               environmental activism
             </Typography>
             <Typography variant="body1" component="div">
@@ -80,7 +82,7 @@ function HobbyContent() {
       <Grid size={{ xs: 12, md: 6 }}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography component="h2" variant="h5" gutterBottom>
               technology
             </Typography>
             <Typography variant="body1" component="div">
@@ -98,7 +100,7 @@ function HobbyContent() {
       <Grid size={{ xs: 12, md: 6 }}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography component="h2" variant="h5" gutterBottom>
               music
             </Typography>
             <Typography variant="body1" component="div">
@@ -116,7 +118,7 @@ function HobbyContent() {
       <Grid size={12}>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Paper sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography component="h2" variant="h5" gutterBottom>
               currently learning
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 1 }}>

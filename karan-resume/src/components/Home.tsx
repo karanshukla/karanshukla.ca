@@ -144,6 +144,8 @@ export default function Home() {
               onClick={closeDrawer}
               aria-label="close navigation drawer"
               aria-controls="nav-drawer"
+              tabIndex={drawerOpen ? 0 : -1}
+              aria-hidden={!drawerOpen}
               sx={{ visibility: drawerOpen ? 'visible' : 'hidden' }}
             >
               <ChevronLeftIcon />

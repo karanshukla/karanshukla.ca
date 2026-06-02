@@ -13,6 +13,8 @@ const blink = keyframes`
   50%       { opacity: 0.35; }
 `;
 
+const blinkAnimation = `${blink} 2s ease-in-out infinite`;
+
 function LastFmWidget() {
   const track = useLastFm();
 
@@ -35,14 +37,16 @@ function LastFmWidget() {
             sx={{
               ml: 'auto',
               fontSize: '0.7rem',
-              animation: `${blink} 2s ease-in-out infinite`,
+              '@media (prefers-reduced-motion: no-preference)': {
+                animation: blinkAnimation,
+              },
             }}
           />
         )}
       </Box>
 
       {track ? (
-        <Box>
+        <Box aria-live="polite" aria-atomic="true">
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             <Avatar
               src={track.imageUrl || undefined}
@@ -59,6 +63,7 @@ function LastFmWidget() {
                 rel="noopener noreferrer"
                 underline="hover"
                 color="text.primary"
+                aria-label={`${track.name} by ${track.artist} on last.fm (opens in new tab)`}
               >
                 <Typography variant="subtitle1" fontWeight={600} noWrap>
                   {track.name}
@@ -70,7 +75,7 @@ function LastFmWidget() {
               {track.album && (
                 <Typography
                   variant="caption"
-                  color="text.disabled"
+                  color="text.secondary"
                   noWrap
                   sx={{ display: 'block' }}
                 >
@@ -80,7 +85,7 @@ function LastFmWidget() {
               {!track.isNowPlaying && (
                 <Typography
                   variant="caption"
-                  color="text.disabled"
+                  color="text.secondary"
                   sx={{ display: 'block', mt: 0.25 }}
                 >
                   last played

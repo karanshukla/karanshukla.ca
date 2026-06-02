@@ -56,6 +56,18 @@ export const useKeyboardShortcuts = (): void => {
   }, [navigate]);
 };
 
+// --- Page title ---
+
+export const usePageTitle = (title: string): void => {
+  useEffect(() => {
+    const base = 'karan shukla';
+    document.title = title ? `${title} | ${base}` : base;
+    return () => {
+      document.title = base;
+    };
+  }, [title]);
+};
+
 // --- Theme ---
 
 export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: boolean } => {

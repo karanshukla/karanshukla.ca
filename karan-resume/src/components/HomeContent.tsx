@@ -7,14 +7,17 @@ import Divider from '@mui/material/Divider';
 import { RepoStats } from './ProjectCard';
 import GitHubPulse from './GitHubPulse';
 import LastFmWidget from './LastFmWidget';
+import { usePageTitle } from '../hooks/CommonHooks';
 
 function HomeContent() {
+  usePageTitle('');
   return (
     <Box sx={{ width: '100%' }}>
       <Slide direction="up" in={true} mountOnEnter unmountOnExit>
         <Box>
           <Paper sx={{ p: 3, mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography
+              component="h2"
               variant="h3"
               color="text.primary"
               gutterBottom
@@ -24,6 +27,7 @@ function HomeContent() {
               software/mechanical engineer
             </Typography>
             <Typography
+              component="p"
               variant="h4"
               color="text.secondary"
               gutterBottom
