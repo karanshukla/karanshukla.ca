@@ -134,7 +134,7 @@ function HobbyContent() {
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Box>
             <Divider sx={{ mb: 3 }}>
-              <Typography variant="overline" color="text.secondary" sx={{ textTransform: 'none' }}>
+              <Typography variant="overline" sx={{ textTransform: 'none', color: 'text.secondary' }}>
                 recently enjoyed
               </Typography>
             </Divider>
@@ -143,7 +143,7 @@ function HobbyContent() {
                 <Grid key={item.title} size={{ xs: 12, md: 6 }}>
                   <Paper sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <Typography variant="h6">{item.title}</Typography>
-                    <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                    <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} gutterBottom>
                       {item.subtitle}
                     </Typography>
                     <Typography variant="body2" sx={{ mt: 0.5, flexGrow: 1 }}>
@@ -166,7 +166,7 @@ function HobbyContent() {
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Box>
             <Divider sx={{ mb: 3 }}>
-              <Typography variant="overline" color="text.secondary" sx={{ textTransform: 'none' }}>
+              <Typography variant="overline" sx={{ textTransform: 'none', color: 'text.secondary' }}>
                 asher
               </Typography>
             </Divider>

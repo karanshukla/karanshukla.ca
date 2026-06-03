@@ -35,13 +35,13 @@ export function RepoStats({ owner, repo, url }: { owner: string; repo: string; u
       {data.language && <Chip label={data.language} size="small" variant="outlined" />}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }} aria-label={`${data.stargazers_count} stars`}>
         <StarIcon sx={{ fontSize: 16, color: 'text.secondary' }} aria-hidden="true" />
-        <Typography variant="caption" color="text.secondary" aria-hidden="true">{data.stargazers_count}</Typography>
+        <Typography variant="caption" sx={{ color: 'text.secondary' }} aria-hidden="true">{data.stargazers_count}</Typography>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }} aria-label={`${data.forks_count} forks`}>
         <ForkRightIcon sx={{ fontSize: 16, color: 'text.secondary' }} aria-hidden="true" />
-        <Typography variant="caption" color="text.secondary" aria-hidden="true">{data.forks_count}</Typography>
+        <Typography variant="caption" sx={{ color: 'text.secondary' }} aria-hidden="true">{data.forks_count}</Typography>
       </Box>
-      <Typography variant="caption" color="text.secondary">updated {updatedAt}</Typography>
+      <Typography variant="caption" sx={{ color: 'text.secondary' }}>updated {updatedAt}</Typography>
       <Link href={url} target="_blank" rel="noopener noreferrer" variant="caption" aria-label={`view ${repo} on github (opens in new tab)`}>
         view on github
       </Link>
@@ -75,7 +75,7 @@ export default function ProjectCard({
         )}
       </Box>
 
-      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+      <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} gutterBottom>
         {subtitle}
       </Typography>
 

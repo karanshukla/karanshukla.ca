@@ -45,16 +45,16 @@ function StatRow({ label, sublabel, value, displayValue, color, tooltip, childre
     <Box sx={{ mb: 1.5 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 0.4 }}>
         <Box>
-          <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary' }}>
             {label}
           </Typography>
           {sublabel && (
-            <Typography variant="caption" color="text.disabled" sx={{ ml: 0.5 }}>
+            <Typography variant="caption" sx={{ ml: 0.5, color: 'text.secondary' }}>
               {sublabel}
             </Typography>
           )}
         </Box>
-        <Typography variant="body2" sx={{ fontWeight: 700 }} color={`${color}.main`}>
+        <Typography variant="body2" sx={{ fontWeight: 700, color: `${color}.main` }}>
           {displayValue}
         </Typography>
       </Box>
@@ -99,14 +99,13 @@ function SiteStatsWidget({ open }: SiteStatsWidgetProps) {
     <Box sx={{ px: 2, pt: 1.5, pb: 0.5 }}>
       <Typography
         variant="caption"
-        color="text.disabled"
-        sx={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.6rem', display: 'block', mb: 1.25 }}
+        sx={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.6rem', display: 'block', mb: 1.25, color: 'text.secondary' }}
       >
         site stats
       </Typography>
 
       {isPending ? (
-        <Typography variant="caption" color="text.disabled" sx={{ fontStyle: 'italic' }}>
+        <Typography variant="caption" sx={{ fontStyle: 'italic', color: 'text.secondary' }}>
           pending first run
         </Typography>
       ) : (
@@ -135,21 +134,23 @@ function SiteStatsWidget({ open }: SiteStatsWidgetProps) {
           >
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mt: 0.75 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                   largest contentful paint
                 </Typography>
-                <Typography variant="caption" sx={{ fontWeight: 600 }} color={`${lcpColor(lighthouse.lcp)}.main`}>
+                <Typography variant="caption" sx={{ fontWeight: 600, color: `${lcpColor(lighthouse.lcp)}.main` }}>
                   {(lighthouse.lcp / 1000).toFixed(1)}s
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                   cumulative layout shift
                 </Typography>
                 <Typography
                   variant="caption"
-                  sx={{ fontWeight: 600 }}
-                  color={lighthouse.cls <= 0.1 ? 'success.main' : lighthouse.cls <= 0.25 ? 'warning.main' : 'error.main'}
+                  sx={{
+                    fontWeight: 600,
+                    color: lighthouse.cls <= 0.1 ? 'success.main' : lighthouse.cls <= 0.25 ? 'warning.main' : 'error.main',
+                  }}
                 >
                   {lighthouse.cls.toFixed(3)}
                 </Typography>
@@ -159,7 +160,7 @@ function SiteStatsWidget({ open }: SiteStatsWidgetProps) {
         </>
       )}
 
-      <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 0.5, fontSize: '0.6rem' }}>
+      <Typography variant="caption" sx={{ display: 'block', mt: 0.5, fontSize: '0.6rem', color: 'text.secondary' }}>
         updated {timeAgo(generatedAt)}
       </Typography>
     </Box>

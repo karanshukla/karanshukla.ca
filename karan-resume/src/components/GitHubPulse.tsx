@@ -24,8 +24,7 @@ function GitHubPulse() {
         <GitHubIcon fontSize="small" sx={{ color: 'text.secondary' }} />
         <Typography
           variant="overline"
-          color="text.secondary"
-          sx={{ textTransform: 'none', lineHeight: 1 }}
+          sx={{ textTransform: 'none', lineHeight: 1, color: 'text.secondary' }}
         >
           github pulse (llm summarised)
         </Typography>
@@ -38,18 +37,18 @@ function GitHubPulse() {
       </Box>
       <Typography
         variant="body1"
-        color="text.primary"
         sx={{
           fontStyle: 'italic',
           display: '-webkit-box',
           WebkitLineClamp: 4,
           WebkitBoxOrient: 'vertical',
           overflow: 'hidden',
+          color: 'text.primary',
         }}
       >
         "{pulseData.summary}"
       </Typography>
-      <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
+      <Typography variant="caption" sx={{ display: 'block', mt: 1.5, color: 'text.secondary' }}>
         generated at {formatUTC(pulseData.generatedAt)}
       </Typography>
     </Paper>

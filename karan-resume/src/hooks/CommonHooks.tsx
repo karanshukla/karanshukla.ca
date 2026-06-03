@@ -102,6 +102,7 @@ export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: 
           text: {
             primary: mode === 'dark' ? '#e6edf3' : '#1a1a2e',
             secondary: mode === 'dark' ? '#8b949e' : '#4a5568',
+            disabled: mode === 'dark' ? '#6e7681' : '#9ca3af',
           },
           divider: mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
         },

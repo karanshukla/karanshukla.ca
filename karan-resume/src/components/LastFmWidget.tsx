@@ -24,8 +24,7 @@ function LastFmWidget() {
         <MusicNoteIcon fontSize="small" sx={{ color: 'text.secondary' }} />
         <Typography
           variant="overline"
-          color="text.secondary"
-          sx={{ textTransform: 'none', lineHeight: 1 }}
+          sx={{ textTransform: 'none', lineHeight: 1, color: 'text.secondary' }}
         >
           last.fm (real time)
         </Typography>
@@ -62,22 +61,21 @@ function LastFmWidget() {
                 target="_blank"
                 rel="noopener noreferrer"
                 underline="hover"
-                color="text.primary"
+                sx={{ color: 'text.primary' }}
                 aria-label={`${track.name} by ${track.artist} on last.fm (opens in new tab)`}
               >
                 <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
                   {track.name}
                 </Typography>
               </Link>
-              <Typography variant="body2" color="text.secondary" noWrap>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
                 {track.artist}
               </Typography>
               {track.album && (
                 <Typography
                   variant="caption"
-                  color="text.secondary"
                   noWrap
-                  sx={{ display: 'block' }}
+                  sx={{ display: 'block', color: 'text.secondary' }}
                 >
                   {track.album}
                 </Typography>
@@ -85,8 +83,7 @@ function LastFmWidget() {
               {!track.isNowPlaying && (
                 <Typography
                   variant="caption"
-                  color="text.secondary"
-                  sx={{ display: 'block', mt: 0.25 }}
+                  sx={{ display: 'block', mt: 0.25, color: 'text.secondary' }}
                 >
                   last played
                 </Typography>
@@ -109,7 +106,7 @@ function LastFmWidget() {
           )}
         </Box>
       ) : (
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           nothing playing right now
         </Typography>
       )}

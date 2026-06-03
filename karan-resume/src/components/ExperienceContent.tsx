@@ -109,7 +109,7 @@ function ExperienceContent() {
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Box>
             <Divider sx={{ mb: 3 }}>
-              <Typography variant="overline" color="text.secondary" sx={{ textTransform: 'none' }}>open source projects</Typography>
+              <Typography variant="overline" sx={{ textTransform: 'none', color: 'text.secondary' }}>open source projects</Typography>
             </Divider>
             <Grid container spacing={3}>
               {projects.map((p) => (

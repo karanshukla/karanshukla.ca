@@ -19,20 +19,18 @@ function HomeContent() {
             <Typography
               component="h2"
               variant="h3"
-              color="text.primary"
               gutterBottom
               align="center"
-              sx={{ typography: { xs: 'h5', sm: 'h4', md: 'h3' }, wordBreak: 'break-word' }}
+              sx={{ typography: { xs: 'h5', sm: 'h4', md: 'h3' }, wordBreak: 'break-word', color: 'text.primary' }}
             >
               software/mechanical engineer
             </Typography>
             <Typography
               component="p"
               variant="h4"
-              color="text.secondary"
               gutterBottom
               align="center"
-              sx={{ typography: { xs: 'h6', sm: 'h5', md: 'h4' }, wordBreak: 'break-word' }}
+              sx={{ typography: { xs: 'h6', sm: 'h5', md: 'h4' }, wordBreak: 'break-word', color: 'text.secondary' }}
             >
               karan@karanshukla.ca
             </Typography>
@@ -41,7 +39,7 @@ function HomeContent() {
           <Box sx={{ mt: 2 }} />
 
           <Paper sx={{ p: 3 }}>
-            <Typography variant="body1" color="text.primary" align="center">
+            <Typography variant="body1" align="center" sx={{ color: 'text.primary' }}>
               hello! if you've made it here, you're probably curious about my background. i'm a
               software developer with a mechanical engineering degree, working primarily in web
               development and saas. as this is a public website, i keep things intentionally vague,
@@ -58,7 +56,7 @@ function HomeContent() {
                 <Typography variant="h6" gutterBottom>
                   navyfragen
                 </Typography>
-                <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} gutterBottom>
                   bluesky q&a messaging platform
                 </Typography>
                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
@@ -74,7 +72,7 @@ function HomeContent() {
                 <Typography variant="h6" gutterBottom>
                   sportsbook-meow
                 </Typography>
-                <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} gutterBottom>
                   real-time sportsbook ad replacement with cats
                 </Typography>
                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
@@ -90,7 +88,7 @@ function HomeContent() {
           <Box sx={{ mt: 4 }} />
 
           <Divider sx={{ mb: 3 }}>
-            <Typography variant="overline" color="text.secondary" sx={{ textTransform: 'none' }}>
+            <Typography variant="overline" sx={{ textTransform: 'none', color: 'text.secondary' }}>
               currently
             </Typography>
           </Divider>
