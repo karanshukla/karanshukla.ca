@@ -121,7 +121,7 @@ function SiteStatsWidget({ open }: SiteStatsWidgetProps) {
 
           <StatRow
             label="accessibility"
-            sublabel="wcag 2.2"
+            sublabel="wcag 2.1"
             value={lighthouse.accessibility}
             displayValue={`${lighthouse.accessibility}`}
             color={scoreColor(lighthouse.accessibility)}
