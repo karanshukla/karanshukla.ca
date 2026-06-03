@@ -65,7 +65,7 @@ function LastFmWidget() {
                 color="text.primary"
                 aria-label={`${track.name} by ${track.artist} on last.fm (opens in new tab)`}
               >
-                <Typography variant="subtitle1" fontWeight={600} noWrap>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
                   {track.name}
                 </Typography>
               </Link>
