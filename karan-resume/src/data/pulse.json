@@ -1,5 +1,5 @@
 {
-  "summary": "karan's been busy. they fixed flaky e2e tests, added new tests, and adjusted the favicon for openresto. they also tweaked the booking confirmation page and service worker. for the totalwarhammer-tournament-app, they fixed a test import and updated the match controller.",
-  "generatedAt": "2026-06-01T00:26:28.000Z",
-  "commitCount": 21
+  "summary": "karan fixed the 40k faction tournament stats bug in totalwarhammer-tournament-app. they also tweaked the availability grid in openresto and optimized the navyfragen-feed to reduce network egress and cpu usage. plus, they improved booking cancellation in openresto and made some miui 9 changes to their personal site.",
+  "generatedAt": "2026-06-04T00:36:33.000Z",
+  "commitCount": 23
 }
