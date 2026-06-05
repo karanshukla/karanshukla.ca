@@ -34,6 +34,7 @@ export const navShortcuts: Record<string, string> = {
   '2': '/experience',
   '3': '/hobbies',
   '4': '/asher-zone',
+  '5': '/musings',
 };
 
 export const useKeyboardShortcuts = (): void => {
