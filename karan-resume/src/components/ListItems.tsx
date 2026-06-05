@@ -8,6 +8,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PetsIcon from '@mui/icons-material/Pets';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import SportsRugbyIcon from '@mui/icons-material/SportsRugby';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import CodeIcon from '@mui/icons-material/Code';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -81,6 +82,14 @@ export const MainListItems: React.FC = () => {
         </ListItemIcon>
         <ListItemText primary="hobbies" />
         <KeyHint>3</KeyHint>
+      </ListItemButton>
+
+      <ListItemButton component={NavLink} to="/musings" aria-label="musings, press 5">
+        <ListItemIcon aria-hidden="true">
+          <EditNoteIcon />
+        </ListItemIcon>
+        <ListItemText primary="musings" />
+        <KeyHint>5</KeyHint>
       </ListItemButton>
 
       <ListItemButton

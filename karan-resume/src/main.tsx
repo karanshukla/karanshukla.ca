@@ -10,6 +10,7 @@ import HomeContent from './components/HomeContent.tsx';
 import ExperienceContent from './components/ExperienceContent.tsx';
 import HobbyContent from './components/HobbyContent.tsx';
 import AsherZoneContent from './components/AsherZoneContent.tsx';
+import MusingsContent from './components/MusingsContent.tsx';
 
 const router = createHashRouter([
   {
@@ -20,6 +21,7 @@ const router = createHashRouter([
       { path: 'experience', element: <ExperienceContent /> },
       { path: 'hobbies', element: <HobbyContent /> },
       { path: 'asher-zone', element: <AsherZoneContent /> },
+      { path: 'musings', element: <MusingsContent /> },
     ],
   },
 ]);
