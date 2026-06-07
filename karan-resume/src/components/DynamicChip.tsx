@@ -7,6 +7,7 @@ const routeLabels: Record<string, string> = {
   '/experience': 'experience',
   '/hobbies': 'hobbies',
   '/asher-zone': 'asher zone',
+  '/musings': 'musings',
 };
 
 const DynamicChip: React.FC = () => {

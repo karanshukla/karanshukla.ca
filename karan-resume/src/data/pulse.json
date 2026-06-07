@@ -1,5 +1,5 @@
 {
-  "summary": "karan's been busy. they fixed flaky e2e tests, added new tests, and adjusted the favicon for openresto. they also tweaked the booking confirmation page and service worker. for the totalwarhammer-tournament-app, they fixed a test import and updated the match controller.",
-  "generatedAt": "2026-06-01T00:26:28.000Z",
-  "commitCount": 21
+  "summary": "karan swapped out some images in the readme, added hurl tests, and tweaked security in match and tournament controllers. they also replaced an algorithm, touching files across the stack, and made some small security changes.",
+  "generatedAt": "2026-06-07T00:27:18.000Z",
+  "commitCount": 20
 }
