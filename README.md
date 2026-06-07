@@ -6,7 +6,6 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React_18-61DAFB?logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
-![Deployed on GitHub Pages](https://img.shields.io/badge/Deployed_on-GitHub_Pages-222?logo=githubpages&logoColor=white)
 ![Powered by Last.fm](https://img.shields.io/badge/Powered_by-Last.fm-D51007?logo=lastdotfm&logoColor=white)
 
 Personal website and resume. Live at [karanshukla.ca](https://karanshukla.ca).
