@@ -8,9 +8,6 @@
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 ![Deployed on GitHub Pages](https://img.shields.io/badge/Deployed_on-GitHub_Pages-222?logo=githubpages&logoColor=white)
 ![Powered by Last.fm](https://img.shields.io/badge/Powered_by-Last.fm-D51007?logo=lastdotfm&logoColor=white)
-![AI Commit Summaries](https://img.shields.io/badge/Commit_Summaries-AI_Powered-8A2BE2?logo=github&logoColor=white)
-![Test Coverage](https://img.shields.io/badge/Coverage-97.5%25-brightgreen)
-![Vibes](https://img.shields.io/badge/Vibes-Immaculate-ff69b4)
 
 Personal website and resume. Live at [karanshukla.ca](https://karanshukla.ca).
 
