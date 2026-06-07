@@ -32,6 +32,17 @@ jobs:
           cd karan-resume
           yarn install
 
+      - name: Run tests with coverage
+        run: |
+          cd karan-resume
+          yarn test:coverage
+
+      - name: Upload coverage to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: karan-resume/coverage/lcov.info
+
       - name: Build with Vite (Production build)
         run: |
           cd karan-resume
