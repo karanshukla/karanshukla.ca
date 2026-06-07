@@ -6,7 +6,6 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React_18-61DAFB?logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
-![Powered by Last.fm](https://img.shields.io/badge/Powered_by-Last.fm-D51007?logo=lastdotfm&logoColor=white)
 
 Personal website and resume. Live at [karanshukla.ca](https://karanshukla.ca).
 
@@ -18,7 +17,7 @@ Most personal sites are a static page with a bio and some project links. This on
 
 ### Now Playing via Last.fm
 
-A widget polls the Last.fm API every 30 seconds and shows whatever is currently playing, including album art, track name, and the top genre tags scraped from the track metadata. If nothing is playing, it falls back to the most recently scanned track. Respects `prefers-reduced-motion` for the blinking "live" indicator.
+A widget polls the Last.fm API every 30 seconds and shows whatever is currently playing, including album art, track name, and the top genre tags scraped from the track metadata. If nothing is playing, it falls back to the most recently scanned track. Respects `prefers-reduced-motion` for the blinking "live" indicator. 
 
 ### AI-Generated Commit Summaries
 
@@ -105,7 +104,7 @@ GitHub Pages serves the `gh-pages` branch at the custom domain.
 
 ## Credits
 
-- [Last.fm API](https://www.last.fm/api) for music scrobbling data
+- [Last.fm Hook](https://github.com/alii/use-last-fm) for music scrobbling data
 - [GitHub Models](https://github.com/marketplace/models) for LLM-powered commit summaries (Mistral)
 - [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) for automated performance auditing
 - [Material UI](https://mui.com/) for components and theming
