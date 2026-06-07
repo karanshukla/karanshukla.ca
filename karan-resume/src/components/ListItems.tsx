@@ -8,7 +8,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import PetsIcon from '@mui/icons-material/Pets';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import SportsRugbyIcon from '@mui/icons-material/SportsRugby';
-import EditNoteIcon from '@mui/icons-material/EditNote';
 import CodeIcon from '@mui/icons-material/Code';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -84,25 +83,25 @@ export const MainListItems: React.FC = () => {
         <KeyHint>3</KeyHint>
       </ListItemButton>
 
-      <ListItemButton component={NavLink} to="/musings" aria-label="musings, press 5">
+      <ListItemButton component={NavLink} to="/musings" aria-label="musings, press 4">
         <ListItemIcon aria-hidden="true">
-          <EditNoteIcon />
+          <TwitterIcon />
         </ListItemIcon>
         <ListItemText primary="musings" />
-        <KeyHint>5</KeyHint>
+        <KeyHint>4</KeyHint>
       </ListItemButton>
 
       <ListItemButton
         component={NavLink}
         to="/asher-zone"
         disabled={isAsherZone}
-        aria-label="asher zone, press 4"
+        aria-label="asher zone, press 5"
       >
         <ListItemIcon aria-hidden="true">
           <PetsIcon />
         </ListItemIcon>
         <ListItemText primary="asher zone" />
-        <KeyHint>4</KeyHint>
+        <KeyHint>5</KeyHint>
       </ListItemButton>
 
       {isAsherZone && (
