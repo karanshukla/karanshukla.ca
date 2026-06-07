@@ -209,6 +209,7 @@ describe('navShortcuts', () => {
     expect(navShortcuts['1']).toBe('/');
     expect(navShortcuts['2']).toBe('/experience');
     expect(navShortcuts['3']).toBe('/hobbies');
-    expect(navShortcuts['4']).toBe('/asher-zone');
+    expect(navShortcuts['4']).toBe('/musings');
+    expect(navShortcuts['5']).toBe('/asher-zone');
   });
 });
