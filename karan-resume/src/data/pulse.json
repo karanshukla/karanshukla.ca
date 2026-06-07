@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed the 40k faction tournament stats bug in totalwarhammer-tournament-app. they also tweaked the availability grid in openresto and optimized the navyfragen-feed to reduce network egress and cpu usage. plus, they improved booking cancellation in openresto and made some miui 9 changes to their personal site.",
-  "generatedAt": "2026-06-04T00:36:33.000Z",
-  "commitCount": 23
+  "summary": "karan swapped out some images in the readme, added hurl tests, and tweaked security in match and tournament controllers. they also replaced an algorithm, touching files across the stack, and made some small security changes.",
+  "generatedAt": "2026-06-07T00:27:18.000Z",
+  "commitCount": 20
 }
