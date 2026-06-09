@@ -13,6 +13,14 @@ export default defineConfig({
     }),
   ],
   base: '/',
+  resolve: {
+    // react-transition-group ships a bare directory with no exports field; ESM
+    // resolution rejects directory imports, so point directly at the CJS file.
+    alias: {
+      'react-transition-group/TransitionGroupContext':
+        'react-transition-group/cjs/TransitionGroupContext.js',
+    },
+  },
   server: {
     port: 3000,
     open: true,
@@ -25,6 +33,13 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/tests/setupTests.ts'],
+    server: {
+      deps: {
+        // Force these through Vite so the resolve.alias above fixes the
+        // directory-import issue in react-transition-group on ESM.
+        inline: ['@mui/material', 'react-transition-group'],
+      },
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov', 'json-summary'],
