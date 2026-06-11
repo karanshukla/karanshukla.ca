@@ -64,7 +64,7 @@ const KeyHint: React.FC<KeyHintProps> = ({ children }) => (
 export const MainListItems: React.FC = () => {
   const { pathname } = useLocation();
   const isAsherZone = pathname === '/asher-zone';
-  const { triggerHaptic } = useHaptic();
+  const { triggerHaptic } = useHaptic(3);
 
   return (
     <React.Fragment>
