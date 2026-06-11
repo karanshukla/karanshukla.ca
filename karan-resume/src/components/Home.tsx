@@ -85,7 +85,7 @@ export default function Home() {
 
   const { theme, toggleTheme, isDark } = useAppTheme();
   useKeyboardShortcuts();
-  const { triggerHaptic } = useHaptic();
+  const { triggerHaptic } = useHaptic(3);
 
   const toggleDrawer = () => { triggerHaptic(); setDrawerOpen((prev) => !prev); };
   const closeDrawer = () => { triggerHaptic(); setDrawerOpen(false); };
