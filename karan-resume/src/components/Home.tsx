@@ -22,6 +22,7 @@ import { MainListItems, SecondaryListItems } from './ListItems.tsx';
 import SiteStatsWidget from './SiteStatsWidget.tsx';
 import { isLandscape } from '../helpers/CommonHelpers.ts';
 import { useAppTheme, useKeyboardShortcuts } from '../hooks/CommonHooks.tsx';
+import { useHaptic } from 'use-haptic';
 
 
 function SkipLink() {
@@ -84,9 +85,10 @@ export default function Home() {
 
   const { theme, toggleTheme, isDark } = useAppTheme();
   useKeyboardShortcuts();
+  const { triggerHaptic } = useHaptic();
 
-  const toggleDrawer = () => setDrawerOpen((prev) => !prev);
-  const closeDrawer = () => setDrawerOpen(false);
+  const toggleDrawer = () => { triggerHaptic(); setDrawerOpen((prev) => !prev); };
+  const closeDrawer = () => { triggerHaptic(); setDrawerOpen(false); };
 
   return (
     <ThemeProvider theme={theme}>

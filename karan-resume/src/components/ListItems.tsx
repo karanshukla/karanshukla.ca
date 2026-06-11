@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useHaptic } from 'use-haptic';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -63,10 +64,11 @@ const KeyHint: React.FC<KeyHintProps> = ({ children }) => (
 export const MainListItems: React.FC = () => {
   const { pathname } = useLocation();
   const isAsherZone = pathname === '/asher-zone';
+  const { triggerHaptic } = useHaptic();
 
   return (
     <React.Fragment>
-      <ListItemButton component={NavLink} to="/" end aria-label="home, press 1">
+      <ListItemButton component={NavLink} to="/" end aria-label="home, press 1" onClick={triggerHaptic}>
         <ListItemIcon aria-hidden="true">
           <HomeIcon />
         </ListItemIcon>
@@ -74,7 +76,7 @@ export const MainListItems: React.FC = () => {
         <KeyHint>1</KeyHint>
       </ListItemButton>
 
-      <ListItemButton component={NavLink} to="/experience" aria-label="experience, press 2">
+      <ListItemButton component={NavLink} to="/experience" aria-label="experience, press 2" onClick={triggerHaptic}>
         <ListItemIcon aria-hidden="true">
           <WorkHistoryIcon />
         </ListItemIcon>
@@ -82,7 +84,7 @@ export const MainListItems: React.FC = () => {
         <KeyHint>2</KeyHint>
       </ListItemButton>
 
-      <ListItemButton component={NavLink} to="/hobbies" aria-label="hobbies, press 3">
+      <ListItemButton component={NavLink} to="/hobbies" aria-label="hobbies, press 3" onClick={triggerHaptic}>
         <ListItemIcon aria-hidden="true">
           <SportsRugbyIcon />
         </ListItemIcon>
@@ -90,7 +92,7 @@ export const MainListItems: React.FC = () => {
         <KeyHint>3</KeyHint>
       </ListItemButton>
 
-      <ListItemButton component={NavLink} to="/musings" aria-label="musings, press 4">
+      <ListItemButton component={NavLink} to="/musings" aria-label="musings, press 4" onClick={triggerHaptic}>
         <ListItemIcon aria-hidden="true">
           <TwitterIcon />
         </ListItemIcon>
@@ -103,6 +105,7 @@ export const MainListItems: React.FC = () => {
         to="/asher-zone"
         disabled={isAsherZone}
         aria-label="asher zone, press 5"
+        onClick={triggerHaptic}
       >
         <ListItemIcon aria-hidden="true">
           <PetsIcon />
@@ -112,7 +115,7 @@ export const MainListItems: React.FC = () => {
       </ListItemButton>
 
       {isAsherZone && (
-        <ListItemButton component={NavLink} to="/" aria-label="exit the asher zone">
+        <ListItemButton component={NavLink} to="/" aria-label="exit the asher zone" onClick={triggerHaptic}>
           <ListItemIcon aria-hidden="true">
             <ExitToAppIcon />
           </ListItemIcon>

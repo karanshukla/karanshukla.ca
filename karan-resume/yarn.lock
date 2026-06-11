@@ -2425,7 +2425,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-react-dom@^19.2.7:
+react-dom@^19.0.0, react-dom@^19.2.7:
   version "19.2.7"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-19.2.7.tgz"
   integrity sha512-t0BRVXvbiE/o20Hfw669rLbMCDWtYZLvmJigy2f0MxsXF+71pxhR3xOkspmsO8h3ZlNzyibAmtCa3l4lYKk6gQ==
@@ -2472,7 +2472,7 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@^19.2.7:
+react@^19.0.0, react@^19.2.7:
   version "19.2.7"
   resolved "https://registry.npmjs.org/react/-/react-19.2.7.tgz"
   integrity sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ==
@@ -2804,6 +2804,14 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+use-haptic@^1.1.13:
+  version "1.1.13"
+  resolved "https://registry.yarnpkg.com/use-haptic/-/use-haptic-1.1.13.tgz#3aefaceaf98b7a79490a8c5510b5cbea767011e4"
+  integrity sha512-Kg6+MaksFTPlbAbf+WTbJPlsXt6z61LsQ1TfnGv29Q/Ewp2pmmAG6WipOMf89zDOiCZ004IHNs/iwpsxSbDa4w==
+  dependencies:
+    react "^19.0.0"
+    react-dom "^19.0.0"
 
 vite-plugin-image-optimizer@^2.0.3:
   version "2.0.3"

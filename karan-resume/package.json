@@ -28,6 +28,7 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.16.0",
+    "use-haptic": "^1.1.13",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
