@@ -24,7 +24,6 @@ import { isLandscape } from '../helpers/CommonHelpers.ts';
 import { useAppTheme, useKeyboardShortcuts } from '../hooks/CommonHooks.tsx';
 import { useHaptic } from 'use-haptic';
 
-
 function SkipLink() {
   const handleClick = () => {
     const main = document.getElementById('main-content');
@@ -85,10 +84,16 @@ export default function Home() {
 
   const { theme, toggleTheme, isDark } = useAppTheme();
   useKeyboardShortcuts();
-  const { triggerHaptic } = useHaptic(3);
+  const { triggerHaptic } = useHaptic(1);
 
-  const toggleDrawer = () => { triggerHaptic(); setDrawerOpen((prev) => !prev); };
-  const closeDrawer = () => { triggerHaptic(); setDrawerOpen(false); };
+  const toggleDrawer = () => {
+    triggerHaptic();
+    setDrawerOpen((prev) => !prev);
+  };
+  const closeDrawer = () => {
+    triggerHaptic();
+    setDrawerOpen(false);
+  };
 
   return (
     <ThemeProvider theme={theme}>
