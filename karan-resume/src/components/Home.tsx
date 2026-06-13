@@ -72,6 +72,12 @@ export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState(!isMobile && isLandscape());
   const location = useLocation();
 
+  // Scroll to top on route change
+  React.useEffect(() => {
+    const el = document.getElementById('main-content');
+    if (el?.scrollTo) el.scrollTo({ top: 0 });
+  }, [location.pathname]);
+
   // On mobile, close drawer when the route changes (nav tap)
   React.useEffect(() => {
     if (isMobile) setDrawerOpen(false);
