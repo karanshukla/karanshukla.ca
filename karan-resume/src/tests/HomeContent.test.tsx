@@ -49,7 +49,7 @@ describe('HomeContent', () => {
   it('renders both project card titles', () => {
     render(<HomeContent />);
     expect(screen.getByText('navyfragen')).toBeInTheDocument();
-    expect(screen.getByText('sportsbook-meow')).toBeInTheDocument();
+    expect(screen.getByText('asher-cli')).toBeInTheDocument();
   });
 
   it('renders github links after fetch resolves', async () => {
