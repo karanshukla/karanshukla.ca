@@ -1,5 +1,5 @@
 {
-  "summary": "karan's been busy. they fixed routes and swapped guids for cleaner match urls in the totalwarhammer app. also added tournament deep-linking and kept the urls persistent. for openresto, they boosted test coverage, stubbed notifications, and fixed some tests. on navyfragen, they added haptics and set up web push notifications.",
-  "generatedAt": "2026-06-13T00:32:23.000Z",
-  "commitCount": 20
+  "summary": "karan's been busy. fixed auth states and refactored the frontend, enabled watch mode and hot reload, and added tests for the ts() helper function. also fixed some broken markdown and readme issues.",
+  "generatedAt": "2026-06-16T00:37:10.000Z",
+  "commitCount": 21
 }
