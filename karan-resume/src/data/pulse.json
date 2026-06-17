@@ -1,5 +1,5 @@
 {
-  "summary": "karan's been busy. fixed auth states and refactored the frontend, enabled watch mode and hot reload, and added tests for the ts() helper function. also fixed some broken markdown and readme issues.",
-  "generatedAt": "2026-06-16T00:37:10.000Z",
+  "summary": "karan switched github pulse to mistral's api, fixed stale booking dates, and patched night light/history commands in asher-cli.",
+  "generatedAt": "2026-06-17T18:32:31.000Z",
   "commitCount": 21
 }
