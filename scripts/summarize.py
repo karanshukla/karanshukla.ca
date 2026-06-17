@@ -116,7 +116,7 @@ commit_text = "\n\n".join(push_summaries)
 
 # 2. Call Mistral Console API
 payload = json.dumps({
-    "model": "mistral-medium-2505",
+    "model": "mistral-medium-3.5",
     "messages": [
         {
             "role": "system",
