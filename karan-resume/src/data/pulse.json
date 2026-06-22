@@ -1,5 +1,5 @@
 {
-  "summary": "karan added typing to asher-cli, fixed booking and location bugs in openresto, redesigned its location manager, tweaked navyfragen gradients, and added seo stuff to totalwarhammer.",
-  "generatedAt": "2026-06-19T00:36:21.000Z",
-  "commitCount": 21
+  "summary": "karan added a configurable website url for emails, fixed email confirmation links and images, and added tests. also optimized navyfragen's memory usage and tightened path security.",
+  "generatedAt": "2026-06-22T00:30:08.000Z",
+  "commitCount": 23
 }
