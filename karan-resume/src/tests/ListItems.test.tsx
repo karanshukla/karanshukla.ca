@@ -12,6 +12,7 @@ describe('MainListItems', () => {
     expect(screen.getByText('home')).toBeInTheDocument();
     expect(screen.getByText('experience')).toBeInTheDocument();
     expect(screen.getByText('hobbies')).toBeInTheDocument();
+    expect(screen.getByText('blog')).toBeInTheDocument();
     expect(screen.getByText('asher zone')).toBeInTheDocument();
   });
 
