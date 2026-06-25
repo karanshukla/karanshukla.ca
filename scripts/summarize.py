@@ -68,7 +68,9 @@ for event in events:
     head = payload.get("head", "")
     inline_commits = payload.get("commits", [])
 
-    print(f"[debug] PushEvent: {repo} at {event['created_at']} | inline={len(inline_commits)} | before={before[:7]} head={head[:7]}")
+    print(
+        f"[debug] PushEvent: {repo} at {event['created_at']} | inline={len(inline_commits)} | before={before[:7]} head={head[:7]}"
+    )
 
     msgs = [c.get("message", "").split("\n")[0] for c in inline_commits]
     files_info = []
@@ -86,7 +88,9 @@ for event in events:
                     msgs.append(commit["commit"]["message"].split("\n")[0])
             all_files = compare.get("files", [])
             for f in all_files[:6]:
-                files_info.append(f"{f['filename']} +{f.get('additions', 0)}-{f.get('deletions', 0)}")
+                files_info.append(
+                    f"{f['filename']} +{f.get('additions', 0)}-{f.get('deletions', 0)}"
+                )
             if len(all_files) > 6:
                 files_info.append(f"...+{len(all_files) - 6} more files")
         except Exception as e:
@@ -106,7 +110,9 @@ for event in events:
     if commit_count >= 20:
         break
 
-print(f"[debug] push events within 7 days: {len(push_summaries)}, total commits: {commit_count}")
+print(
+    f"[debug] push events within 7 days: {len(push_summaries)}, total commits: {commit_count}"
+)
 
 if not push_summaries:
     print("No recent commits found -- pulse.json unchanged.")
@@ -115,28 +121,30 @@ if not push_summaries:
 commit_text = "\n\n".join(push_summaries)
 
 # 2. Call Mistral Console API
-payload = json.dumps({
-    "model": "mistral-medium-3.5",
-    "messages": [
-        {
-            "role": "system",
-            "content": (
-                "you are a witty technical writer. summarize what a developer named karan "
-                "has been working on recently based on their commit messages. write 2-3 simple "
-                "sentences, all lowercase, casual and specific. stay under 300 characters total. "
-                "no filler phrases like \"it looks like\" or \"the developer\". "
-                "ignore merged prs, version bumps, dependency updates, and workflow changes. "
-                "focus only on actual code changes: new features, bug fixes, refactors"
-            ),
-        },
-        {
-            "role": "user",
-            "content": f"recent commits:\n{commit_text}",
-        },
-    ],
-    "max_tokens": 150,
-    "temperature": 0.7,
-}).encode()
+payload = json.dumps(
+    {
+        "model": "mistral-medium-3.5",
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "you are a witty technical writer. summarize what a developer named karan "
+                    "has been working on recently based on their commit messages. write 2-3 simple "
+                    "sentences, all lowercase, casual and specific. stay under 300 characters total. "
+                    'no filler phrases like "it looks like" or "the developer". '
+                    "ignore merged prs, version bumps, dependency updates, and workflow changes. "
+                    "focus only on actual code changes: new features, bug fixes, refactors"
+                ),
+            },
+            {
+                "role": "user",
+                "content": f"recent commits:\n{commit_text}",
+            },
+        ],
+        "max_tokens": 180,
+        "temperature": 0.7,
+    }
+).encode()
 
 model_req = urllib.request.Request(
     "https://api.mistral.ai/v1/chat/completions",
