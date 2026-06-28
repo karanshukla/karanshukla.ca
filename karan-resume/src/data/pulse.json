@@ -1,5 +1,5 @@
 {
-  "summary": "karan added tests for different LR models in asher-cli, fixed spacing and missing info in openresto booking emails, and refactored bluejays-space with a new index page, dockerfile tweaks, and a csp update.",
-  "generatedAt": "2026-06-25T00:28:16.000Z",
+  "summary": "karan squashed test bugs, fixed a weekday-only test, polished navyfragen's lexicons and messages, and added a 6-hour post backfill for the feed.",
+  "generatedAt": "2026-06-28T00:25:52.000Z",
   "commitCount": 20
 }
