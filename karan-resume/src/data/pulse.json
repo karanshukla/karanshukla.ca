@@ -1,5 +1,5 @@
 {
-  "summary": "karan squashed test bugs, fixed a weekday-only test, polished navyfragen's lexicons and messages, and added a 6-hour post backfill for the feed.",
-  "generatedAt": "2026-06-28T00:25:52.000Z",
+  "summary": "karan tweaked llm summaries to be longer, fixed flaky tests, cleaned up screenshots and docs. overhauled navyfragen's messages page, fixed lexicon keys, and added a lexicon publishing script. also trimmed unnecessary text and improved test coverage.",
+  "generatedAt": "2026-06-28T03:41:51.000Z",
   "commitCount": 20
 }
