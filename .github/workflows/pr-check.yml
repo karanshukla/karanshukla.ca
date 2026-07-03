@@ -20,25 +20,18 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
-          cache-dependency-path: 'karan-resume/yarn.lock'
 
       - name: Install dependencies
-        run: |
-          cd karan-resume
-          yarn install
+        run: yarn install
 
       - name: Type-check and build
-        run: |
-          cd karan-resume
-          yarn build
+        run: yarn build
 
       - name: Run tests with coverage
-        run: |
-          cd karan-resume
-          yarn test:coverage
+        run: yarn test:coverage
 
       - name: Upload coverage to Coveralls
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: karan-resume/coverage/lcov.info
+          file: coverage/lcov.info

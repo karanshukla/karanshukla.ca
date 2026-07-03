@@ -1,6 +1,6 @@
 """
 Fetches recent public commits for karanshukla and generates a witty summary
-via Mistral Console API. Writes the result to karan-resume/src/data/pulse.json.
+via Mistral Console API. Writes the result to src/data/pulse.json.
 Run by the pulse.yml GitHub Actions workflow every 3 days.
 """
 
@@ -12,7 +12,7 @@ import urllib.error
 from datetime import datetime, timezone, timedelta
 
 GITHUB_USER = "karanshukla"
-OUTPUT_PATH = "karan-resume/src/data/pulse.json"
+OUTPUT_PATH = "src/data/pulse.json"
 
 token = os.environ.get("MISTRAL_API_KEY")
 if not token:

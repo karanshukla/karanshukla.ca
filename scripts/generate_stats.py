@@ -1,7 +1,7 @@
 """
-Parses test coverage (karan-resume/coverage/coverage-summary.json) and the
-most recent Lighthouse CI report (karan-resume/.lighthouseci/lhr-*.json),
-then writes karan-resume/src/data/stats.json.
+Parses test coverage (coverage/coverage-summary.json) and the
+most recent Lighthouse CI report (.lighthouseci/lhr-*.json),
+then writes src/data/stats.json.
 Run by the stats.yml GitHub Actions workflow.
 """
 
@@ -11,9 +11,9 @@ import os
 import sys
 from datetime import datetime, timezone
 
-COVERAGE_PATH = "karan-resume/coverage/coverage-summary.json"
-LHCI_GLOB = "karan-resume/.lighthouseci/lhr-*.json"
-OUTPUT_PATH = "karan-resume/src/data/stats.json"
+COVERAGE_PATH = "coverage/coverage-summary.json"
+LHCI_GLOB = ".lighthouseci/lhr-*.json"
+OUTPUT_PATH = "src/data/stats.json"
 
 # Load existing stats as fallback so a partial failure keeps old values
 try:
