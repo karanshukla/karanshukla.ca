@@ -19,8 +19,12 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
-PDS_URL = os.environ.get("PDS_URL", "https://pds.karanshukla.ca")
-IDENTIFIER = os.environ.get("PDS_IDENTIFIER", "karanshukla.ca")
+PDS_URL = os.environ.get("PDS_URL") or "https://pds.karanshukla.ca"
+# Accepts either a handle or a DID (com.atproto.server.createSession takes
+# either). Prefer a DID here since it never changes even if the handle does -
+# record creation resolves to the account's DID either way, so this only
+# affects login, not the records themselves.
+IDENTIFIER = os.environ.get("PDS_IDENTIFIER") or "karanshukla.ca"
 PASSWORD = os.environ.get("PDS_APP_PASSWORD")
 
 SITE_URL = "https://karanshukla.ca"

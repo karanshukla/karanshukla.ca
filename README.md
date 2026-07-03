@@ -96,7 +96,7 @@ Blog posts are published as [Standard.site](https://standard.site) records so th
 1. Creates the `site.standard.publication` record on the `pds.karanshukla.ca` PDS (once) and writes its AT-URI to `public/.well-known/site.standard.publication` for domain verification.
 2. Creates, updates, or deletes a `site.standard.document` record per post, keyed by a content hash tracked in `src/data/standardSiteRecords.json` so unchanged posts are skipped.
 
-This requires a `PDS_APP_PASSWORD` repo secret (an app password for the `karanshukla.ca` PDS account). It does not require any changes to how posts are written or rendered on the site itself.
+This requires a `PDS_APP_PASSWORD` repo secret (an app password for the `karanshukla.ca` PDS account) and, optionally, a `PDS_IDENTIFIER` secret (handle or DID to log in with - defaults to the `karanshukla.ca` handle; set it to the account's DID so this keeps working if the handle ever changes). It does not require any changes to how posts are written or rendered on the site itself.
 
 ---
 
