@@ -126,8 +126,17 @@ def now_iso():
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
+# Bump this whenever the shape/content of the generated record changes (e.g.
+# the path format) so existing posts get republished even though their
+# source markdown didn't change.
+RECORD_SCHEMA_VERSION = 2
+
+
 def content_hash(post):
-    payload = f"{post['title']}|{post['description']}|{post['date']}|{post['content']}"
+    payload = (
+        f"{RECORD_SCHEMA_VERSION}|{post['title']}|{post['description']}|"
+        f"{post['date']}|{post['content']}"
+    )
     return hashlib.sha256(payload.encode()).hexdigest()
 
 
@@ -185,7 +194,10 @@ for post in posts:
         "site": publication_uri,
         "title": post["title"],
         "publishedAt": to_iso(post["date"]),
-        "path": f"/blog/{post['slug']}",
+        # This site uses a hash router (see src/main.tsx), so the real,
+        # resolvable URL for a post is /#/blog/<slug> - a bare /blog/<slug>
+        # 404s on GitHub Pages since there's no SPA fallback.
+        "path": f"/#/blog/{post['slug']}",
         "description": post["description"],
         "textContent": markdown_to_text(post["content"]),
     }
