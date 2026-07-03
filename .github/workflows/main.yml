@@ -25,43 +25,34 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn' # Use yarn cache
-          cache-dependency-path: 'karan-resume/yarn.lock' # Correct path
 
       - name: Install dependencies
-        run: |
-          cd karan-resume
-          yarn install
+        run: yarn install
 
       - name: Run tests with coverage
-        run: |
-          cd karan-resume
-          yarn test:coverage
+        run: yarn test:coverage
 
       - name: Upload coverage to Coveralls
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: karan-resume/coverage/lcov.info
+          file: coverage/lcov.info
 
       - name: Build with Vite (Production build)
-        run: |
-          cd karan-resume
-          yarn build # Use yarn build
+        run: yarn build # Use yarn build
 
       - name: Create CNAME file
-        run: |
-          cd karan-resume
-          echo "karanshukla.ca" > build/CNAME # Correct CNAME creation
+        run: echo "karanshukla.ca" > build/CNAME # Correct CNAME creation
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847  # v3.9.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./karan-resume/build
+          publish_dir: ./build
           cname: karanshukla.ca
           force: true 
 
       - name: Set up GitHub Pages
         uses: actions/configure-pages@1f0c5cde4bc74cd7e1254d0cb4de8d49e9068c7d  # v4
         with:
-          source: ./karan-resume/build
+          source: ./build

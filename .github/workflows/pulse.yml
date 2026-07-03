@@ -32,7 +32,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add karan-resume/src/data/pulse.json
+          git add src/data/pulse.json
           git diff --staged --quiet || git commit -m 'chore: update github pulse [skip ci]'
           git push
 
@@ -41,24 +41,19 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
-          cache-dependency-path: 'karan-resume/yarn.lock'
 
       - name: Install dependencies
-        run: |
-          cd karan-resume
-          yarn install
+        run: yarn install
 
       - name: Build with Vite
-        run: |
-          cd karan-resume
-          yarn build
+        run: yarn build
 
       - name: Create CNAME file
-        run: echo "karanshukla.ca" > karan-resume/build/CNAME
+        run: echo "karanshukla.ca" > build/CNAME
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847  # v3.9.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./karan-resume/build
+          publish_dir: ./build
           cname: karanshukla.ca

@@ -4,8 +4,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-All commands run from `karan-resume/`.
-
 ```bash
 yarn dev              # dev server at http://localhost:3000
 yarn build            # tsc + vite build to /build
@@ -28,7 +26,7 @@ yarn test src/tests/CommonHooks.test.tsx
 
 The repo has two top-level concerns:
 
-- `karan-resume/` - the React/Vite app (all frontend work happens here)
+- `src/` (plus `package.json`, `vite.config.ts`, etc. at the repo root) - the React/Vite app (all frontend work happens here)
 - `scripts/` - Python scripts called by GitHub Actions to regenerate `src/data/*.json`
 
 ### Routing

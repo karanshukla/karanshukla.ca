@@ -57,8 +57,8 @@ Numpad keys 1 through 4 navigate between the main sections of the site. You prob
 
 ```
 karanshukla.ca/
-├── karan-resume/           # React + TypeScript + Vite app
-│   └── src/data/           # Auto-generated JSON (pulse.json, stats.json)
+├── src/                    # React + TypeScript + Vite app
+│   └── data/               # Auto-generated JSON (pulse.json, stats.json)
 └── scripts/                # Python scripts run by GitHub Actions
     ├── summarize.py         # Fetches recent commits + diffs, generates pulse.json via GitHub Models
     └── generate_stats.py   # Reads Vitest coverage + Lighthouse results, generates stats.json
@@ -69,7 +69,6 @@ karanshukla.ca/
 ## Local development
 
 ```bash
-cd karan-resume
 yarn install
 yarn dev        # http://localhost:5173
 ```
