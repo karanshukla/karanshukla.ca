@@ -1,0 +1,37 @@
+name: Publish to Standard.site
+
+# Runs whenever a blog post is added, edited, or removed: publishes/updates
+# site.standard.document records (and the site.standard.publication record,
+# once) to the karanshukla.ca PDS so posts surface in Standard.site readers
+# like standard-reader.app. See https://standard.site.
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/data/posts/**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Publish records to PDS
+        env:
+          PDS_APP_PASSWORD: ${{ secrets.PDS_APP_PASSWORD }}
+        run: python3 scripts/publish_standard_site.py
+
+      - name: Commit changes if any
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add src/data/standardSiteRecords.json public/.well-known/site.standard.publication
+          git diff --staged --quiet || git commit -m 'chore: publish standard.site records [skip ci]'
+          git push

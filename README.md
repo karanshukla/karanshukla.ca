@@ -83,8 +83,20 @@ yarn dev        # http://localhost:5173
 | `pr-check.yml` | Pull requests | Lint, type-check, test |
 | `pulse.yml` | Every 3 days | Fetch recent commits, summarise via Mistral, commit `pulse.json` |
 | `stats.yml` | Weekly (Mon 02:00 UTC) | Run Vitest coverage + Lighthouse CI, commit `stats.json` |
+| `standard-site.yml` | Push touching `src/data/posts/**` | Publish [Standard.site](https://standard.site) publication/document records to the `pds.karanshukla.ca` PDS |
 
 `pulse.json` and `stats.json` are static files baked into the build at deploy time. The sidebar widgets (`GitHubPulse`, `SiteStatsWidget`) read these files at build time with no runtime API calls needed.
+
+---
+
+## Standard.site
+
+Blog posts are published as [Standard.site](https://standard.site) records so they're discoverable in Standard.site readers such as [standard-reader.app](https://standard-reader.app). Whenever a post is added, edited, or removed under `src/data/posts/`, `standard-site.yml` runs `scripts/publish_standard_site.py`, which:
+
+1. Creates the `site.standard.publication` record on the `pds.karanshukla.ca` PDS (once) and writes its AT-URI to `public/.well-known/site.standard.publication` for domain verification.
+2. Creates, updates, or deletes a `site.standard.document` record per post, keyed by a content hash tracked in `src/data/standardSiteRecords.json` so unchanged posts are skipped.
+
+This requires a `PDS_APP_PASSWORD` repo secret (an app password for the `karanshukla.ca` PDS account). It does not require any changes to how posts are written or rendered on the site itself.
 
 ---
 
