@@ -28,8 +28,8 @@ IDENTIFIER = os.environ.get("PDS_IDENTIFIER") or "karanshukla.ca"
 PASSWORD = os.environ.get("PDS_APP_PASSWORD")
 
 SITE_URL = "https://karanshukla.ca"
-PUBLICATION_NAME = "Karan Shukla"
-PUBLICATION_DESCRIPTION = "Personal website and blog of Karan Shukla."
+PUBLICATION_NAME = "karan's super cool tech blog"
+PUBLICATION_DESCRIPTION = "software eng and all around cool dude"
 
 POSTS_DIR = "src/data/posts"
 MANIFEST_PATH = "src/data/standardSiteRecords.json"
