@@ -140,6 +140,11 @@ def content_hash(post):
     return hashlib.sha256(payload.encode()).hexdigest()
 
 
+def publication_hash():
+    payload = f"{SITE_URL}|{PUBLICATION_NAME}|{PUBLICATION_DESCRIPTION}"
+    return hashlib.sha256(payload.encode()).hexdigest()
+
+
 session = xrpc(
     "POST",
     "com.atproto.server.createSession",
@@ -151,31 +156,56 @@ did = session["did"]
 manifest = load_manifest()
 changed = False
 
-if not manifest.get("publication"):
+existing_publication = manifest.get("publication")
+publication_digest = publication_hash()
+
+if not existing_publication or existing_publication.get("hash") != publication_digest:
     record = {
         "$type": "site.standard.publication",
         "url": SITE_URL,
         "name": PUBLICATION_NAME,
         "description": PUBLICATION_DESCRIPTION,
     }
-    result = xrpc(
-        "POST",
-        "com.atproto.repo.createRecord",
-        token=token,
-        body={
-            "repo": did,
-            "collection": "site.standard.publication",
-            "record": record,
-            "validate": False,
-        },
-    )
-    manifest["publication"] = {"uri": result["uri"], "cid": result["cid"]}
-    changed = True
-    print(f"Created publication record: {result['uri']}")
 
-    os.makedirs(os.path.dirname(WELL_KNOWN_PATH), exist_ok=True)
-    with open(WELL_KNOWN_PATH, "w", encoding="utf-8") as f:
-        f.write(result["uri"] + "\n")
+    if existing_publication:
+        rkey = existing_publication["uri"].rsplit("/", 1)[-1]
+        result = xrpc(
+            "POST",
+            "com.atproto.repo.putRecord",
+            token=token,
+            body={
+                "repo": did,
+                "collection": "site.standard.publication",
+                "rkey": rkey,
+                "record": record,
+                "validate": False,
+            },
+        )
+        print(f"Updated publication record: {result['uri']}")
+    else:
+        result = xrpc(
+            "POST",
+            "com.atproto.repo.createRecord",
+            token=token,
+            body={
+                "repo": did,
+                "collection": "site.standard.publication",
+                "record": record,
+                "validate": False,
+            },
+        )
+        print(f"Created publication record: {result['uri']}")
+
+        os.makedirs(os.path.dirname(WELL_KNOWN_PATH), exist_ok=True)
+        with open(WELL_KNOWN_PATH, "w", encoding="utf-8") as f:
+            f.write(result["uri"] + "\n")
+
+    manifest["publication"] = {
+        "uri": result["uri"],
+        "cid": result["cid"],
+        "hash": publication_digest,
+    }
+    changed = True
 
 publication_uri = manifest["publication"]["uri"]
 posts = load_posts()
