@@ -1,5 +1,5 @@
 {
-  "summary": "karan tweaked llm summaries to be longer, fixed flaky tests, cleaned up screenshots and docs. overhauled navyfragen's messages page, fixed lexicon keys, and added a lexicon publishing script. also trimmed unnecessary text and improved test coverage.",
-  "generatedAt": "2026-06-28T03:41:51.000Z",
+  "summary": "karan added email changing to openresto, fixed a bug preventing past booking cancellations, and tweaked footer layout. also published blog posts as standard.site records and fixed document paths.",
+  "generatedAt": "2026-07-04T00:23:34.000Z",
   "commitCount": 20
 }
