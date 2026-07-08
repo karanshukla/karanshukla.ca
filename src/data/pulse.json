@@ -1,5 +1,5 @@
 {
-  "summary": "karan added email changing to openresto, fixed a bug preventing past booking cancellations, and tweaked footer layout. also published blog posts as standard.site records and fixed document paths.",
-  "generatedAt": "2026-07-04T00:23:34.000Z",
+  "summary": "karan swapped the frontend styling system to unistyles, ported all themes and components, then cleaned up. refactored backend with typed exceptions, domain logic in entities, and extracted services. also hid empty home highlights and added e2e tests.",
+  "generatedAt": "2026-07-07T01:58:11.000Z",
   "commitCount": 20
 }
