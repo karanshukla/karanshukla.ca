@@ -72,21 +72,28 @@ export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState(!isMobile && isLandscape());
   const location = useLocation();
 
+  // Adjusted during render rather than in an effect, per
+  // https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
+  const [prevPathname, setPrevPathname] = React.useState(location.pathname);
+  const [prevIsMobile, setPrevIsMobile] = React.useState(isMobile);
+
+  // On mobile, close drawer when the route changes (nav tap)
+  if (location.pathname !== prevPathname) {
+    setPrevPathname(location.pathname);
+    if (isMobile) setDrawerOpen(false);
+  }
+
+  // Re-sync when breakpoint flips (e.g. device rotation)
+  if (isMobile !== prevIsMobile) {
+    setPrevIsMobile(isMobile);
+    setDrawerOpen(!isMobile && isLandscape());
+  }
+
   // Scroll to top on route change
   React.useEffect(() => {
     const el = document.getElementById('main-content');
     if (el?.scrollTo) el.scrollTo({ top: 0 });
   }, [location.pathname]);
-
-  // On mobile, close drawer when the route changes (nav tap)
-  React.useEffect(() => {
-    if (isMobile) setDrawerOpen(false);
-  }, [location.pathname, isMobile]);
-
-  // Re-sync when breakpoint flips (e.g. device rotation)
-  React.useEffect(() => {
-    setDrawerOpen(!isMobile && isLandscape());
-  }, [isMobile]);
 
   const { theme, toggleTheme, isDark } = useAppTheme();
   useKeyboardShortcuts();
