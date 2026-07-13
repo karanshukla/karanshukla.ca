@@ -64,20 +64,21 @@ function HomeContent() {
             <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
               <Paper sx={{ p: 3, width: '100%', display: 'flex', flexDirection: 'column' }}>
                 <Typography variant="h6" gutterBottom>
-                  navyfragen
+                  openresto
                 </Typography>
                 <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} gutterBottom>
-                  bluesky q&a messaging platform
+                  open source restaurant booking system
                 </Typography>
                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
-                  anonymous q&a platform on bluesky's at protocol - users receive questions and post
-                  answers to their followers. node.js/react (mantine ui), waf-protected, with a
-                  microservice for answer card images and crons for notification processing
+                  a self-hosted, cloudless table booking system for restaurants - no fees, no data
+                  collection, no vendor lock-in. asp.net backend with sqlite, a react native mobile
+                  frontend, and full brand customisability, fully dockerised for quick
+                  self-deployment
                 </Typography>
                 <RepoStats
                   owner="karanshukla"
-                  repo="navyfragen-app"
-                  url="https://github.com/karanshukla/navyfragen-app"
+                  repo="openresto"
+                  url="https://github.com/karanshukla/openresto"
                 />
               </Paper>
             </Grid>
