@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed kysely queries in navyfragen, patched mlb api bugs for boxscores and player search, added a railway wrapper for mcp deployment, and polished account switching in navyfragen.",
-  "generatedAt": "2026-07-10T01:48:40.000Z",
-  "commitCount": 20
+  "summary": "karan added a dynamic opengraph service, fixed banner generation and styling, and cleaned up pngs. also fixed railway mount and login button session handling. swapped to react query directly. boosted test coverage in totalwarhammer app.",
+  "generatedAt": "2026-07-13T01:43:43.000Z",
+  "commitCount": 21
 }
