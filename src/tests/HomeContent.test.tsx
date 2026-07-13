@@ -48,7 +48,7 @@ describe('HomeContent', () => {
 
   it('renders both project card titles', () => {
     render(<HomeContent />);
-    expect(screen.getByText('navyfragen')).toBeInTheDocument();
+    expect(screen.getByText('openresto')).toBeInTheDocument();
     expect(screen.getByText('asher-cli')).toBeInTheDocument();
   });
 
