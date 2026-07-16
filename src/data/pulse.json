@@ -1,5 +1,5 @@
 {
-  "summary": "karan added a dynamic opengraph service, fixed banner generation and styling, and cleaned up pngs. also fixed railway mount and login button session handling. swapped to react query directly. boosted test coverage in totalwarhammer app.",
-  "generatedAt": "2026-07-13T01:43:43.000Z",
-  "commitCount": 21
+  "summary": "karan fixed SITE_URL resolution at request time, added sharing features like permalinks, OG images, RSS, and sitemap. also refactored code for clarity, redesigned admin UI, added favicons, and built dynamic OG image generation with caching.",
+  "generatedAt": "2026-07-16T01:26:25.000Z",
+  "commitCount": 20
 }
