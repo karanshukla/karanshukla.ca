@@ -20,7 +20,9 @@ afterEach(() => {
 describe('ExperienceContent', () => {
   it('renders the current role', () => {
     render(<ExperienceContent />);
-    expect(screen.getByText(/software developer \/ technical support engineer/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/software developer \/ technical support engineer/i),
+    ).toBeInTheDocument();
   });
 
   it('renders the education section', () => {
@@ -31,7 +33,7 @@ describe('ExperienceContent', () => {
   it('renders all four project cards', () => {
     render(<ExperienceContent />);
     expect(screen.getByText('navyfragen')).toBeInTheDocument();
-    expect(screen.getByText('openresto')).toBeInTheDocument();
+    expect(screen.getByText('asher-cli')).toBeInTheDocument();
     expect(screen.getByText('twtournament')).toBeInTheDocument();
     expect(screen.getByText('sportsbook-meow')).toBeInTheDocument();
   });
@@ -39,7 +41,6 @@ describe('ExperienceContent', () => {
   it('renders live urls for projects', () => {
     render(<ExperienceContent />);
     expect(screen.getByText('navyfragen.app')).toBeInTheDocument();
-    expect(screen.getByText('openres.to')).toBeInTheDocument();
     expect(screen.getByText('twtournament.app')).toBeInTheDocument();
   });
 

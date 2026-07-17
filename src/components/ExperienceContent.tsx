@@ -16,19 +16,18 @@ const projects = [
     title: 'navyfragen',
     subtitle: 'anonymous q&a platform on bluesky',
     description:
-      'a q&a messaging system built on top of bluesky\'s AT Protocol, similar to ask.fm or curiouscat. users receive anonymous questions and post answers directly to their bluesky followers. node.js backend, react/mantine ui frontend, waf-protected. includes a microservice for answer card image generation, cron jobs for notification processing, and a companion feed generator (navyfragen-feed) that surfaces answered questions across the network.',
+      "a q&a messaging system built on top of bluesky's AT Protocol, similar to ask.fm or curiouscat. users receive anonymous questions and post answers directly to their bluesky followers. node.js backend, react/mantine ui frontend, waf-protected. includes a microservice for answer card image generation and cron jobs for notification processing, plus a companion feed generator for the network.",
     techStack: ['TypeScript', 'Node.js', 'React', 'Mantine UI', 'AT Protocol'],
     liveUrl: 'https://navyfragen.app',
   },
   {
     owner: 'karanshukla',
-    repo: 'openresto',
-    title: 'openresto',
-    subtitle: 'open source restaurant booking system',
+    repo: 'asher-cli',
+    title: 'asher-cli',
+    subtitle: 'cli application for managing litter robot products with real time monitoring',
     description:
-      'a self-hosted, cloudless table booking system for restaurants - no fees, no data collection, no vendor lock-in. asp.net backend with sqlite, a react native mobile frontend, and full brand customisability built in. supports multiple restaurant instances per deployment with customer-facing email confirmations via your own smtp address. fully dockerised for quick self-deployment, with playwright covering e2e testing.',
-    techStack: ['TypeScript', 'ASP.NET', 'React Native', 'SQLite', 'Docker', 'Playwright'],
-    liveUrl: 'https://openres.to',
+      "a claude code style program that can monitor and manage the litter robot line of products, as well as gather cat data from the device in real time, including litter box cycles, waste levels, and pet weight trends. uses a reverse engineered python library to interact with whisker's cloud API, and is published as a pip package for easy installation and updates.",
+    techStack: ['Python'],
   },
   {
     owner: 'karanshukla',
@@ -36,7 +35,7 @@ const projects = [
     title: 'twtournament',
     subtitle: 'tournament organizer for total war: warhammer',
     description:
-      'a utility app for organizing and managing tournaments for the total war warhammer series. handles bracket generation, match tracking, and results with real-time updates via websockets. react frontend with chakra ui, mongodb for persistent tournament data, and redis for sessions and live statistics. built for the community as a planning and coordination tool.',
+      'a utility app for organizing and managing tournaments for the total war warhammer series. handles bracket generation, match tracking, and results with real-time updates via websockets. react frontend with chakra ui, mongodb for persistent tournament data, and redis for sessions and live statistics. built for the community as a free planning and coordination tool.',
     techStack: ['TypeScript', 'React', 'Chakra UI', 'MongoDB', 'Redis', 'WebSocket'],
     liveUrl: 'https://twtournament.app',
   },
@@ -46,7 +45,7 @@ const projects = [
     title: 'sportsbook-meow',
     subtitle: 'real-time sportsbook ad replacement with cats',
     description:
-      'detects and replaces sportsbook betting logos in sports broadcast video - local files and live streams - with random cat photos in real time. uses a fine-tuned yolov8s model (mAP50 0.94+), a local websocket inference server for streaming frame data to the browser, and an extension for chrome, edge, and firefox that handles the live replacement.',
+      'detects and replaces sportsbook betting logos in sports broadcast video - local files and live streams - with random cat photos in real time. uses a fine-tuned yolov8s model (mAP50 0.94+), a local websocket inference server for streaming frame data to the browser, and a browser extension for chrome, edge, and firefox that handles the live replacement seamlessly.',
     techStack: ['Python', 'YOLOv8', 'TypeScript', 'WebSocket'],
   },
 ];
@@ -63,10 +62,20 @@ function ExperienceContent() {
             </Typography>
             <Typography variant="body1" component="div">
               <List>
-                <ListItem>working with a php backend and react frontend to build and ship new features and bug fixes</ListItem>
-                <ListItem>developing restful apis and integrations with other saas platforms to improve customer workflows</ListItem>
-                <ListItem>reworked in-app user permission systems to improve access control</ListItem>
-                <ListItem>built internal tooling to improve efficiency across customer experience teams</ListItem>
+                <ListItem>
+                  working with a php backend and react frontend to build and ship new features and
+                  bug fixes
+                </ListItem>
+                <ListItem>
+                  developing restful apis and integrations with other saas platforms to improve
+                  customer workflows
+                </ListItem>
+                <ListItem>
+                  reworked in-app user permission systems to improve access control
+                </ListItem>
+                <ListItem>
+                  built internal tooling to improve efficiency across customer experience teams
+                </ListItem>
               </List>
             </Typography>
           </Paper>
@@ -81,7 +90,9 @@ function ExperienceContent() {
             </Typography>
             <Typography variant="body2" component="div">
               <List>
-                <ListItem>technical lead and analyst (saas support, escalations, sql reporting)</ListItem>
+                <ListItem>
+                  technical lead and analyst (saas support, escalations, sql reporting)
+                </ListItem>
                 <ListItem>engineering intern (plm automation, .net/c++, cad workflows)</ListItem>
               </List>
             </Typography>
@@ -109,7 +120,12 @@ function ExperienceContent() {
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Box>
             <Divider sx={{ mb: 3 }}>
-              <Typography variant="overline" sx={{ textTransform: 'none', color: 'text.secondary' }}>open source projects</Typography>
+              <Typography
+                variant="overline"
+                sx={{ textTransform: 'none', color: 'text.secondary' }}
+              >
+                open source projects
+              </Typography>
             </Divider>
             <Grid container spacing={3}>
               {projects.map((p) => (

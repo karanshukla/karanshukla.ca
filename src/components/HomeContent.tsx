@@ -72,8 +72,9 @@ function HomeContent() {
                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
                   a self-hosted, cloudless table booking system for restaurants - no fees, no data
                   collection, no vendor lock-in. asp.net backend with sqlite, a react native mobile
-                  frontend, and full brand customisability, fully dockerised for quick
-                  self-deployment
+                  frontend, and full brand customisability built in. supports multiple restaurant
+                  instances per deployment, customer email confirmations via your own smtp address,
+                  fully dockerised deployment, and playwright covering e2e testing.
                 </Typography>
                 <RepoStats
                   owner="karanshukla"
@@ -92,9 +93,10 @@ function HomeContent() {
                 </Typography>
                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
                   a monorepo of three services: an astro ssr site serving fax sports-style parody
-                  headlines for blue jays fans, a go service issuing free @username.bluejays.space
-                  bluesky handles, and a claude-powered cron job that classifies and safety-checks
-                  draft headlines before a human publishes them.
+                  headlines for blue jays fans, backed by postgres with an admin review and publish
+                  workflow; a go service issuing free @username.bluejays.space bluesky custom-domain
+                  handles; and a claude-powered cron job that classifies and safety-checks draft
+                  headlines before a human publishes them.
                 </Typography>
                 <RepoStats
                   owner="karanshukla"
