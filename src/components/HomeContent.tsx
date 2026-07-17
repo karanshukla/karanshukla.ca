@@ -85,21 +85,21 @@ function HomeContent() {
             <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
               <Paper sx={{ p: 3, width: '100%', display: 'flex', flexDirection: 'column' }}>
                 <Typography variant="h6" gutterBottom>
-                  asher-cli
+                  bluejays.space
                 </Typography>
                 <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} gutterBottom>
-                  cli application for managing litter robot products with real time monitoring
+                  parody blue jays headline site plus free bluesky custom domain handles
                 </Typography>
                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
-                  a claude code style program that can monitor and manage the litter robot line of
-                  products, as well as gather cat data from the device. uses a reverse engineered
-                  python library to interact with whisker's cloud API, and is published as a pip
-                  package
+                  a monorepo of three services: an astro ssr site serving fax sports-style parody
+                  headlines for blue jays fans, a go service issuing free @username.bluejays.space
+                  bluesky handles, and a claude-powered cron job that classifies and safety-checks
+                  draft headlines before a human publishes them.
                 </Typography>
                 <RepoStats
                   owner="karanshukla"
-                  repo="asher-cli"
-                  url="https://github.com/karanshukla/asher-cli"
+                  repo="bluejays-space"
+                  url="https://github.com/karanshukla/bluejays-space"
                 />
               </Paper>
             </Grid>

@@ -49,7 +49,7 @@ describe('HomeContent', () => {
   it('renders both project card titles', () => {
     render(<HomeContent />);
     expect(screen.getByText('openresto')).toBeInTheDocument();
-    expect(screen.getByText('asher-cli')).toBeInTheDocument();
+    expect(screen.getByText('bluejays.space')).toBeInTheDocument();
   });
 
   it('renders github links after fetch resolves', async () => {
