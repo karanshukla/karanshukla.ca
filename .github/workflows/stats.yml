@@ -13,6 +13,10 @@ on:
     - cron: '0 2 * * 1'  # Every Monday at 02:00 UTC
   workflow_dispatch:
 
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
 jobs:
   stats:
     runs-on: ubuntu-latest
@@ -27,6 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
         with:
+          ref: main # Always build from the live tip of main
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
 
