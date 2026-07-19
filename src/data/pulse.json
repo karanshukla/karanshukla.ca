@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed og image serving for social previews, tweaked openresto's overflow menu and location ui, and added claude guidance to a bunch of projects.",
-  "generatedAt": "2026-07-19T01:53:37.000Z",
-  "commitCount": 20
+  "summary": "karan fixed a race condition in site deploys, added auth for scheduled workflows, and served OG images for all crawlers. they also patched overflow menu UI, location UI quirks, and boosted test coverage for auth, csrf, and services.",
+  "generatedAt": "2026-07-19T13:16:56.000Z",
+  "commitCount": 21
 }
