@@ -80,6 +80,10 @@ Vite outputs to `/build` (not `/dist`). The `CNAME` file is written by the deplo
 
 Prettier config: single quotes, semi, 2-space indent, 100-char print width, trailing commas. ESLint uses the modern flat config format (`eslint.config.js`). TypeScript strict mode is on with `noUnusedLocals` and `noUnusedParameters`.
 
+### Comments
+
+Don't add comments above functions or inline unless the WHY is genuinely non-obvious (a hidden constraint, a subtle invariant, a workaround for a specific bug). Well-named identifiers should make the WHAT self-evident. Before reaching for a comment, check whether the explanation can instead be expressed through abstraction or encapsulation — e.g. logic embedded in a component should move to a self-commenting, domain-named hook or helper rather than being explained in a comment. Favor human-readable, domain-driven names and logical flow over prose explanations, while keeping code legible to agents working in this repo.
+
 ## Tests
 
 Test files live in `src/tests/` and mirror component names. `AsherZone.ts` and `AsherZoneContent.tsx` are excluded from coverage. The setup file (`src/tests/setupTests.ts`) only polyfills `scrollIntoView` - keep it minimal.
