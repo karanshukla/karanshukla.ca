@@ -26,7 +26,7 @@ const projects = [
     title: 'asher-cli',
     subtitle: 'cli application for managing litter robot products with real time monitoring',
     description:
-      "a claude code style program that can monitor and manage the litter robot line of products, as well as gather cat data from the device in real time, including litter box cycles, waste levels, and pet weight trends. uses a reverse engineered python library to interact with whisker's cloud API, and is published as a pip package for easy installation and updates.",
+      "a claude code style program that can monitor and manage the litter robot line of products, as well as gather cat data from the device in real time, including litter box cycles, waste levels, and pet weight trends. uses a reverse engineered python library to interact with whisker's cloud API, and is published as a pip package for easy installation and updates. Also bundles and exposes an MCP Connector that auto configures to Claude Desktop and other LLM harnesses.",
     techStack: ['Python'],
   },
   {
