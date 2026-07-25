@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed a race condition in site deploys, added auth for scheduled workflows, and served OG images for all crawlers. they also patched overflow menu UI, location UI quirks, and boosted test coverage for auth, csrf, and services.",
-  "generatedAt": "2026-07-19T13:16:56.000Z",
-  "commitCount": 21
+  "summary": "karan switched the navyfragen server to bun, fixed its runtime image and ssrf guard, and patched a dependency. they also made html-to-image close chromium when idle and survive image service wake-ups. on bluejays-space, they built a go cron microservice for draft-queue email digests.",
+  "generatedAt": "2026-07-25T01:29:37.000Z",
+  "commitCount": 20
 }
