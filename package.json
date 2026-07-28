@@ -61,8 +61,7 @@
   "resolutions": {
     "vitest/vite": "^8.1.1",
     "typescript-eslint/**/typescript": "npm:@typescript/typescript6@^6.0.2",
-    "brace-expansion": "^5.0.8",
-    "react-router": "^8.3.0"
+    "brace-expansion": "^5.0.8"
   },
   "browserslist": {
     "production": [
