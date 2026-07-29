@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -108,9 +109,24 @@ function BlogPost() {
                 '& ul, & ol': { pl: 3, mb: 2 },
                 '& li': { mb: 0.5 },
                 '& img': { maxWidth: '100%', height: 'auto', borderRadius: 1, my: 2 },
+                '& table': {
+                  width: '100%',
+                  borderCollapse: 'collapse',
+                  display: 'block',
+                  overflowX: 'auto',
+                  mb: 2,
+                },
+                '& th, & td': {
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  px: 1.5,
+                  py: 1,
+                  textAlign: 'left',
+                },
+                '& th': { fontWeight: 600, bgcolor: 'action.hover' },
               }}
             >
-              <Markdown>{post.content}</Markdown>
+              <Markdown remarkPlugins={[remarkGfm]}>{post.content}</Markdown>
             </Box>
           </Paper>
         </Slide>
