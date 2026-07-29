@@ -1,5 +1,10 @@
 {
   "posts": {
+    "evaluating-ai-coding": {
+      "cid": "bafyreibyvhrrogxch475zsqp2a4pq6kp3wjmtuzzhseufyrrkmrsmt2mwi",
+      "hash": "acca8dca269560b664b9413fce23ba616d850a7858b32376bf34fca3e9f581a4",
+      "uri": "at://did:plc:jsvtouhag7lgnq75f2ze5raf/site.standard.document/3mrqvt45ll22v"
+    },
     "optimising-atproto": {
       "cid": "bafyreignlt2pm2piwoam4nlecmetik3vlxcj5z6qmdg7uqkoqln3jadxxi",
       "hash": "bace44cd1464ab54ad4857f23a48c3c89f0e3e5bb40968965afec487163cb02c",
