@@ -1,5 +1,5 @@
 {
-  "summary": "karan swapped vinoAuthFace's old histogram equalizer for tiled CLAHE, wired face-auth to polkit and bitwarden, added a photo-based FAR debug tool, and locked down embeddings with throttling. also pinned the camera by USB bus to block frame injection.",
-  "generatedAt": "2026-07-31T01:45:23.000Z",
-  "commitCount": 23
+  "summary": "karan added CI to build and deploy prebuilt binaries, fixed OpenVINO detection, and automated model downloads in deploy.sh. also fixed cargo lockfile woes after a bad tract-onnx bump.",
+  "generatedAt": "2026-08-01T01:46:34.000Z",
+  "commitCount": 20
 }
