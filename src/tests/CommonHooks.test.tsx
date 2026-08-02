@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { useGitHubRepo, useAppTheme, useKeyboardShortcuts, useLastFm, navShortcuts } from '../hooks/CommonHooks';
 
 // ── useGitHubRepo ────────────────────────────────────────────────────────────

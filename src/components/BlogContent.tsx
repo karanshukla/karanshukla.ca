@@ -2,7 +2,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Slide from '@mui/material/Slide';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { usePageTitle } from '../hooks/CommonHooks';
 import { blogPosts } from '../helpers/blogHelpers';
 
