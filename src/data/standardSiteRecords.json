@@ -9,6 +9,11 @@
       "cid": "bafyreignlt2pm2piwoam4nlecmetik3vlxcj5z6qmdg7uqkoqln3jadxxi",
       "hash": "bace44cd1464ab54ad4857f23a48c3c89f0e3e5bb40968965afec487163cb02c",
       "uri": "at://did:plc:jsvtouhag7lgnq75f2ze5raf/site.standard.document/3mprnu5tx622v"
+    },
+    "react-railway-bot-protection": {
+      "cid": "bafyreidcug32w2mznjudii2ouotx43kn6343525iekai3w6bcgm2hlloim",
+      "hash": "88303d4c9d8b9e0a8fd2ab0eaff096b9521e6f2292158795fd83941d3439df49",
+      "uri": "at://did:plc:jsvtouhag7lgnq75f2ze5raf/site.standard.document/3ms4fljdoms2v"
     }
   },
   "publication": {
