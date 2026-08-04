@@ -1,5 +1,5 @@
 {
-  "summary": "karan added CI to build and deploy prebuilt binaries, fixed OpenVINO detection, and automated model downloads in deploy.sh. also fixed cargo lockfile woes after a bad tract-onnx bump.",
-  "generatedAt": "2026-08-01T01:46:34.000Z",
-  "commitCount": 20
+  "summary": "karan debugged lid-cycling and battery sysfs hangs on wildcat lake, confirmed a cs35l56 amp fix upstream, and polished totalwarhammer stats card contrast and text selection.",
+  "generatedAt": "2026-08-04T01:21:38.000Z",
+  "commitCount": 16
 }
