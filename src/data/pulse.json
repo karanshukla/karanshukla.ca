@@ -1,5 +1,5 @@
 {
-  "summary": "karan debugged lid-cycling and battery sysfs hangs on wildcat lake, confirmed a cs35l56 amp fix upstream, and polished totalwarhammer stats card contrast and text selection.",
-  "generatedAt": "2026-08-04T01:21:38.000Z",
-  "commitCount": 16
+  "summary": "karan added bluesky handles to the site header, fixed photo crop consistency, and reworked the og preview layout. also debugged vinoWhisper's caption crashes, added session replay, and migrated to uv. corroborated intel's s0ix tool in power docs.",
+  "generatedAt": "2026-08-07T02:02:46.000Z",
+  "commitCount": 15
 }
