@@ -1,5 +1,5 @@
 {
-  "summary": "karan added bluesky handles to the site header, fixed photo crop consistency, and reworked the og preview layout. also debugged vinoWhisper's caption crashes, added session replay, and migrated to uv. corroborated intel's s0ix tool in power docs.",
-  "generatedAt": "2026-08-07T02:02:46.000Z",
-  "commitCount": 15
+  "summary": "karan added mongosh seed scripts for a wh app, fixed numeric booking refs in openresto, stopped og cards overflowing in bluejays, and shipped a ton of gaze fixes\u2014pam, daemon, config, gui, you name it.",
+  "generatedAt": "2026-08-10T00:52:45.000Z",
+  "commitCount": 41
 }
