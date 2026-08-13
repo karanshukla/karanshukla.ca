@@ -1,0 +1,27 @@
+---
+title: constraints can sometimes be good actually
+date: 2026-08-13
+description: building OpenResto, a self-hosted restaurant booking system, by choosing constraints on purpose instead of defaults
+---
+
+It's easy to expand the scope of a project to cover a myriad of different cases. I think AI assisted coding enables people to really shoot for the moon when it comes to building software. Want to revive and get modern programs running on a processor architecture from 20 years ago? Well, you can probably build it with a few prompts. Want to revive a game that's been abandoned for 10+ years by a publisher? [Just rewrite it](https://openfret.com/learn/what-is-slopsmith) (while also being 100% transparent that Claude Code wrote it).
+
+I've been working on a lot of projects recently to up my skills while also having fun building things. There's a lot of software out there now, so it's difficult to write something that has wide appeal but also carves its own niche with a specific community. One of those communities is the self-hosted community: a whole ecosystem of feature rich, fully fledged applications designed to run on your own hardware, not the cloud.
+
+This corresponds with another observation I made recently. I speak to a lot of cafe and bar owners, and the number one thing on their minds is costs. Restaurants already operate on razor thin margins, and in Toronto, restaurants that don't survive for a couple or so years fade away. With the rise of food delivery and cloud applications taking a cut, it's getting harder and harder to just serve people food, in person, with zero fuss. People have stringent expectations these days, they want to book online, know if there's availability in a specific location and bring their friends halfway through the booking. Being a host or a server is hard these days.
+
+I looked online, and I found no modern, user friendly, self-host friendly solution for restaurants that just want a booking system. You of course have OpenTable and Toast, but those are cloud SaaS applications and definitely cost money.
+
+These were the design constraints of OpenResto. I was laser focused on just getting the booking experience right, with minimal external dependencies like a cloud API to send emails or texts. I also wanted something that fits with how people use their devices. That means a mobile, touch friendly interface that connects with smartphone calendars. I don't speak for everyone, but I know people are sick of downloading apps and signing up for accounts for every little thing, so PWA support without accounts was a must.
+
+The first decision I always make with a project is the backend. This time, I needed something rock solid, stable and extensible with strict typing and good security. I went with C# and .NET. Despite having more boilerplate and complexity than something like Go or Python, its stability is what drew me to it. Although NuGet is flexible, ASP.NET has more than enough functionality out of the box for a web app, which coincides with the low-dependency ethos of the project. A more difficult decision was the database, and I went with SQLite. Having a DB that's able to be copied and pasted directly is more user and self-host friendly than something on the cloud or abstracted away by MySQL. And you know, SQLite is like 30 years old and used everywhere (many of the apps you use daily likely use SQLite internally). Since OpenResto is focused on restaurant bookings, complex relationships between tables are necessary, which removes the need for a complex ORM. EF Core slots in nicely as a result.
+
+The frontend is where my internal decision making process was tested. Vite React has been my default recently. Svelte with Tailwind was also an option. However, I ended up deciding on React Native Expo. Although Expo is designed for native applications, its PWA support is excellent as well. Native apps don't really fit with the goal of the project, but Expo kept the door open for it in a future iteration. Going mobile first with the frontend was a goal, and Expo was perfect for it. I also built a custom theming system on top of React Native, which allowed the restaurant owner to customise colours, favicons and even the PWA icons with a handful of Lucide icons. Although speed and simplicity were clear goals for the application, I wanted to provide some level of customisability to make each deployment unique.
+
+![the OpenResto stack: one constraint per tier, from Expo/React Native on the frontend, to C#/ASP.NET on the backend, to SQLite + EF Core for data](/openresto-theming.png)
+
+That's a lot of words and explanations, but I mainly wanted to drive this point home: these decisions weren't made by personal preference, but because of restrictions imposed. Every one of those choices trims the surface area of what can go wrong for hosting this on a spare machine in the back of their restaurant.
+
+None of that is exciting on its own. **The constraint is the feature.** OpenResto isn't trying to out-feature OpenTable, it's trying to be the thing a two-person cafe can run for free, forever, without ever having to think about it again. That's the whole bet.
+
+It's live now at [openres.to](https://openres.to), running for real restaurants, and the code's on GitHub if you want to see how the constraints actually shook out in practice. If you're self-hosting your own booking system, or thinking about it, I'd genuinely like to hear what broke for you.
