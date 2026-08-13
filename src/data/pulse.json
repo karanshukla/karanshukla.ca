@@ -1,5 +1,5 @@
 {
-  "summary": "karan added mongosh seed scripts for a wh app, fixed numeric booking refs in openresto, stopped og cards overflowing in bluejays, and shipped a ton of gaze fixes\u2014pam, daemon, config, gui, you name it.",
-  "generatedAt": "2026-08-10T00:52:45.000Z",
-  "commitCount": 41
+  "summary": "karan added autostart and release notifications to asher-cli. in vinoWhisper, he built a guided installer, device detection, and pulseaudio support. fixed macOS nav shortcuts in the twh app. wrote a blog post about constraints.",
+  "generatedAt": "2026-08-13T01:00:08.000Z",
+  "commitCount": 20
 }
