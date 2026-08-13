@@ -5,6 +5,11 @@
       "hash": "eea0ff24cb7dc8713b81ba885985ac22fd74342816b0c07031ec2b1ba158819a",
       "uri": "at://did:plc:jsvtouhag7lgnq75f2ze5raf/site.standard.document/3mrqvt45ll22v"
     },
+    "openresto-constraints": {
+      "cid": "bafyreibvfudmbebsdg7q4iuh7nl6gvicbucbgyvxmdtkrhdeigk6ln3xby",
+      "hash": "7cbfc1f564ded0cad88f375ee2b234e066c4614fd656fd5c27b74049559ee54e",
+      "uri": "at://did:plc:jsvtouhag7lgnq75f2ze5raf/site.standard.document/3mswg3tt6ic23"
+    },
     "optimising-atproto": {
       "cid": "bafyreignlt2pm2piwoam4nlecmetik3vlxcj5z6qmdg7uqkoqln3jadxxi",
       "hash": "bace44cd1464ab54ad4857f23a48c3c89f0e3e5bb40968965afec487163cb02c",
