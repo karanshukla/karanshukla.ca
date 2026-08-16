@@ -18,8 +18,6 @@ The first decision I always make with a project is the backend. This time, I nee
 
 The frontend is where my internal decision making process was tested. Vite React has been my default recently. Svelte with Tailwind was also an option. However, I ended up deciding on React Native Expo. Although Expo is designed for native applications, its PWA support is excellent as well. Native apps don't really fit with the goal of the project, but Expo kept the door open for it in a future iteration. Going mobile first with the frontend was a goal, and Expo was perfect for it. I also built a custom theming system on top of React Native, which allowed the restaurant owner to customise colours, favicons and even the PWA icons with a handful of Lucide icons. Although speed and simplicity were clear goals for the application, I wanted to provide some level of customisability to make each deployment unique.
 
-![the OpenResto stack: one constraint per tier, from Expo/React Native on the frontend, to C#/ASP.NET on the backend, to SQLite + EF Core for data](/openresto-theming.png)
-
 That's a lot of words and explanations, but I mainly wanted to drive this point home: these decisions weren't made by personal preference, but because of restrictions imposed. Every one of those choices trims the surface area of what can go wrong for hosting this on a spare machine in the back of their restaurant.
 
 None of that is exciting on its own. **The constraint is the feature.** OpenResto isn't trying to out-feature OpenTable, it's trying to be the thing a two-person cafe can run for free, forever, without ever having to think about it again. That's the whole bet.
