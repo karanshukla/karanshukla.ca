@@ -1,5 +1,5 @@
 {
-  "summary": "karan added autostart and release notifications to asher-cli. in vinoWhisper, he built a guided installer, device detection, and pulseaudio support. fixed macOS nav shortcuts in the twh app. wrote a blog post about constraints.",
-  "generatedAt": "2026-08-13T01:00:08.000Z",
-  "commitCount": 20
+  "summary": "karan cleaned up a broken image, fixed a 500 error on bad submit bodies, locked down public routes against IP spoofing, and pinned safeFetch to validated URLs to stop SSRF snooping.",
+  "generatedAt": "2026-08-16T00:36:25.000Z",
+  "commitCount": 21
 }
