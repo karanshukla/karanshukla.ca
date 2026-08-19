@@ -1,5 +1,5 @@
 {
-  "summary": "karan cleaned up a broken image, fixed a 500 error on bad submit bodies, locked down public routes against IP spoofing, and pinned safeFetch to validated URLs to stop SSRF snooping.",
-  "generatedAt": "2026-08-16T00:36:25.000Z",
-  "commitCount": 21
+  "summary": "karan made the date picker keyboard-navigable, fixed time picker focus quirks, and squashed a scrollbar jump in route transitions. he also rebuilt Select as a combobox, cleaned up four custom popups, and added an append-only admin audit trail with sanitized fields and a fresh Activity screen design.",
+  "generatedAt": "2026-08-19T00:35:09.000Z",
+  "commitCount": 20
 }
