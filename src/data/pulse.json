@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed partial admin booking lookup, surfaced stranded bookings on dashboard and conflicts above forms. resolved overnight service availability issues, added timezone change warnings, and composed guest notices for moved bookings.",
-  "generatedAt": "2026-08-22T00:34:44.000Z",
-  "commitCount": 20
+  "summary": "karan swapped 57 error messages for clean codes, relabeled the profanity filter as english-only, and fixed a web fetch issue with undici. also wrote real opengraph headlines and added env-based locale resolution.",
+  "generatedAt": "2026-08-25T00:35:38.000Z",
+  "commitCount": 6
 }
