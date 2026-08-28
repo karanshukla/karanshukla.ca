@@ -1,5 +1,5 @@
 {
-  "summary": "karan swapped 57 error messages for clean codes, relabeled the profanity filter as english-only, and fixed a web fetch issue with undici. also wrote real opengraph headlines and added env-based locale resolution.",
-  "generatedAt": "2026-08-25T00:35:38.000Z",
-  "commitCount": 6
+  "summary": "karan fixed cli cosmetic bugs, added version drift warnings, and built admin api key management with scoped access. also improved booking search visibility, localized error messages, and hid prod infrastructure errors.",
+  "generatedAt": "2026-08-28T07:29:38.000Z",
+  "commitCount": 20
 }
