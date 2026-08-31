@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed cli cosmetic bugs, added version drift warnings, and built admin api key management with scoped access. also improved booking search visibility, localized error messages, and hid prod infrastructure errors.",
-  "generatedAt": "2026-08-28T07:29:38.000Z",
+  "summary": "karan decoupled the app's bluesky identity from its branding, scrubbed asset filenames of brand references. added deepL-audited locale catalogs and profanity filters for five languages. in gaze, fixed gnome face auth fallbacks, added full opensuse tumbleweed support. for openresto, fleshed out email error types and tier-1 cli commands.",
+  "generatedAt": "2026-08-31T02:07:52.000Z",
   "commitCount": 20
 }
