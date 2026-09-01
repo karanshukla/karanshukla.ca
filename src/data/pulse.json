@@ -1,5 +1,5 @@
 {
-  "summary": "karan decoupled the app's bluesky identity from its branding, scrubbed asset filenames of brand references. added deepL-audited locale catalogs and profanity filters for five languages. in gaze, fixed gnome face auth fallbacks, added full opensuse tumbleweed support. for openresto, fleshed out email error types and tier-1 cli commands.",
-  "generatedAt": "2026-08-31T02:07:52.000Z",
+  "summary": "karan fixed an app password session bug in heron, refactored navyfragen's theming system, made openresto bookings more secure, and improved upload handling in heron.",
+  "generatedAt": "2026-09-01T02:28:11.000Z",
   "commitCount": 20
 }
