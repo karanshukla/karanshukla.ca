@@ -35,7 +35,7 @@ describe('ExperienceContent', () => {
     expect(screen.getByText('navyfragen')).toBeInTheDocument();
     expect(screen.getByText('asher-cli')).toBeInTheDocument();
     expect(screen.getByText('twtournament')).toBeInTheDocument();
-    expect(screen.getByText('sportsbook-meow')).toBeInTheDocument();
+    expect(screen.getByText('vinowhisper')).toBeInTheDocument();
   });
 
   it('renders live urls for projects', () => {

@@ -41,12 +41,12 @@ const projects = [
   },
   {
     owner: 'karanshukla',
-    repo: 'sportsbook-meow',
-    title: 'sportsbook-meow',
-    subtitle: 'real-time sportsbook ad replacement with cats',
+    repo: 'vinoWhisper',
+    title: 'vinowhisper',
+    subtitle: 'npu-accelerated local live captioning for linux',
     description:
-      'detects and replaces sportsbook betting logos in sports broadcast video - local files and live streams - with random cat photos in real time. uses a fine-tuned yolov8s model (mAP50 0.94+), a local websocket inference server for streaming frame data to the browser, and a browser extension for chrome, edge, and firefox that handles the live replacement seamlessly.',
-    techStack: ['Python', 'YOLOv8', 'TypeScript', 'WebSocket'],
+      'captions whatever is playing on the machine directly in the terminal, with nothing leaving the device. runs whisper on an intel npu through openvino genai, capturing system audio or the mic via pipewire, and commits words only once two overlapping cycles agree so the transcript stays stable. ships as a pip package with a guided setup that handles the npu driver, model export, and systemd units, plus doctor and replay tools for tuning offline.',
+    techStack: ['Python', 'OpenVINO', 'Whisper', 'PipeWire'],
   },
 ];
 
