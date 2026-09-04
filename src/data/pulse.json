@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed an app password session bug in heron, refactored navyfragen's theming system, made openresto bookings more secure, and improved upload handling in heron.",
-  "generatedAt": "2026-09-01T02:28:11.000Z",
-  "commitCount": 20
+  "summary": "karan added a table hold warning for guests, polished the native guest app with platform-specific UI tweaks, fixed the lookup sheet's draggable area, and refined the wallet test repos.",
+  "generatedAt": "2026-09-04T01:49:19.000Z",
+  "commitCount": 30
 }
