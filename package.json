@@ -57,7 +57,7 @@
     "typescript-eslint": "^8.62.1",
     "vite": "^8.1.1",
     "vite-plugin-image-optimizer": "^2.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.11"
   },
   "resolutions": {
     "vitest/vite": "^8.1.1",
