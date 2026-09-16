@@ -7,12 +7,14 @@ Run by the pulse.yml GitHub Actions workflow every 3 days.
 import json
 import os
 import sys
+import time
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone, timedelta
 
 GITHUB_USER = "karanshukla"
 OUTPUT_PATH = "src/data/pulse.json"
+MODEL_ATTEMPTS = 3
 
 token = os.environ.get("MISTRAL_API_KEY")
 if not token:
@@ -156,12 +158,26 @@ model_req = urllib.request.Request(
     method="POST",
 )
 
-try:
-    with urllib.request.urlopen(model_req) as resp:
-        model_data = json.loads(resp.read())
-except urllib.error.HTTPError as e:
-    print(f"Model API error: {e.code} {e.read().decode()}", file=sys.stderr)
-    sys.exit(1)
+model_data = None
+for attempt in range(MODEL_ATTEMPTS):
+    try:
+        with urllib.request.urlopen(model_req) as resp:
+            model_data = json.loads(resp.read())
+        break
+    except urllib.error.HTTPError as e:
+        print(f"Model API error: {e.code} {e.read().decode()}", file=sys.stderr)
+        if e.code != 429 and e.code < 500:
+            break
+        if attempt < MODEL_ATTEMPTS - 1:
+            backoff = 15 * 2**attempt
+            print(f"[debug] retrying in {backoff}s", file=sys.stderr)
+            time.sleep(backoff)
+
+# A rate-limited or down model must not block the build and deploy steps that
+# follow this script in pulse.yml -- keep the previous summary instead.
+if model_data is None:
+    print("Model unavailable -- pulse.json unchanged.")
+    sys.exit(0)
 
 summary = model_data["choices"][0]["message"]["content"].strip()
 print(f"[debug] summary ({len(summary)} chars): {summary}")
