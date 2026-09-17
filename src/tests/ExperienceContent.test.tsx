@@ -32,16 +32,15 @@ describe('ExperienceContent', () => {
 
   it('renders all four project cards', () => {
     render(<ExperienceContent />);
-    expect(screen.getByText('navyfragen')).toBeInTheDocument();
+    expect(screen.getByText('kodamachi')).toBeInTheDocument();
     expect(screen.getByText('asher-cli')).toBeInTheDocument();
-    expect(screen.getByText('twtournament')).toBeInTheDocument();
+    expect(screen.getByText('waydroid-tray')).toBeInTheDocument();
     expect(screen.getByText('vinowhisper')).toBeInTheDocument();
   });
 
   it('renders live urls for projects', () => {
     render(<ExperienceContent />);
     expect(screen.getByText('navyfragen.app')).toBeInTheDocument();
-    expect(screen.getByText('twtournament.app')).toBeInTheDocument();
   });
 
   it('shows github links after fetch resolves', async () => {

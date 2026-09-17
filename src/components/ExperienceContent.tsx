@@ -12,9 +12,9 @@ import { usePageTitle } from '../hooks/CommonHooks';
 const projects = [
   {
     owner: 'karanshukla',
-    repo: 'navyfragen-app',
-    title: 'navyfragen',
-    subtitle: 'anonymous q&a platform on bluesky',
+    repo: 'kodamachi',
+    title: 'kodamachi',
+    subtitle: 'anonymous q&a platform on bluesky, formerly navyfragen',
     description:
       "a q&a messaging system built on top of bluesky's AT Protocol, similar to ask.fm or curiouscat. users receive anonymous questions and post answers directly to their bluesky followers. node.js backend, react/mantine ui frontend, waf-protected. includes a microservice for answer card image generation and cron jobs for notification processing, plus a companion feed generator for the network.",
     techStack: ['TypeScript', 'Node.js', 'React', 'Mantine UI', 'AT Protocol'],
@@ -31,13 +31,12 @@ const projects = [
   },
   {
     owner: 'karanshukla',
-    repo: 'totalwarhammer-tournament-app',
-    title: 'twtournament',
-    subtitle: 'tournament organizer for total war: warhammer',
+    repo: 'waydroid-tray',
+    title: 'waydroid-tray',
+    subtitle: 'kde plasma tray icon for waydroid',
     description:
-      'a utility app for organizing and managing tournaments for the total war warhammer series. handles bracket generation, match tracking, and results with real-time updates via websockets. react frontend with chakra ui, mongodb for persistent tournament data, and redis for sessions and live statistics. built for the community as a free planning and coordination tool.',
-    techStack: ['TypeScript', 'React', 'Chakra UI', 'MongoDB', 'Redis', 'WebSocket'],
-    liveUrl: 'https://twtournament.app',
+      "waydroid runs android in the background with no tray icon of its own, so there's no way to see or stop a session without a terminal. this adds one: a monochrome icon that follows the panel's colours and shows whether the session is stopped, frozen, or running, with a menu to start and stop it, freeze it, stop the leftover container service over d-bus, and launch installed android apps straight from the panel.",
+    techStack: ['Rust', 'KDE Plasma', 'D-Bus'],
   },
   {
     owner: 'karanshukla',
