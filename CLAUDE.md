@@ -39,11 +39,11 @@ The repo has two top-level concerns:
 
 ### Component model
 
-`Home.tsx` is the persistent shell: it owns the MUI drawer, AppBar, theme provider, and keyboard shortcuts. Page components are rendered inside it as route children. All hooks live in `src/hooks/CommonHooks.tsx` - this is the single file for `useAppTheme`, `useLastFm`, `useKeyboardShortcuts`, `usePageTitle`, and `useGitHubRepo`.
+`Home.tsx` is the persistent shell: it owns the MUI drawer (a modal `temporary` drawer below the `sm` breakpoint, a collapsible permanent rail from `sm` up), AppBar, theme provider, and keyboard shortcuts. Page components are rendered inside it as route children. All hooks live in `src/hooks/CommonHooks.tsx` - this is the single file for `useAppTheme`, `useLastFm`, `useKeyboardShortcuts`, `usePageTitle`, and `useGitHubRepo`.
 
 ### Theme
 
-`useAppTheme()` manages light/dark mode. State persists to `localStorage` under the key `theme`. Default is dark mode. The full MUI theme object (palette, typography, component overrides) is built inside this hook - there is no separate theme file.
+`useAppTheme()` manages light/dark mode. State persists to `localStorage` under the key `theme`. Default is dark mode. The full MUI theme object (palette, typography, component overrides) is built inside this hook - there is no separate theme file. Colours follow Material You (M3): the light/dark role palettes in `src/constants/materialSchemes.ts` are generated from `THEME_SEED` with `@material/material-color-utilities` (a devDependency, kept out of the bundle) and mapped onto MUI's palette in the hook. To change the seed, update `THEME_SEED` and regenerate the values; `materialSchemes.test.ts` fails until they match.
 
 ### Static data pipeline
 

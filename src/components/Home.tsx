@@ -149,11 +149,12 @@ export default function Home() {
           </Toolbar>
         </StyledAppBar>
 
-        {/* Permanent collapsible drawer on all breakpoints */}
+        {/* Modal drawer on phones, collapsible rail from sm up */}
         <StyledDrawer
           id="nav-drawer"
-          variant="permanent"
+          variant={isMobile ? 'temporary' : 'permanent'}
           open={drawerOpen}
+          onClose={closeDrawer}
           aria-label="site navigation"
         >
           <Toolbar
@@ -195,7 +196,7 @@ export default function Home() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 12 }}>
             <Outlet />
           </Container>
         </Box>

@@ -38,8 +38,9 @@ export default defineConfig({
     server: {
       deps: {
         // Force these through Vite so the resolve.alias above fixes the
-        // directory-import issue in react-transition-group on ESM.
-        inline: ['@mui/material', 'react-transition-group'],
+        // directory-import issue in react-transition-group on ESM, and so
+        // material-color-utilities' extensionless ESM imports resolve.
+        inline: ['@mui/material', 'react-transition-group', '@material/material-color-utilities'],
       },
     },
     coverage: {
