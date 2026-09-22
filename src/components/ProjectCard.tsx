@@ -4,9 +4,12 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
+import type { SxProps } from '@mui/material/styles';
 import ForkRightIcon from '@mui/icons-material/ForkRight';
 import StarIcon from '@mui/icons-material/Star';
 import { useGitHubRepo } from '../hooks/CommonHooks';
+
+const headerLinkTouchTarget: SxProps = { display: 'inline-block', px: 1, py: '14px', mx: -1, my: '-14px' };
 
 interface ProjectCardProps {
   owner: string;
@@ -65,11 +68,11 @@ export default function ProjectCard({
       <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
         <Typography variant="h6">{title}</Typography>
         {liveUrl ? (
-          <Link href={liveUrl} target="_blank" rel="noopener noreferrer" variant="caption" aria-label={`${title} live site (opens in new tab)`}>
+          <Link href={liveUrl} target="_blank" rel="noopener noreferrer" variant="caption" sx={headerLinkTouchTarget} aria-label={`${title} live site (opens in new tab)`}>
             {liveUrl.replace(/^https?:\/\//, '')}
           </Link>
         ) : (
-          <Link href={githubUrl} target="_blank" rel="noopener noreferrer" variant="caption" aria-label={`${title} on github (opens in new tab)`}>
+          <Link href={githubUrl} target="_blank" rel="noopener noreferrer" variant="caption" sx={headerLinkTouchTarget} aria-label={`${title} on github (opens in new tab)`}>
             github
           </Link>
         )}

@@ -128,6 +128,14 @@ export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: 
               backgroundColor: colors.surfaceContainerLow,
               borderRight: 'none',
             },
+            modal: {
+              '& .MuiDrawer-paper': { borderRadius: '0 16px 16px 0' },
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            sizeMedium: { padding: 12 },
           },
         },
         MuiListItemButton: {

@@ -11,7 +11,7 @@ const routeLabels: Record<string, string> = {
 
 const DynamicChip: React.FC = () => {
   const { pathname } = useLocation();
-  const label = routeLabels[pathname] ?? pathname.replace('/', '');
+  const label = routeLabels[pathname] ?? pathname.split('/')[1];
 
   return <Chip label={label} variant="outlined" size="small" sx={{ mx: 1 }} />;
 };

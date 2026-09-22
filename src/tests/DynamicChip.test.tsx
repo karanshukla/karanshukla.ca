@@ -31,6 +31,11 @@ describe('DynamicChip', () => {
     expect(screen.getByText('asher zone')).toBeInTheDocument();
   });
 
+  it('shows only the section for nested routes', () => {
+    renderAt('/blog/some-post');
+    expect(screen.getByText('blog')).toBeInTheDocument();
+  });
+
   it('falls back to stripped pathname for unknown routes', () => {
     renderAt('/unknown-page');
     expect(screen.getByText('unknown-page')).toBeInTheDocument();

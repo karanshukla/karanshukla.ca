@@ -6,6 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Slide from '@mui/material/Slide';
 import Typography from '@mui/material/Typography';
@@ -13,17 +14,14 @@ import { usePageTitle } from '../hooks/CommonHooks';
 import { blogPosts } from '../helpers/blogHelpers';
 
 const BackLink = () => (
-  <Link to="/blog" style={{ textDecoration: 'none', color: 'inherit' }} aria-label="back to blog">
-    <ArrowBackIcon
-      sx={{
-        color: 'text.secondary',
-        fontSize: '1.25rem',
-        display: 'block',
-        transition: 'color 0.15s',
-        '&:hover': { color: 'text.primary' },
-      }}
-    />
-  </Link>
+  <IconButton
+    component={Link}
+    to="/blog"
+    aria-label="back to blog"
+    sx={{ m: '-14px', color: 'text.secondary', '&:hover': { color: 'text.primary' } }}
+  >
+    <ArrowBackIcon sx={{ fontSize: '1.25rem' }} />
+  </IconButton>
 );
 
 function BlogPost() {
@@ -77,6 +75,7 @@ function BlogPost() {
 
             <Box
               sx={{
+                overflowWrap: 'anywhere',
                 '& h1': { typography: 'h4', mt: 4, mb: 1 },
                 '& h2': { typography: 'h5', mt: 3, mb: 1 },
                 '& h3': { typography: 'h6', mt: 3, mb: 1 },

@@ -8,11 +8,15 @@ interface StyledDrawerProps {
   open?: boolean;
 }
 
-export const StyledDrawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop): prop is keyof StyledDrawerProps => prop !== 'open'
-})<StyledDrawerProps>(
+export const StyledDrawer = styled(MuiDrawer)<StyledDrawerProps>(
   ({ theme, open = false }) => ({
     '& .MuiDrawer-paper': {
+      width: drawerWidth,
+    },
+    '&.MuiDrawer-modal': {
+      zIndex: theme.zIndex.drawer + 3,
+    },
+    '&.MuiDrawer-docked .MuiDrawer-paper': {
       position: 'relative',
       whiteSpace: 'nowrap',
       width: drawerWidth,
@@ -35,7 +39,7 @@ export const StyledDrawer = styled(MuiDrawer, {
           justifyContent: 'center',
           margin: '2px 4px',
           width: 'calc(100% - 8px)',
-          padding: '8px 0',
+          padding: '12px 0',
         },
         '& .MuiListItemIcon-root': {
           minWidth: 0,
