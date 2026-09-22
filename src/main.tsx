@@ -12,6 +12,9 @@ import HobbyContent from './components/HobbyContent.tsx';
 import AsherZoneContent from './components/AsherZoneContent.tsx';
 import BlogContent from './components/BlogContent.tsx';
 import BlogPost from './components/BlogPost.tsx';
+import { moveUrlPathIntoHashRoute } from './helpers/CommonHelpers.ts';
+
+moveUrlPathIntoHashRoute();
 
 const router = createHashRouter([
   {
