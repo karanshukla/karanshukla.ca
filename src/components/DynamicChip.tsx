@@ -13,19 +13,7 @@ const DynamicChip: React.FC = () => {
   const { pathname } = useLocation();
   const label = routeLabels[pathname] ?? pathname.replace('/', '');
 
-  return (
-    <Chip
-      label={label}
-      variant="outlined"
-      size="small"
-      sx={{
-        mx: 1,
-        color: 'inherit',
-        borderColor: 'rgba(255,255,255,0.5)',
-        fontWeight: 500,
-      }}
-    />
-  );
+  return <Chip label={label} variant="outlined" size="small" sx={{ mx: 1 }} />;
 };
 
 export default DynamicChip;

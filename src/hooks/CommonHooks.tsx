@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { createTheme, Theme, alpha } from '@mui/material/styles';
+import { createTheme, Theme } from '@mui/material/styles';
+import { materialSchemes } from '../constants/materialSchemes';
 
 // --- GitHub API ---
 
@@ -82,139 +83,111 @@ export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: 
     localStorage.setItem('theme', next);
   };
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-          primary: {
-            main: mode === 'dark' ? '#5c8ee8' : '#1565c0',
-            light: mode === 'dark' ? '#82aaff' : '#5e92f3',
-            dark: mode === 'dark' ? '#3a6bc7' : '#003c8f',
-            contrastText: '#ffffff',
+  const theme = useMemo(() => {
+    const colors = materialSchemes[mode];
+    return createTheme({
+      palette: {
+        mode,
+        primary: { main: colors.primary, contrastText: colors.onPrimary },
+        secondary: { main: colors.secondary },
+        error: { main: colors.error },
+        background: { default: colors.surface, paper: colors.surfaceContainer },
+        text: { primary: colors.onSurface, secondary: colors.onSurfaceVariant },
+        divider: colors.outlineVariant,
+      },
+      typography: {
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+        h3: { fontWeight: 400 },
+        h4: { fontWeight: 400 },
+        h5: { fontWeight: 400 },
+        h6: { fontWeight: 500 },
+        button: { textTransform: 'none', fontWeight: 500 },
+      },
+      shape: {
+        borderRadius: 12,
+      },
+      components: {
+        MuiPaper: {
+          defaultProps: { elevation: 0 },
+          styleOverrides: {
+            root: { backgroundImage: 'none' },
           },
-          secondary: {
-            main: mode === 'dark' ? '#90caf9' : '#1976d2',
-          },
-          background: {
-            default: mode === 'dark' ? '#0d1117' : '#f0f4f8',
-            paper: mode === 'dark' ? '#161b22' : '#ffffff',
-          },
-          text: {
-            primary: mode === 'dark' ? '#e6edf3' : '#1a1a2e',
-            secondary: mode === 'dark' ? '#8b949e' : '#4a5568',
-            disabled: mode === 'dark' ? '#6e7681' : '#9ca3af',
-          },
-          divider: mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
         },
-        typography: {
-          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-          h3: { fontWeight: 600 },
-          h4: { fontWeight: 600 },
-          h5: { fontWeight: 600 },
-          h6: { fontWeight: 600 },
+        MuiAppBar: {
+          defaultProps: { elevation: 0 },
+          styleOverrides: {
+            root: {
+              backgroundColor: colors.surface,
+              color: colors.onSurface,
+            },
+          },
         },
-        shape: {
-          borderRadius: 10,
+        MuiDrawer: {
+          styleOverrides: {
+            paper: {
+              backgroundColor: colors.surfaceContainerLow,
+              borderRight: 'none',
+            },
+          },
         },
-        components: {
-          MuiPaper: {
-            styleOverrides: {
-              root: ({ theme }) => ({
-                backgroundImage: 'none',
-                ...(theme.palette.mode === 'light' && {
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06)',
-                  border: '1px solid rgba(0,0,0,0.07)',
-                }),
-              }),
-            },
-          },
-          MuiAppBar: {
-            styleOverrides: {
-              root: ({ theme }) => ({
-                backgroundImage: 'none',
-                ...(theme.palette.mode === 'light'
-                  ? {
-                      backgroundColor: theme.palette.primary.main,
-                      color: theme.palette.primary.contrastText,
-                      boxShadow: '0 1px 8px rgba(0,0,0,0.15)',
-                    }
-                  : {
-                      backgroundColor: '#161b22',
-                      borderBottom: '1px solid rgba(255,255,255,0.08)',
-                      boxShadow: 'none',
-                    }),
-              }),
-            },
-          },
-          MuiDrawer: {
-            styleOverrides: {
-              paper: ({ theme }) => ({
-                backgroundImage: 'none',
-                ...(theme.palette.mode === 'light'
-                  ? {
-                      backgroundColor: '#ffffff',
-                      borderRight: '1px solid rgba(0,0,0,0.1)',
-                    }
-                  : {
-                      backgroundColor: '#161b22',
-                      borderRight: '1px solid rgba(255,255,255,0.08)',
-                    }),
-              }),
-            },
-          },
-          MuiListItemButton: {
-            styleOverrides: {
-              root: ({ theme }) => ({
-                borderRadius: 8,
-                margin: '2px 8px',
-                width: 'calc(100% - 16px)',
-                '&.active, &[aria-current="page"]': {
-                  backgroundColor:
-                    theme.palette.mode === 'light'
-                      ? alpha(theme.palette.primary.main, 0.12)
-                      : alpha(theme.palette.primary.main, 0.2),
-                  color: theme.palette.primary.main,
-                  '& .MuiListItemIcon-root': {
-                    color: theme.palette.primary.main,
-                  },
-                },
-                '&:hover': {
-                  backgroundColor:
-                    theme.palette.mode === 'light'
-                      ? alpha(theme.palette.primary.main, 0.08)
-                      : alpha(theme.palette.primary.main, 0.12),
-                },
-              }),
-            },
-          },
-          MuiListItemIcon: {
-            styleOverrides: {
-              root: {
-                minWidth: 40,
+        MuiListItemButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: 28,
+              margin: '2px 12px',
+              width: 'calc(100% - 24px)',
+              '&.active, &[aria-current="page"]': {
+                backgroundColor: colors.secondaryContainer,
+                color: colors.onSecondaryContainer,
+                '& .MuiListItemIcon-root': { color: colors.onSecondaryContainer },
+              },
+              '&.active:hover, &[aria-current="page"]:hover': {
+                backgroundColor: colors.secondaryContainer,
               },
             },
           },
-          MuiChip: {
-            styleOverrides: {
-              root: {
-                fontWeight: 500,
-              },
-            },
+        },
+        MuiListItemIcon: {
+          styleOverrides: {
+            root: { minWidth: 40, color: colors.onSurfaceVariant },
           },
-          MuiFab: {
-            styleOverrides: {
-              root: ({ theme }) => ({
-                ...(theme.palette.mode === 'light' && {
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
-                }),
-              }),
+        },
+        MuiDivider: {
+          styleOverrides: {
+            root: { borderColor: colors.outlineVariant },
+          },
+        },
+        MuiChip: {
+          styleOverrides: {
+            root: { borderRadius: 8, fontWeight: 500 },
+            outlined: { borderColor: colors.outline },
+          },
+        },
+        MuiButton: {
+          styleOverrides: {
+            root: { borderRadius: 20 },
+          },
+        },
+        MuiFab: {
+          styleOverrides: {
+            root: {
+              borderRadius: 16,
+              backgroundColor: colors.primaryContainer,
+              color: colors.onPrimaryContainer,
+              boxShadow: '0 1px 3px rgba(0,0,0,0.3), 0 4px 8px 3px rgba(0,0,0,0.15)',
+              '&:hover': { backgroundColor: colors.primaryContainer },
             },
           },
         },
-      }),
-    [mode],
-  );
+      },
+    });
+  }, [mode]);
+
+  useEffect(() => {
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', theme.palette.background.default);
+  }, [theme]);
 
   return { theme, toggleTheme, isDark: mode === 'dark' };
 };

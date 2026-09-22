@@ -62,7 +62,7 @@ function BlogPost() {
                 <BackLink />
               </Box>
               <Box>
-                <Typography component="h1" variant="h5" sx={{ fontWeight: 600, lineHeight: 1.3 }}>
+                <Typography component="h1" variant="h5" sx={{ fontWeight: 500, lineHeight: 1.3 }}>
                   {post.title}
                 </Typography>
                 {post.date && (
