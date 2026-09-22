@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { prerenderBlogPages } from './prerenderBlogPages';
 
 export default defineConfig({
   plugins: [
@@ -11,6 +12,7 @@ export default defineConfig({
       jpg: { quality: 80 },
       jpeg: { quality: 80 },
     }),
+    prerenderBlogPages(),
   ],
   base: '/',
   resolve: {

@@ -129,7 +129,7 @@ def now_iso():
 # Bump this whenever the shape/content of the generated record changes (e.g.
 # the path format) so existing posts get republished even though their
 # source markdown didn't change.
-RECORD_SCHEMA_VERSION = 2
+RECORD_SCHEMA_VERSION = 3
 
 
 def content_hash(post):
@@ -224,10 +224,9 @@ for post in posts:
         "site": publication_uri,
         "title": post["title"],
         "publishedAt": to_iso(post["date"]),
-        # This site uses a hash router (see src/main.tsx), so the real,
-        # resolvable URL for a post is /#/blog/<slug> - a bare /blog/<slug>
-        # 404s on GitHub Pages since there's no SPA fallback.
-        "path": f"/#/blog/{post['slug']}",
+        # /blog/<slug> is a static page prerendered at build time (see
+        # prerenderBlogPages.ts) carrying this record's verification <link>.
+        "path": f"/blog/{post['slug']}",
         "description": post["description"],
         "textContent": markdown_to_text(post["content"]),
     }
