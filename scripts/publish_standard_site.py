@@ -81,6 +81,10 @@ def markdown_to_text(md):
     return text.strip()
 
 
+def absolutize_site_urls(md):
+    return re.sub(r"(\]\()/(?!/)", rf"\1{SITE_URL}/", md)
+
+
 def load_posts():
     posts = []
     for filename in sorted(os.listdir(POSTS_DIR)):
@@ -129,7 +133,7 @@ def now_iso():
 # Bump this whenever the shape/content of the generated record changes (e.g.
 # the path format) so existing posts get republished even though their
 # source markdown didn't change.
-RECORD_SCHEMA_VERSION = 3
+RECORD_SCHEMA_VERSION = 4
 
 
 def content_hash(post):
@@ -229,6 +233,10 @@ for post in posts:
         "path": f"/blog/{post['slug']}",
         "description": post["description"],
         "textContent": markdown_to_text(post["content"]),
+        "content": {
+            "$type": "site.standard.content.markdown",
+            "text": absolutize_site_urls(post["content"]),
+        },
     }
 
     if existing:

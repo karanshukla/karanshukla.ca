@@ -93,6 +93,18 @@ describe('Home', () => {
     expect(screen.getByText('karan shukla')).toBeInTheDocument();
   });
 
+  it('uses a modal drawer on mobile that opens over the page and closes on Escape', () => {
+    Object.defineProperty(window, 'matchMedia', { writable: true, value: mockMatchMedia(true) });
+    renderHome();
+    expect(screen.queryByText('experience')).not.toBeInTheDocument();
+
+    fireEvent.click(getDrawerToggleBtn(/open navigation drawer/i));
+    expect(screen.getByText('experience')).toBeInTheDocument();
+
+    fireEvent.keyDown(screen.getByText('experience'), { key: 'Escape' });
+    expect(getDrawerToggleBtn(/open navigation drawer/i)).toBeInTheDocument();
+  });
+
   it('shows DynamicChip on mobile with drawer closed', () => {
     // isMobile = true → matchMedia('(max-width:599px)').matches = true
     Object.defineProperty(window, 'matchMedia', { writable: true, value: mockMatchMedia(true) });
