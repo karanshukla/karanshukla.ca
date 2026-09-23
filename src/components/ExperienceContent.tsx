@@ -28,7 +28,7 @@ const projects = [
     description:
       "a claude code style program that can monitor and manage the litter robot line of products, as well as gather cat data from the device in real time, including litter box cycles, waste levels, and pet weight trends. uses a reverse engineered python library to interact with whisker's cloud API, and is published as a pip package for easy installation and updates. Also bundles and exposes an MCP Connector that auto configures to Claude Desktop and other LLM harnesses.",
     techStack: ['Python'],
-    liveUrl: 'https://pypi.org/project/asher-cli/'
+    liveUrl: 'https://pypi.org/project/asher-cli/',
   },
   {
     owner: 'karanshukla',
@@ -38,7 +38,7 @@ const projects = [
     description:
       "waydroid runs android in the background with no tray icon of its own, so there's no way to see or stop a session without a terminal. this adds one: a monochrome icon that follows the panel's colours and shows whether the session is stopped, frozen, or running, with a menu to start and stop it, freeze it, stop the leftover container service over d-bus, and launch installed android apps straight from the panel.",
     techStack: ['Rust', 'KDE Plasma', 'D-Bus'],
-    liveurl: 'https://crates.io/crates/waydroid-tray'
+    liveUrl: 'https://crates.io/crates/waydroid-tray',
   },
   {
     owner: 'karanshukla',
@@ -48,7 +48,7 @@ const projects = [
     description:
       'captions whatever is playing on the machine directly in the terminal, with nothing leaving the device. runs whisper on an intel npu through openvino genai, capturing system audio or the mic via pipewire, and commits words only once two overlapping cycles agree so the transcript stays stable. ships as a pip package with a guided setup that handles the npu driver, model export, and systemd units, plus doctor and replay tools for tuning offline.',
     techStack: ['Python', 'OpenVINO', 'Whisper', 'PipeWire'],
-    liveUrl: 'https://pypi.org/project/vinowhisper/'
+    liveUrl: 'https://pypi.org/project/vinowhisper/',
   },
 ];
 
