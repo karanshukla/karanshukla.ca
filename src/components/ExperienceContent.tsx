@@ -18,7 +18,7 @@ const projects = [
     description:
       "a q&a messaging system built on top of bluesky's AT Protocol, similar to ask.fm or curiouscat. users receive anonymous questions and post answers directly to their bluesky followers. node.js backend, react/mantine ui frontend, waf-protected. includes a microservice for answer card image generation and cron jobs for notification processing, plus a companion feed generator for the network.",
     techStack: ['TypeScript', 'Node.js', 'React', 'Mantine UI', 'AT Protocol'],
-    liveUrl: 'https://navyfragen.app',
+    liveUrl: 'https://kodamachi.app',
   },
   {
     owner: 'karanshukla',
