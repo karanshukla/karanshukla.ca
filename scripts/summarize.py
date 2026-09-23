@@ -14,7 +14,9 @@ from datetime import datetime, timezone, timedelta
 
 GITHUB_USER = "karanshukla"
 OUTPUT_PATH = "src/data/pulse.json"
-MODEL_ATTEMPTS = 3
+# Tried in order; a model whose quota is exhausted (429) falls through to the next.
+MODELS = ["mistral-medium-latest", "mistral-small-latest", "ministral-8b-latest"]
+ATTEMPTS_PER_MODEL = 2
 
 token = os.environ.get("MISTRAL_API_KEY")
 if not token:
@@ -123,60 +125,69 @@ if not push_summaries:
 commit_text = "\n\n".join(push_summaries)
 
 # 2. Call Mistral Console API
-payload = json.dumps(
+messages = [
     {
-        "model": "mistral-medium-3.5",
-        "messages": [
-            {
-                "role": "system",
-                "content": (
-                    "you are a witty technical writer. summarize what a developer named karan "
-                    "has been working on recently based on their commit messages. write 3-4 simple "
-                    "sentences, all lowercase, casual and specific. stay under 450 characters total. "
-                    'no filler phrases like "it looks like" or "the developer". '
-                    "ignore merged prs, version bumps, dependency updates, and workflow changes. "
-                    "focus only on actual code changes: new features, bug fixes, refactors"
-                ),
-            },
-            {
-                "role": "user",
-                "content": f"recent commits:\n{commit_text}",
-            },
-        ],
-        "max_tokens": 270,
-        "temperature": 0.7,
-    }
-).encode()
-
-model_req = urllib.request.Request(
-    "https://api.mistral.ai/v1/chat/completions",
-    data=payload,
-    headers={
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json",
+        "role": "system",
+        "content": (
+            "you are a witty technical writer. summarize what a developer named karan "
+            "has been working on recently based on their commit messages. write 3-4 simple "
+            "sentences, all lowercase, casual and specific. stay under 450 characters total. "
+            'no filler phrases like "it looks like" or "the developer". '
+            "ignore merged prs, version bumps, dependency updates, and workflow changes. "
+            "focus only on actual code changes: new features, bug fixes, refactors"
+        ),
     },
-    method="POST",
-)
+    {
+        "role": "user",
+        "content": f"recent commits:\n{commit_text}",
+    },
+]
+
+
+def call_model(model):
+    body = json.dumps(
+        {
+            "model": model,
+            "messages": messages,
+            "max_tokens": 270,
+            "temperature": 0.7,
+        }
+    ).encode()
+    req = urllib.request.Request(
+        "https://api.mistral.ai/v1/chat/completions",
+        data=body,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    for attempt in range(ATTEMPTS_PER_MODEL):
+        try:
+            with urllib.request.urlopen(req) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as e:
+            print(f"Model API error ({model}): {e.code} {e.read().decode()}", file=sys.stderr)
+            if e.code != 429 and e.code < 500:
+                return None
+            if attempt < ATTEMPTS_PER_MODEL - 1:
+                print(f"[debug] retrying {model} in 15s", file=sys.stderr)
+                time.sleep(15)
+    return None
+
 
 model_data = None
-for attempt in range(MODEL_ATTEMPTS):
-    try:
-        with urllib.request.urlopen(model_req) as resp:
-            model_data = json.loads(resp.read())
+for model in MODELS:
+    model_data = call_model(model)
+    if model_data is not None:
+        print(f"[debug] summarized with {model}")
         break
-    except urllib.error.HTTPError as e:
-        print(f"Model API error: {e.code} {e.read().decode()}", file=sys.stderr)
-        if e.code != 429 and e.code < 500:
-            break
-        if attempt < MODEL_ATTEMPTS - 1:
-            backoff = 15 * 2**attempt
-            print(f"[debug] retrying in {backoff}s", file=sys.stderr)
-            time.sleep(backoff)
 
 # A rate-limited or down model must not block the build and deploy steps that
-# follow this script in pulse.yml -- keep the previous summary instead.
+# follow this script in pulse.yml -- keep the previous summary instead, but
+# surface it as a workflow warning so a stale pulse doesn't hide behind a green run.
 if model_data is None:
-    print("Model unavailable -- pulse.json unchanged.")
+    print(f"::warning::All models failed ({', '.join(MODELS)}) -- pulse.json unchanged.")
     sys.exit(0)
 
 summary = model_data["choices"][0]["message"]["content"].strip()
