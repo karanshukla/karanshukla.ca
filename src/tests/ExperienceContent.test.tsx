@@ -40,7 +40,10 @@ describe('ExperienceContent', () => {
 
   it('renders live urls for projects', () => {
     render(<ExperienceContent />);
-    expect(screen.getByText('navyfragen.app')).toBeInTheDocument();
+    expect(screen.getByText('kodamachi.app')).toBeInTheDocument();
+    expect(screen.getByText('pypi.org/project/asher-cli/')).toBeInTheDocument();
+    expect(screen.getByText('crates.io/crates/waydroid-tray')).toBeInTheDocument();
+    expect(screen.getByText('pypi.org/project/vinowhisper/')).toBeInTheDocument();
   });
 
   it('shows github links after fetch resolves', async () => {
