@@ -6,6 +6,7 @@ Run by the pulse.yml GitHub Actions workflow every 3 days.
 
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -14,9 +15,17 @@ from datetime import datetime, timezone, timedelta
 
 GITHUB_USER = "karanshukla"
 OUTPUT_PATH = "src/data/pulse.json"
-# Tried in order; a model whose quota is exhausted (429) falls through to the next.
-MODELS = ["mistral-medium-latest", "mistral-small-latest", "ministral-8b-latest"]
-ATTEMPTS_PER_MODEL = 2
+# Tried best-first; a rate-limited (429) model, or one whose output fails
+# usable_summary(), falls through to the next.
+MODELS = [
+    "mistral-large-latest",
+    "mistral-medium-latest",
+    "mistral-small-latest",
+    "ministral-14b-latest",
+    "ministral-8b-latest",
+]
+# GitHubPulse.tsx clamps the summary to 4 lines; longer text gets cut mid-word.
+MAX_SUMMARY_CHARS = 280
 
 token = os.environ.get("MISTRAL_API_KEY")
 if not token:
@@ -129,12 +138,19 @@ messages = [
     {
         "role": "system",
         "content": (
-            "you are a witty technical writer. summarize what a developer named karan "
-            "has been working on recently based on their commit messages. write 3-4 simple "
-            "sentences, all lowercase, casual and specific. stay under 450 characters total. "
-            'no filler phrases like "it looks like" or "the developer". '
-            "ignore merged prs, version bumps, dependency updates, and workflow changes. "
-            "focus only on actual code changes: new features, bug fixes, refactors"
+            "you write the one-line activity blurb on a software engineer's portfolio site. "
+            "summarize what karan has been working on, based on the commit messages below. "
+            "rules: 2-3 short sentences, all lowercase, plain text only (no markdown, "
+            "asterisks, backticks or emoji). "
+            f"stay under {MAX_SUMMARY_CHARS - 40} characters. "
+            "write in a clear, matter-of-fact tone like a changelog written by a person: "
+            "name the project and what changed. no jokes, slang, hype or exclamation marks. "
+            "always say karan, never a pronoun. "
+            "ignore merged prs, version bumps, dependency updates, typo fixes, test-only "
+            "changes and workflow changes. mention at most three changes, most significant first.\n\n"
+            "example of the right style:\n"
+            "karan added a table hold warning for guests, polished the native guest app with "
+            "platform-specific ui tweaks, and fixed the lookup sheet's draggable area."
         ),
     },
     {
@@ -149,8 +165,8 @@ def call_model(model):
         {
             "model": model,
             "messages": messages,
-            "max_tokens": 270,
-            "temperature": 0.7,
+            "max_tokens": 200,
+            "temperature": 0.3,
         }
     ).encode()
     req = urllib.request.Request(
@@ -162,35 +178,47 @@ def call_model(model):
         },
         method="POST",
     )
-    for attempt in range(ATTEMPTS_PER_MODEL):
+    for attempt in range(2):
         try:
             with urllib.request.urlopen(req) as resp:
                 return json.loads(resp.read())
         except urllib.error.HTTPError as e:
             print(f"Model API error ({model}): {e.code} {e.read().decode()}", file=sys.stderr)
-            if e.code != 429 and e.code < 500:
+            # A 429 here is a quota, not a burst limit: waiting 15s never cleared it.
+            if e.code < 500 or attempt == 1:
                 return None
-            if attempt < ATTEMPTS_PER_MODEL - 1:
-                print(f"[debug] retrying {model} in 15s", file=sys.stderr)
-                time.sleep(15)
+            print(f"[debug] retrying {model} in 15s", file=sys.stderr)
+            time.sleep(15)
     return None
 
 
-model_data = None
+def usable_summary(text):
+    cleaned = re.sub(r"[*_`#]", "", text).strip().strip('"').strip()
+    cleaned = re.sub(r"\s+", " ", cleaned).lower()
+    if not cleaned or len(cleaned) > MAX_SUMMARY_CHARS:
+        return None
+    return cleaned
+
+
+summary = None
 for model in MODELS:
     model_data = call_model(model)
-    if model_data is not None:
+    if model_data is None:
+        continue
+    raw = model_data["choices"][0]["message"]["content"]
+    summary = usable_summary(raw)
+    if summary:
         print(f"[debug] summarized with {model}")
         break
+    print(f"[debug] rejected {model} output ({len(raw)} chars): {raw}")
 
 # A rate-limited or down model must not block the build and deploy steps that
 # follow this script in pulse.yml -- keep the previous summary instead, but
 # surface it as a workflow warning so a stale pulse doesn't hide behind a green run.
-if model_data is None:
-    print(f"::warning::All models failed ({', '.join(MODELS)}) -- pulse.json unchanged.")
+if summary is None:
+    print(f"::warning::No usable summary from {', '.join(MODELS)} -- pulse.json unchanged.")
     sys.exit(0)
 
-summary = model_data["choices"][0]["message"]["content"].strip()
 print(f"[debug] summary ({len(summary)} chars): {summary}")
 
 # 3. Write pulse.json

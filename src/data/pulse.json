@@ -1,5 +1,5 @@
 {
-  "summary": "karan finally fixed that pesky *waydroid-tray* link typo and made the live url test in `experiencecontent` stop being a joke. over at openresto, they turned it into a full-service restaurant api\u2014added turn times by party size (finally!), hooked \u2018em up in the locations form, and slapped booking statuses onto the api and admin screens like it\u2019s nobody\u2019s business. also seeded that walk-in waitlist into demo data, so now the demo\u2019s got *real* chaos.",
+  "summary": "karan added turn times by party size to openresto, surfaced booking statuses in the api and admin screens, and seeded a walk-in waitlist into the demo data.",
   "generatedAt": "2026-09-23T22:40:10.000Z",
   "commitCount": 11
 }
