@@ -1,5 +1,5 @@
 {
-  "summary": "karan added turn times by party size to openresto, surfaced booking statuses in the api and admin screens, and seeded a walk-in waitlist into the demo data.",
-  "generatedAt": "2026-09-23T22:40:10.000Z",
-  "commitCount": 11
+  "summary": "karan improved openresto\u2019s waitlist flow by adding push notifications for ready tables, fixing status badge accuracy, and integrating waitlist tickets into my bookings with consistent ui.",
+  "generatedAt": "2026-09-25T02:19:07.000Z",
+  "commitCount": 20
 }
