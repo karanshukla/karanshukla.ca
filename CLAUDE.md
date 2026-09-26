@@ -13,6 +13,7 @@ yarn format:check     # Prettier check (used in CI)
 yarn test             # Vitest watch mode
 yarn test:run         # Vitest single run (used in CI)
 yarn test:coverage    # Vitest with v8 coverage, outputs coverage/coverage-summary.json
+yarn test:e2e         # Playwright smoke tests against `vite preview` of /build (run yarn build first)
 ```
 
 **Run a single test file:**
@@ -91,3 +92,5 @@ Don't add comments above functions or inline unless the WHY is genuinely non-obv
 ## Tests
 
 Test files live in `src/tests/` and mirror component names. `AsherZone.ts` and `AsherZoneContent.tsx` are excluded from coverage. The setup file (`src/tests/setupTests.ts`) only polyfills `scrollIntoView` - keep it minimal.
+
+Playwright smoke tests live in `e2e/` and run against the built site, so the CSP meta tag in `index.html` is enforced. Third-party APIs (Last.fm, GitHub) are mocked with `page.route`; any console error, including a CSP violation, fails the test.
