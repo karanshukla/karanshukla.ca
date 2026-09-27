@@ -8,6 +8,8 @@
 # testing
 /coverage
 /.lighthouseci
+/test-results
+/playwright-report
 
 # production
 /build
