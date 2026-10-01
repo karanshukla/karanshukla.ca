@@ -4,7 +4,6 @@ name: Deploy React (Vite, Material UI) on Push
 permissions:
   contents: write
   pages: write
-  id-token: write # Needed for deploying to GitHub Pages
 
 on:
   push:

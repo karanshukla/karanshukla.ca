@@ -5,8 +5,6 @@ name: Update GitHub Pulse
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 on:
   schedule:
