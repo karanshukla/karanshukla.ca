@@ -42,7 +42,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       # Phase 1: Code coverage
       - name: Run tests with coverage
