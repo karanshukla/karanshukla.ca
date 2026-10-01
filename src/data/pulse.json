@@ -1,5 +1,5 @@
 {
-  "summary": "karan improved openresto\u2019s waitlist flow by adding push notifications for ready tables, fixing status badge accuracy, and integrating waitlist tickets into my bookings with consistent ui.",
-  "generatedAt": "2026-09-25T02:19:07.000Z",
-  "commitCount": 20
+  "summary": "karan added a diagnostic tool for vinoauthface to check system dependencies and hardware, improved the tray menu with camera and enrollment controls, and fixed bit-depth scaling for low-aligned y16 images.",
+  "generatedAt": "2026-10-01T02:55:49.000Z",
+  "commitCount": 25
 }
