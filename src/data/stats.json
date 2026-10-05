@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-09-28T08:12:59.000Z",
+  "generatedAt": "2026-10-05T08:18:22.000Z",
   "coverage": {
-    "lines": 96.3,
-    "statements": 93.3,
-    "branches": 83.5,
-    "functions": 95.9
+    "lines": 95.4,
+    "statements": 92.1,
+    "branches": 81.6,
+    "functions": 96.1
   },
   "lighthouse": {
     "accessibility": 100,
-    "performance": 97,
-    "lcp": 2112,
+    "performance": 91,
+    "lcp": 2713,
     "cls": 0
   }
 }
