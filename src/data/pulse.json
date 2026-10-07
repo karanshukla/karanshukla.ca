@@ -1,5 +1,5 @@
 {
-  "summary": "karan built a consistent mascot system using svg-based sprites, updated the welcome screen layout to match signed-out state, and removed redundant customization subtitles and beta badges.",
-  "generatedAt": "2026-10-04T03:15:38.000Z",
+  "summary": "karan added multilingual support for french, german, and spanish in vinowhisper, improved the tray\u2019s language controls and translation visibility, and fixed a dictation conflict during language switching.",
+  "generatedAt": "2026-10-07T03:08:42.000Z",
   "commitCount": 21
 }
