@@ -40,7 +40,7 @@ function GitHubPulse() {
         sx={{
           fontStyle: 'italic',
           display: '-webkit-box',
-          WebkitLineClamp: 4,
+          WebkitLineClamp: 6,
           WebkitBoxOrient: 'vertical',
           overflow: 'hidden',
           color: 'text.primary',

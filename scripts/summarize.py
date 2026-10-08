@@ -16,8 +16,8 @@ from datetime import datetime, timezone, timedelta
 GITHUB_USER = "karanshukla"
 OUTPUT_PATH = "src/data/pulse.json"
 MODEL = "claude-haiku-5-5"
-# GitHubPulse.tsx clamps the summary to 4 lines; longer text gets cut mid-word.
-MAX_SUMMARY_CHARS = 280
+# GitHubPulse.tsx clamps the summary to 6 lines; longer text gets cut mid-word.
+MAX_SUMMARY_CHARS = 400
 
 API_BASE = "https://api.anthropic.com"
 api_key = os.environ.get("ANTHROPIC_API_KEY")
@@ -140,7 +140,7 @@ commit_text = "\n\n".join(push_summaries)
 system_prompt = (
     "you write the one-line activity blurb on a software engineer's portfolio site. "
     "summarize what karan has been working on, based on the commit messages below. "
-    "rules: two short sentences, all lowercase, plain text only (no markdown, "
+    "rules: two or three short sentences, all lowercase, plain text only (no markdown, "
     "asterisks, backticks or emoji). "
     f"hard limit: {MAX_SUMMARY_CHARS - 40} characters in total, so be selective. "
     "write in a clear, matter-of-fact tone like a changelog written by a person: "
@@ -262,7 +262,7 @@ for attempt in range(2):
         {
             "role": "user",
             "content": (
-                f"that was {len(raw)} characters. rewrite it as two short sentences under "
+                f"that was {len(raw)} characters. rewrite it as two or three short sentences under "
                 f"{MAX_SUMMARY_CHARS - 40} characters, keeping only the most significant changes."
             ),
         },
