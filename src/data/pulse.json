@@ -1,5 +1,5 @@
 {
-  "summary": "karan added hands-free dictation that stops after silence in vinowhisper. karan also added segmented decoding for long dictations with live partial text in the pill.",
-  "generatedAt": "2026-10-08T20:09:47.000Z",
-  "commitCount": 33
+  "summary": "karan made vinowhisper's hands-free dictation stop after silence that follows speech, added transcript saving with a save transcripts tray checkmark, and applied user word replacements from replacements.json. on the portfolio site, karan made the theme follow the device light or dark preference until the user toggles it.",
+  "generatedAt": "2026-10-08T20:38:36.000Z",
+  "commitCount": 21
 }
