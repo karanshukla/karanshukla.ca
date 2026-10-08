@@ -1,5 +1,5 @@
 {
-  "summary": "karan added multilingual support for french, german, and spanish in vinowhisper, improved the tray\u2019s language controls and translation visibility, and fixed a dictation conflict during language switching.",
-  "generatedAt": "2026-10-07T03:08:42.000Z",
-  "commitCount": 21
+  "summary": "karan added hands-free dictation that stops after silence in vinowhisper. karan also added segmented decoding for long dictations with live partial text in the pill.",
+  "generatedAt": "2026-10-08T20:09:47.000Z",
+  "commitCount": 33
 }
