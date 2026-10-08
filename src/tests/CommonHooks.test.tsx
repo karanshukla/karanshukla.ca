@@ -1,6 +1,12 @@
 import { renderHook, act, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import { useGitHubRepo, useAppTheme, useKeyboardShortcuts, useLastFm, navShortcuts } from '../hooks/CommonHooks';
+import {
+  useGitHubRepo,
+  useAppTheme,
+  useKeyboardShortcuts,
+  useLastFm,
+  navShortcuts,
+} from '../hooks/CommonHooks';
 
 // ── useGitHubRepo ────────────────────────────────────────────────────────────
 
@@ -34,6 +40,20 @@ describe('useGitHubRepo', () => {
 
 describe('useAppTheme', () => {
   beforeEach(() => localStorage.clear());
+  afterEach(() => vi.unstubAllGlobals());
+
+  const stubDeviceScheme = (light: boolean) => {
+    let notify: (event: { matches: boolean }) => void = () => {};
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn().mockImplementation(() => ({
+        matches: light,
+        addEventListener: (_type: string, listener: typeof notify) => (notify = listener),
+        removeEventListener: vi.fn(),
+      })),
+    );
+    return (matches: boolean) => act(() => notify({ matches }));
+  };
 
   it('defaults to dark mode', () => {
     const { result } = renderHook(() => useAppTheme());
@@ -64,6 +84,47 @@ describe('useAppTheme', () => {
     const { result } = renderHook(() => useAppTheme());
     expect(result.current.theme).toBeDefined();
     expect(result.current.theme.palette).toBeDefined();
+  });
+
+  it('follows a light device preference when nothing is saved', () => {
+    stubDeviceScheme(true);
+    const { result } = renderHook(() => useAppTheme());
+    expect(result.current.isDark).toBe(false);
+  });
+
+  it('follows a dark device preference when nothing is saved', () => {
+    stubDeviceScheme(false);
+    const { result } = renderHook(() => useAppTheme());
+    expect(result.current.isDark).toBe(true);
+  });
+
+  it('prefers the saved choice over the device preference', () => {
+    stubDeviceScheme(true);
+    localStorage.setItem('theme', 'dark');
+    const { result } = renderHook(() => useAppTheme());
+    expect(result.current.isDark).toBe(true);
+  });
+
+  it('ignores an unrecognised saved value', () => {
+    stubDeviceScheme(true);
+    localStorage.setItem('theme', 'purple');
+    const { result } = renderHook(() => useAppTheme());
+    expect(result.current.isDark).toBe(false);
+  });
+
+  it('switches when the device preference changes and nothing is saved', () => {
+    const changeDevice = stubDeviceScheme(false);
+    const { result } = renderHook(() => useAppTheme());
+    changeDevice(true);
+    expect(result.current.isDark).toBe(false);
+  });
+
+  it('keeps the saved choice when the device preference changes', () => {
+    const changeDevice = stubDeviceScheme(false);
+    const { result } = renderHook(() => useAppTheme());
+    act(() => result.current.toggleTheme());
+    changeDevice(false);
+    expect(result.current.isDark).toBe(false);
   });
 });
 
@@ -114,7 +175,12 @@ describe('useKeyboardShortcuts', () => {
 // ── useLastFm ────────────────────────────────────────────────────────────────
 
 const mockTagResponse = {
-  toptags: { tag: [{ name: 'jazz', count: 100 }, { name: 'fusion', count: 50 }] },
+  toptags: {
+    tag: [
+      { name: 'jazz', count: 100 },
+      { name: 'fusion', count: 50 },
+    ],
+  },
 };
 
 const makeLastFmResponse = (nowPlaying: boolean) => ({
