@@ -72,14 +72,40 @@ export const usePageTitle = (title: string): void => {
 
 // --- Theme ---
 
-export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: boolean } => {
-  const [mode, setMode] = useState<'light' | 'dark'>(
-    (localStorage.getItem('theme') as 'light' | 'dark') || 'dark',
+type ThemeMode = 'light' | 'dark';
+
+const LIGHT_SCHEME_QUERY = '(prefers-color-scheme: light)';
+
+const savedThemeMode = (): ThemeMode | null => {
+  const saved = localStorage.getItem('theme');
+  return saved === 'light' || saved === 'dark' ? saved : null;
+};
+
+const useDeviceThemeMode = (): ThemeMode => {
+  const [mode, setMode] = useState<ThemeMode>(() =>
+    window.matchMedia?.(LIGHT_SCHEME_QUERY).matches ? 'light' : 'dark',
   );
+
+  useEffect(() => {
+    const query = window.matchMedia?.(LIGHT_SCHEME_QUERY);
+    if (!query) return;
+    const onChange = (event: MediaQueryListEvent): void =>
+      setMode(event.matches ? 'light' : 'dark');
+    query.addEventListener('change', onChange);
+    return () => query.removeEventListener('change', onChange);
+  }, []);
+
+  return mode;
+};
+
+export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: boolean } => {
+  const deviceMode = useDeviceThemeMode();
+  const [savedMode, setSavedMode] = useState<ThemeMode | null>(savedThemeMode);
+  const mode = savedMode ?? deviceMode;
 
   const toggleTheme = (): void => {
     const next = mode === 'dark' ? 'light' : 'dark';
-    setMode(next);
+    setSavedMode(next);
     localStorage.setItem('theme', next);
   };
 
