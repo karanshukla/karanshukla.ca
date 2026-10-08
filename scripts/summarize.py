@@ -1,6 +1,6 @@
 """
 Fetches recent public commits for karanshukla and generates a witty summary
-via Mistral Console API. Writes the result to src/data/pulse.json.
+via the Anthropic Messages API. Writes the result to src/data/pulse.json.
 Run by the pulse.yml GitHub Actions workflow every 3 days.
 """
 
@@ -15,21 +15,13 @@ from datetime import datetime, timezone, timedelta
 
 GITHUB_USER = "karanshukla"
 OUTPUT_PATH = "src/data/pulse.json"
-# Tried best-first; a rate-limited (429) model, or one whose output fails
-# usable_summary(), falls through to the next.
-MODELS = [
-    "mistral-large-latest",
-    "mistral-medium-latest",
-    "mistral-small-latest",
-    "ministral-14b-latest",
-    "ministral-8b-latest",
-]
+MODEL = "claude-haiku-5-5"
 # GitHubPulse.tsx clamps the summary to 4 lines; longer text gets cut mid-word.
 MAX_SUMMARY_CHARS = 280
 
-token = os.environ.get("MISTRAL_API_KEY")
+token = os.environ.get("ANTHROPIC_API_KEY")
 if not token:
-    print("MISTRAL_API_KEY is not set", file=sys.stderr)
+    print("ANTHROPIC_API_KEY is not set", file=sys.stderr)
     sys.exit(1)
 
 github_token = os.environ.get("GITHUB_TOKEN")
@@ -133,48 +125,42 @@ if not push_summaries:
 
 commit_text = "\n\n".join(push_summaries)
 
-# 2. Call Mistral Console API
-messages = [
-    {
-        "role": "system",
-        "content": (
-            "you write the one-line activity blurb on a software engineer's portfolio site. "
-            "summarize what karan has been working on, based on the commit messages below. "
-            "rules: 2-3 short sentences, all lowercase, plain text only (no markdown, "
-            "asterisks, backticks or emoji). "
-            f"stay under {MAX_SUMMARY_CHARS - 40} characters. "
-            "write in a clear, matter-of-fact tone like a changelog written by a person: "
-            "name the project and what changed. no jokes, slang, hype or exclamation marks. "
-            "always say karan, never a pronoun. "
-            "ignore merged prs, version bumps, dependency updates, typo fixes, test-only "
-            "changes and workflow changes. mention at most three changes, most significant first.\n\n"
-            "example of the right style:\n"
-            "karan added a table hold warning for guests, polished the native guest app with "
-            "platform-specific ui tweaks, and fixed the lookup sheet's draggable area."
-        ),
-    },
-    {
-        "role": "user",
-        "content": f"recent commits:\n{commit_text}",
-    },
-]
+# 2. Call Anthropic Messages API
+system_prompt = (
+    "you write the one-line activity blurb on a software engineer's portfolio site. "
+    "summarize what karan has been working on, based on the commit messages below. "
+    "rules: 2-3 short sentences, all lowercase, plain text only (no markdown, "
+    "asterisks, backticks or emoji). "
+    f"stay under {MAX_SUMMARY_CHARS - 40} characters. "
+    "write in a clear, matter-of-fact tone like a changelog written by a person: "
+    "name the project and what changed. no jokes, slang, hype or exclamation marks. "
+    "always say karan, never a pronoun. "
+    "ignore merged prs, version bumps, dependency updates, typo fixes, test-only "
+    "changes and workflow changes. mention at most three changes, most significant first.\n\n"
+    "example of the right style:\n"
+    "karan added a table hold warning for guests, polished the native guest app with "
+    "platform-specific ui tweaks, and fixed the lookup sheet's draggable area."
+)
+messages = [{"role": "user", "content": f"recent commits:\n{commit_text}"}]
 
 
-def call_model(model):
+def call_model():
     body = json.dumps(
         {
-            "model": model,
+            "model": MODEL,
+            "max_tokens": 1024,
+            "output_config": {"effort": "low"},
+            "system": system_prompt,
             "messages": messages,
-            "max_tokens": 200,
-            "temperature": 0.3,
         }
     ).encode()
     req = urllib.request.Request(
-        "https://api.mistral.ai/v1/chat/completions",
+        "https://api.anthropic.com/v1/messages",
         data=body,
         headers={
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
+            "x-api-key": token,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
         },
         method="POST",
     )
@@ -183,11 +169,10 @@ def call_model(model):
             with urllib.request.urlopen(req) as resp:
                 return json.loads(resp.read())
         except urllib.error.HTTPError as e:
-            print(f"Model API error ({model}): {e.code} {e.read().decode()}", file=sys.stderr)
-            # A 429 here is a quota, not a burst limit: waiting 15s never cleared it.
-            if e.code < 500 or attempt == 1:
+            print(f"Model API error ({MODEL}): {e.code} {e.read().decode()}", file=sys.stderr)
+            if e.code not in (429, 529) and e.code < 500 or attempt == 1:
                 return None
-            print(f"[debug] retrying {model} in 15s", file=sys.stderr)
+            print(f"[debug] retrying {MODEL} in 15s", file=sys.stderr)
             time.sleep(15)
     return None
 
@@ -201,22 +186,24 @@ def usable_summary(text):
 
 
 summary = None
-for model in MODELS:
-    model_data = call_model(model)
-    if model_data is None:
-        continue
-    raw = model_data["choices"][0]["message"]["content"]
+model_data = call_model()
+if model_data is not None:
+    raw = "".join(
+        block.get("text", "")
+        for block in model_data.get("content", [])
+        if block.get("type") == "text"
+    )
     summary = usable_summary(raw)
     if summary:
-        print(f"[debug] summarized with {model}")
-        break
-    print(f"[debug] rejected {model} output ({len(raw)} chars): {raw}")
+        print(f"[debug] summarized with {MODEL}")
+    else:
+        print(f"[debug] rejected {MODEL} output ({len(raw)} chars): {raw}")
 
-# A rate-limited or down model must not block the build and deploy steps that
+# A rate-limited or down API must not block the build and deploy steps that
 # follow this script in pulse.yml -- keep the previous summary instead, but
 # surface it as a workflow warning so a stale pulse doesn't hide behind a green run.
 if summary is None:
-    print(f"::warning::No usable summary from {', '.join(MODELS)} -- pulse.json unchanged.")
+    print(f"::warning::No usable summary from {MODEL} -- pulse.json unchanged.")
     sys.exit(0)
 
 print(f"[debug] summary ({len(summary)} chars): {summary}")
