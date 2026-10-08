@@ -19,9 +19,20 @@ MODEL = "claude-haiku-5-5"
 # GitHubPulse.tsx clamps the summary to 4 lines; longer text gets cut mid-word.
 MAX_SUMMARY_CHARS = 280
 
-token = os.environ.get("ANTHROPIC_API_KEY")
-if not token:
-    print("ANTHROPIC_API_KEY is not set", file=sys.stderr)
+API_BASE = "https://api.anthropic.com"
+api_key = os.environ.get("ANTHROPIC_API_KEY")
+FEDERATION_ENV = [
+    "ANTHROPIC_FEDERATION_RULE_ID",
+    "ANTHROPIC_ORGANIZATION_ID",
+    "ANTHROPIC_SERVICE_ACCOUNT_ID",
+]
+if not api_key and not all(os.environ.get(name) for name in FEDERATION_ENV):
+    print(
+        "No Anthropic credentials: set ANTHROPIC_API_KEY, or "
+        + ", ".join(FEDERATION_ENV)
+        + " (Workload Identity Federation, GitHub Actions only)",
+        file=sys.stderr,
+    )
     sys.exit(1)
 
 github_token = os.environ.get("GITHUB_TOKEN")
@@ -144,6 +155,47 @@ system_prompt = (
 messages = [{"role": "user", "content": f"recent commits:\n{commit_text}"}]
 
 
+def github_identity_token():
+    request_url = os.environ["ACTIONS_ID_TOKEN_REQUEST_URL"]
+    req = urllib.request.Request(
+        f"{request_url}&audience={API_BASE}",
+        headers={
+            "Authorization": f"Bearer {os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']}",
+            "User-Agent": "pulse-summarizer/1.0",
+        },
+    )
+    with urllib.request.urlopen(req) as resp:
+        return json.loads(resp.read())["value"]
+
+
+def exchange_for_access_token():
+    # Identity tokens are single-use, so every exchange needs a freshly minted one.
+    payload = {
+        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        "assertion": github_identity_token(),
+        "federation_rule_id": os.environ["ANTHROPIC_FEDERATION_RULE_ID"],
+        "organization_id": os.environ["ANTHROPIC_ORGANIZATION_ID"],
+        "service_account_id": os.environ["ANTHROPIC_SERVICE_ACCOUNT_ID"],
+    }
+    workspace_id = os.environ.get("ANTHROPIC_WORKSPACE_ID")
+    if workspace_id:
+        payload["workspace_id"] = workspace_id
+    req = urllib.request.Request(
+        f"{API_BASE}/v1/oauth/token",
+        data=json.dumps(payload).encode(),
+        headers={"content-type": "application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req) as resp:
+        return json.loads(resp.read())["access_token"]
+
+
+def auth_headers():
+    if api_key:
+        return {"x-api-key": api_key}
+    return {"authorization": f"Bearer {exchange_for_access_token()}"}
+
+
 def call_model():
     body = json.dumps(
         {
@@ -154,18 +206,18 @@ def call_model():
             "messages": messages,
         }
     ).encode()
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=body,
-        headers={
-            "x-api-key": token,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
-        },
-        method="POST",
-    )
     for attempt in range(2):
         try:
+            req = urllib.request.Request(
+                f"{API_BASE}/v1/messages",
+                data=body,
+                headers={
+                    **auth_headers(),
+                    "anthropic-version": "2023-06-01",
+                    "content-type": "application/json",
+                },
+                method="POST",
+            )
             with urllib.request.urlopen(req) as resp:
                 return json.loads(resp.read())
         except urllib.error.HTTPError as e:
