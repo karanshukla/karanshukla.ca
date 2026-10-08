@@ -140,9 +140,9 @@ commit_text = "\n\n".join(push_summaries)
 system_prompt = (
     "you write the one-line activity blurb on a software engineer's portfolio site. "
     "summarize what karan has been working on, based on the commit messages below. "
-    "rules: 2-3 short sentences, all lowercase, plain text only (no markdown, "
+    "rules: two short sentences, all lowercase, plain text only (no markdown, "
     "asterisks, backticks or emoji). "
-    f"stay under {MAX_SUMMARY_CHARS - 40} characters. "
+    f"hard limit: {MAX_SUMMARY_CHARS - 40} characters in total, so be selective. "
     "write in a clear, matter-of-fact tone like a changelog written by a person: "
     "name the project and what changed. no jokes, slang, hype or exclamation marks. "
     "always say karan, never a pronoun. "
@@ -196,14 +196,14 @@ def auth_headers():
     return {"authorization": f"Bearer {exchange_for_access_token()}"}
 
 
-def call_model():
+def call_model(conversation):
     body = json.dumps(
         {
             "model": MODEL,
             "max_tokens": 1024,
             "output_config": {"effort": "low"},
             "system": system_prompt,
-            "messages": messages,
+            "messages": conversation,
         }
     ).encode()
     for attempt in range(2):
@@ -237,19 +237,36 @@ def usable_summary(text):
     return cleaned
 
 
-summary = None
-model_data = call_model()
-if model_data is not None:
-    raw = "".join(
+def summary_text(model_data):
+    return "".join(
         block.get("text", "")
         for block in model_data.get("content", [])
         if block.get("type") == "text"
     )
+
+
+summary = None
+conversation = messages
+for attempt in range(2):
+    model_data = call_model(conversation)
+    if model_data is None:
+        break
+    raw = summary_text(model_data)
     summary = usable_summary(raw)
     if summary:
         print(f"[debug] summarized with {MODEL}")
-    else:
-        print(f"[debug] rejected {MODEL} output ({len(raw)} chars): {raw}")
+        break
+    print(f"[debug] rejected {MODEL} output ({len(raw)} chars): {raw}")
+    conversation = messages + [
+        {"role": "assistant", "content": raw},
+        {
+            "role": "user",
+            "content": (
+                f"that was {len(raw)} characters. rewrite it as two short sentences under "
+                f"{MAX_SUMMARY_CHARS - 40} characters, keeping only the most significant changes."
+            ),
+        },
+    ]
 
 # A rate-limited or down API must not block the build and deploy steps that
 # follow this script in pulse.yml -- keep the previous summary instead, but
