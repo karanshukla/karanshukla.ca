@@ -1,5 +1,5 @@
 {
-  "summary": "karan reworked dictation in vinowhisper so silence is judged against the mic's own noise floor, the pill previews the uncut tail while speaking, and release timing is logged. karan also reworked the dictation pill's rendering, separating the meter and words from dim italic status text. in kodamachi, karan added recovery for accounts whose oauth grant has died when switching users.",
-  "generatedAt": "2026-10-10T03:10:04.000Z",
-  "commitCount": 21
+  "summary": "karan added a beta label for llm cleanup in vinowhisper, made dictation ignore room noise and trim quiet audio before decoding, and prototyped auto light, an npu-only low-light model for vinoopeneffects' studio light. karan also made studio light visible by default and fixed a preview notice when the virtual camera is unreachable.",
+  "generatedAt": "2026-10-13T04:21:58.000Z",
+  "commitCount": 20
 }
