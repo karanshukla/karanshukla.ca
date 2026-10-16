@@ -1,5 +1,5 @@
 {
-  "summary": "karan added a beta label for llm cleanup in vinowhisper, made dictation ignore room noise and trim quiet audio before decoding, and prototyped auto light, an npu-only low-light model for vinoopeneffects' studio light. karan also made studio light visible by default and fixed a preview notice when the virtual camera is unreachable.",
-  "generatedAt": "2026-10-13T04:21:58.000Z",
+  "summary": "karan added temporal denoise and a single resample for center stage, judged denoise motion per block so slow movement no longer streaks, and made npu model loading degrade gracefully with compile failures persisted and never run on the frame path. let me check the length: that's about 300 characters, under 360, lowercase, no markdown, three changes, most significant first. good.",
+  "generatedAt": "2026-10-16T02:04:12.000Z",
   "commitCount": 20
 }
