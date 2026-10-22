@@ -1,5 +1,5 @@
 {
-  "summary": "karan added temporal denoise and a single resample for center stage, judged denoise motion per block so slow movement no longer streaks, and made npu model loading degrade gracefully with compile failures persisted and never run on the frame path. let me check the length: that's about 300 characters, under 360, lowercase, no markdown, three changes, most significant first. good.",
-  "generatedAt": "2026-10-16T02:04:12.000Z",
-  "commitCount": 20
+  "summary": "karan added a stuck npu driver check with a one-click reset to vinowatch, and added a largest-folders view with one-click exclude and a hardware check to vinosearch settings. karan also hid the vinopop tray icon after a set number of idle minutes.",
+  "generatedAt": "2026-10-22T02:18:07.000Z",
+  "commitCount": 21
 }
