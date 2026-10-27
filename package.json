@@ -39,7 +39,7 @@
     "@material/material-color-utilities": "^0.4.0",
     "@playwright/test": "^1.63.0",
     "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^6",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/aria-query": "^5.0.4",
@@ -68,7 +68,8 @@
     "typescript-eslint/**/typescript": "npm:@typescript/typescript6@^6.0.2",
     "brace-expansion": "^5.0.12",
     "nanoid": "^3.3.18",
-    "undici": "^7.29.1",
+    "undici": "^7.30.1",
+    "zod": "^4.6.6",
     "use-haptic/react": "^19.3.1",
     "use-haptic/react-dom": "^19.3.1"
   },
