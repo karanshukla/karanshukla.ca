@@ -43,6 +43,7 @@ describe('SecondaryListItems', () => {
       </MemoryRouter>,
     );
     expect(screen.getByText('github')).toBeInTheDocument();
+    expect(screen.getByText('hugging face')).toBeInTheDocument();
     expect(screen.getByText('linkedin')).toBeInTheDocument();
     expect(screen.getByText('bluesky')).toBeInTheDocument();
     expect(screen.getByText('mastodon')).toBeInTheDocument();

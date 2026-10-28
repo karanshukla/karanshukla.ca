@@ -9,3 +9,5 @@ export const emailLink = 'mailto:karan@karanshukla.ca';
 export const blueskyLink = 'https://bsky.app/profile/karanshukla.ca';
 
 export const mastodonLink = 'https://social.linux.pizza/@arankays';
+
+export const huggingFaceLink = 'https://huggingface.co/arankays';

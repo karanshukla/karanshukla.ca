@@ -4,10 +4,12 @@ import Paper from '@mui/material/Paper';
 import Slide from '@mui/material/Slide';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import Link from '@mui/material/Link';
 import { RepoStats } from './ProjectCard';
 import GitHubPulse from './GitHubPulse';
 import LastFmWidget from './LastFmWidget';
 import { usePageTitle } from '../hooks/CommonHooks';
+import { huggingFaceLink } from '../constants/CommonConstants';
 
 function HomeContent() {
   usePageTitle('');
@@ -53,12 +55,58 @@ function HomeContent() {
               hello! if you've made it here, you're probably curious about my background. i'm a
               software developer with a mechanical engineering degree, working primarily in web
               development and saas. as this is a public website, i keep things intentionally vague,
-              but feel free to reach out via linkedin or email if you'd like to connect! below are a
-              couple of personal projects i'm particularly proud of.
+              but feel free to reach out via linkedin or email if you'd like to connect! below is
+              vinopilot, my main project right now, followed by a couple of side projects i'm
+              particularly proud of.
             </Typography>
           </Paper>
 
           <Box sx={{ mt: 2 }} />
+
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              vinopilot
+            </Typography>
+            <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} gutterBottom>
+              copilot+ pc features for linux, offline on intel npus
+            </Typography>
+            <Typography variant="body1">
+              a suite of free, open source linux apps that put the npu in intel laptops to work:
+              live captions and voice typing, face unlock, webcam effects, ai text actions,
+              text-to-speech and smart file search. everything runs locally on the npu, so there's
+              no cloud, no account, and the cpu, gpu and battery are left alone. the models didn't
+              run on the npu as published, so i requantised them for intel npus and host them on
+              hugging face.
+            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 1.5 }}>
+              <Link
+                href="https://vinopilot.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="caption"
+                aria-label="vinopilot.ca (opens in new tab)"
+              >
+                vinopilot.ca
+              </Link>
+              <Link
+                href={huggingFaceLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="caption"
+                aria-label="requantised models on hugging face (opens in new tab)"
+              >
+                models on hugging face
+              </Link>
+            </Box>
+          </Paper>
+
+          <Box sx={{ mt: 4 }} />
+
+          <Divider sx={{ mb: 3 }}>
+            <Typography variant="overline" sx={{ textTransform: 'none', color: 'text.secondary' }}>
+              side projects
+            </Typography>
+          </Divider>
 
           <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
             <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
