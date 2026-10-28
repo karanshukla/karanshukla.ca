@@ -1,5 +1,5 @@
 {
-  "summary": "karan added a stop button and media-key control for read aloud in vinopop. karan also added fuzzel, wofi, rofi, tofi and bemenu menu support in vinosearch, and loaded the npu compiler that ovfetch 0.6.0 installs in vinospeak.",
-  "generatedAt": "2026-10-25T02:08:34.000Z",
-  "commitCount": 21
+  "summary": "karan released openresto 2.5.0 and reworked vinosearch's worker as a reconcile loop with a deduplicated work set. karan also added an off-by-default search window to the vinosearch app menu and extended the krunner and embedding code paths.",
+  "generatedAt": "2026-10-28T02:54:24.000Z",
+  "commitCount": 7
 }
