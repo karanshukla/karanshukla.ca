@@ -66,6 +66,19 @@ describe('HomeContent', () => {
     });
   });
 
+  it('renders the vinopilot section with its site and hugging face links', () => {
+    render(<HomeContent />);
+    expect(screen.getByText('side projects')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /vinopilot\.ca/ })).toHaveAttribute(
+      'href',
+      'https://vinopilot.ca',
+    );
+    expect(screen.getByRole('link', { name: /hugging face/ })).toHaveAttribute(
+      'href',
+      'https://huggingface.co/arankays',
+    );
+  });
+
   it('renders the github pulse section', () => {
     render(<HomeContent />);
     expect(screen.getByText('github pulse (llm summarised)')).toBeInTheDocument();
