@@ -1,12 +1,14 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import svgr from 'vite-plugin-svgr';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { prerenderBlogPages } from './prerenderBlogPages';
 
 export default defineConfig({
   plugins: [
     react(),
+    svgr(),
     ViteImageOptimizer({
       includePublic: false,
       jpg: { quality: 80 },
