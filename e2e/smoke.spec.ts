@@ -77,7 +77,7 @@ test('drawer navigates between sections', async ({ page }) => {
   await page.getByRole('link', { name: /^experience/ }).click();
   await expect(page).toHaveURL('/#/experience');
 
-  await page.getByRole('link', { name: /^vinopilot/ }).click();
+  await page.getByRole('link', { name: /^vinopilot, press/ }).click();
   await expect(page).toHaveURL('/#/vinopilot');
   await expect(page.getByRole('link', { name: /vinopilot\.ca/ })).toBeVisible();
 
