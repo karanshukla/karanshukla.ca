@@ -276,6 +276,7 @@ describe('navShortcuts', () => {
     expect(navShortcuts['2']).toBe('/experience');
     expect(navShortcuts['3']).toBe('/hobbies');
     expect(navShortcuts['4']).toBe('/blog');
-    expect(navShortcuts['5']).toBe('/asher-zone');
+    expect(navShortcuts['5']).toBe('/vinopilot');
+    expect(navShortcuts['6']).toBe('/asher-zone');
   });
 });

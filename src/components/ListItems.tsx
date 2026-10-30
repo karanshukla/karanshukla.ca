@@ -12,6 +12,7 @@ import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import SportsRugbyIcon from '@mui/icons-material/SportsRugby';
 import ArticleIcon from '@mui/icons-material/Article';
 import CodeIcon from '@mui/icons-material/Code';
+import MemoryIcon from '@mui/icons-material/Memory';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -122,16 +123,29 @@ export const MainListItems: React.FC = () => {
 
       <ListItemButton
         component={NavLink}
+        to="/vinopilot"
+        aria-label="vinopilot, press 5"
+        onClick={triggerHaptic}
+      >
+        <ListItemIcon aria-hidden="true">
+          <MemoryIcon />
+        </ListItemIcon>
+        <ListItemText primary="vinopilot" />
+        <KeyHint>5</KeyHint>
+      </ListItemButton>
+
+      <ListItemButton
+        component={NavLink}
         to="/asher-zone"
         disabled={isAsherZone}
-        aria-label="asher zone, press 5"
+        aria-label="asher zone, press 6"
         onClick={triggerHaptic}
       >
         <ListItemIcon aria-hidden="true">
           <PetsIcon />
         </ListItemIcon>
         <ListItemText primary="asher zone" />
-        <KeyHint>5</KeyHint>
+        <KeyHint>6</KeyHint>
       </ListItemButton>
 
       {isAsherZone && (

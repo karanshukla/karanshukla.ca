@@ -77,6 +77,10 @@ test('drawer navigates between sections', async ({ page }) => {
   await page.getByRole('link', { name: /^experience/ }).click();
   await expect(page).toHaveURL('/#/experience');
 
+  await page.getByRole('link', { name: /^vinopilot, press/ }).click();
+  await expect(page).toHaveURL('/#/vinopilot');
+  await expect(page.getByRole('link', { name: /vinopilot\.ca/ })).toBeVisible();
+
   await page.getByRole('link', { name: /^blog/ }).click();
   await page.getByRole('link', { name: /constraints can sometimes be good actually/ }).click();
   await expect(page).toHaveURL('/#/blog/openresto-constraints');

@@ -1,5 +1,8 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render as rtlRender, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import HomeContent from '../components/HomeContent';
+
+const render = (ui: React.ReactElement) => rtlRender(<MemoryRouter>{ui}</MemoryRouter>);
 
 const mockRepoData = {
   html_url: 'https://github.com/karanshukla/test',
@@ -66,17 +69,11 @@ describe('HomeContent', () => {
     });
   });
 
-  it('renders the vinopilot section with its site and hugging face links', () => {
+  it('links to the vinopilot page instead of showing it inline', () => {
     render(<HomeContent />);
     expect(screen.getByText('side projects')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /vinopilot\.ca/ })).toHaveAttribute(
-      'href',
-      'https://vinopilot.ca',
-    );
-    expect(screen.getByRole('link', { name: /hugging face/ })).toHaveAttribute(
-      'href',
-      'https://huggingface.co/arankays',
-    );
+    expect(screen.getByRole('link', { name: 'vinopilot' })).toHaveAttribute('href', '/vinopilot');
+    expect(screen.queryByRole('link', { name: /vinopilot\.ca/ })).not.toBeInTheDocument();
   });
 
   it('renders the github pulse section', () => {

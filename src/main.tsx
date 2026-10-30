@@ -12,6 +12,7 @@ import HobbyContent from './components/HobbyContent.tsx';
 import AsherZoneContent from './components/AsherZoneContent.tsx';
 import BlogContent from './components/BlogContent.tsx';
 import BlogPost from './components/BlogPost.tsx';
+import VinopilotContent from './components/VinopilotContent.tsx';
 import { moveUrlPathIntoHashRoute } from './helpers/CommonHelpers.ts';
 
 moveUrlPathIntoHashRoute();
@@ -26,6 +27,7 @@ const router = createHashRouter([
       { path: 'hobbies', element: <HobbyContent /> },
       { path: 'blog', element: <BlogContent /> },
       { path: 'blog/:slug', element: <BlogPost /> },
+      { path: 'vinopilot', element: <VinopilotContent /> },
       { path: 'asher-zone', element: <AsherZoneContent /> },
     ],
   },
