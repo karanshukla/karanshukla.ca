@@ -1,5 +1,5 @@
 {
-  "summary": "karan released openresto 2.5.0 and reworked vinosearch's worker as a reconcile loop with a deduplicated work set. karan also added an off-by-default search window to the vinosearch app menu and extended the krunner and embedding code paths.",
-  "generatedAt": "2026-10-28T02:54:24.000Z",
-  "commitCount": 7
+  "summary": "karan read sessions aloud through vinospeak and added open-in-another-app for session summaries and transcripts in vinowhisper, kept one model loaded per window and started sound sooner in vinospeak, and replaced dot status pills with plain-word status in vinosearch's settings and search windows.",
+  "generatedAt": "2026-10-31T03:05:27.000Z",
+  "commitCount": 21
 }
