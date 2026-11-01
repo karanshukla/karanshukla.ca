@@ -1,5 +1,5 @@
 {
-  "summary": "karan read sessions aloud through vinospeak and added open-in-another-app for session summaries and transcripts in vinowhisper, kept one model loaded per window and started sound sooner in vinospeak, and replaced dot status pills with plain-word status in vinosearch's settings and search windows.",
-  "generatedAt": "2026-10-31T03:05:27.000Z",
-  "commitCount": 21
+  "summary": "karan fixed vinospeak to read documents line by line instead of as one run-on sentence. karan added cargo-deny, dependabot, codeowners, and a security policy to vinouserinterface, and forbade unsafe code. karan replaced a local copy of the settings window in vinosearch with the shared vino-user-interface crate.",
+  "generatedAt": "2026-11-01T02:59:54.000Z",
+  "commitCount": 22
 }
