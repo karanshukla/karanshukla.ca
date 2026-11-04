@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed vinospeak to read documents line by line instead of as one run-on sentence. karan added cargo-deny, dependabot, codeowners, and a security policy to vinouserinterface, and forbade unsafe code. karan replaced a local copy of the settings window in vinosearch with the shared vino-user-interface crate.",
-  "generatedAt": "2026-11-01T02:59:54.000Z",
-  "commitCount": 22
+  "summary": "karan updated the settings window in vinoauthface with new vino-ui icons for matching, liveness and just you, and added a face icon to the face page. in vinouserinterface, karan added file tiles for the vinospeak format types with colours set in design.md. karan also filed unreleased notes under 1.2.0 in vinowhisper and wrote the v3 changelog for vinoopeneffects.",
+  "generatedAt": "2026-11-04T03:45:06.000Z",
+  "commitCount": 7
 }
