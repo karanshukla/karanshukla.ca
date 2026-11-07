@@ -1,5 +1,5 @@
 {
-  "summary": "karan updated the settings window in vinoauthface with new vino-ui icons for matching, liveness and just you, and added a face icon to the face page. in vinouserinterface, karan added file tiles for the vinospeak format types with colours set in design.md. karan also filed unreleased notes under 1.2.0 in vinowhisper and wrote the v3 changelog for vinoopeneffects.",
-  "generatedAt": "2026-11-04T03:45:06.000Z",
-  "commitCount": 7
+  "summary": "karan added a host view to openresto that shows tonight's floor, arrivals and waitlist on one screen, and regrouped the booking settings card to allow 45-minute sittings. karan also added a --model option to vinowhisper's setup and made the export step check for and download canary.",
+  "generatedAt": "2026-11-07T03:37:07.000Z",
+  "commitCount": 20
 }
