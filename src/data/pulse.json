@@ -1,5 +1,5 @@
 {
-  "summary": "karan added a host view to openresto that shows tonight's floor, arrivals and waitlist on one screen, and regrouped the booking settings card to allow 45-minute sittings. karan also added a --model option to vinowhisper's setup and made the export step check for and download canary.",
-  "generatedAt": "2026-11-07T03:37:07.000Z",
-  "commitCount": 20
+  "summary": "karan fixed a vinopop install bug where a checkout install removed a release install's app link, refreshed vinosearch's app menu cache after entry changes, and made vinosearch's settings list an added folder immediately. karan also changed vinopop's popup to use text labels instead of icons.",
+  "generatedAt": "2026-11-10T05:03:21.000Z",
+  "commitCount": 11
 }
