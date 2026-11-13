@@ -1,5 +1,5 @@
 {
-  "summary": "karan fixed a vinopop install bug where a checkout install removed a release install's app link, refreshed vinosearch's app menu cache after entry changes, and made vinosearch's settings list an added folder immediately. karan also changed vinopop's popup to use text labels instead of icons.",
-  "generatedAt": "2026-11-10T05:03:21.000Z",
-  "commitCount": 11
+  "summary": "karan built a static whisper export and a step-by-step whisper loop for the npu in vinowhisper, including vocabulary prompt support and a single-call prefill, with timing notes in the models docs. karan also fixed the settings media graph and legend layout in vinosearch and made config saves write to a temp file of their own.",
+  "generatedAt": "2026-11-13T03:56:57.000Z",
+  "commitCount": 23
 }
