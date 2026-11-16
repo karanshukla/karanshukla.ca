@@ -1,5 +1,5 @@
 {
-  "summary": "karan built a static whisper export and a step-by-step whisper loop for the npu in vinowhisper, including vocabulary prompt support and a single-call prefill, with timing notes in the models docs. karan also fixed the settings media graph and legend layout in vinosearch and made config saves write to a temp file of their own.",
-  "generatedAt": "2026-11-13T03:56:57.000Z",
-  "commitCount": 23
+  "summary": "karan refactored the icon parser in vinouserinterface to read path data through svgtypes and split it into tokens, commands and arcs, and restructured the daemon's run loop in vinoopeneffects into set-up, bus registration and a shutdown wait. karan also added the vinoauthface logo in its three tones and switched vinopilot's installs to use the checkout directly instead of a worktree.",
+  "generatedAt": "2026-11-16T03:38:11.000Z",
+  "commitCount": 24
 }
