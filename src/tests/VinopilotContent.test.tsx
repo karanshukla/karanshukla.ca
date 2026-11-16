@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import VinopilotContent from '../components/VinopilotContent';
-import { laptopRequirements, npuStats, vinopilotApps } from '../constants/vinopilotApps';
+import { deepDives, modelFixes, suiteApps } from '../constants/vinopilotApps';
 
 describe('VinopilotContent', () => {
   it('renders the vinopilot heading', () => {
@@ -20,22 +20,41 @@ describe('VinopilotContent', () => {
     );
   });
 
-  it('renders a card for every app with what it replaces', () => {
+  it('renders each deep dive with every workaround in its own section', () => {
     render(<VinopilotContent />);
-    for (const app of vinopilotApps) {
-      expect(screen.getByRole('heading', { level: 3, name: app.name })).toBeInTheDocument();
-      if (app.replaces) {
-        expect(screen.getByText(`replaces ${app.replaces}`)).toBeInTheDocument();
+    for (const project of deepDives) {
+      const section = screen.getByRole('region', { name: project.name });
+      for (const workaround of project.workarounds) {
+        expect(within(section).getByText(workaround.problem)).toBeInTheDocument();
+      }
+      for (const number of project.numbers) {
+        expect(within(section).getByText(number)).toBeInTheDocument();
       }
     }
   });
 
-  it('opens every app link in a new tab', () => {
+  it('links every model fix to its hugging face repo', () => {
     render(<VinopilotContent />);
-    for (const app of vinopilotApps) {
-      for (const link of app.links) {
+    for (const model of modelFixes) {
+      expect(
+        screen.getByRole('link', { name: `${model.model} (opens in new tab)` }),
+      ).toHaveAttribute('href', `https://huggingface.co/arankays/${model.model}`);
+    }
+  });
+
+  it('renders a card for every other app in the suite', () => {
+    render(<VinopilotContent />);
+    for (const app of suiteApps) {
+      expect(screen.getByRole('heading', { level: 3, name: app.name })).toBeInTheDocument();
+    }
+  });
+
+  it('opens every project link in a new tab', () => {
+    render(<VinopilotContent />);
+    for (const project of [...deepDives, ...suiteApps]) {
+      for (const link of project.links) {
         const anchor = screen.getByRole('link', {
-          name: `${app.name} ${link.label} (opens in new tab)`,
+          name: `${project.name} ${link.label} (opens in new tab)`,
         });
         expect(anchor).toHaveAttribute('href', link.href);
         expect(anchor).toHaveAttribute('target', '_blank');
@@ -43,19 +62,17 @@ describe('VinopilotContent', () => {
     }
   });
 
-  it('renders the npu stats', () => {
+  it('credits the upstream projects of the forks', () => {
     render(<VinopilotContent />);
-    for (const stat of npuStats) {
-      expect(screen.getByText(stat.caption)).toBeInTheDocument();
-    }
-  });
-
-  it('lists the laptop requirements', () => {
-    render(<VinopilotContent />);
-    const list = screen.getByRole('list');
-    for (const requirement of laptopRequirements) {
-      expect(within(list).getByText(requirement.label)).toBeInTheDocument();
-    }
+    expect(
+      screen.getByRole('link', { name: 'vinoauthface upstream (opens in new tab)' }),
+    ).toHaveAttribute('href', 'https://github.com/pfalkingham/authFace');
+    expect(
+      screen.getByRole('link', { name: 'vinoopeneffects upstream (opens in new tab)' }),
+    ).toHaveAttribute('href', 'https://github.com/funinkina/openeffects');
+    expect(
+      screen.getByRole('link', { name: 'vinopop upstream (opens in new tab)' }),
+    ).toHaveAttribute('href', 'https://github.com/GaimsDevSoftware/linuxpop');
   });
 
   it('sets the page title', () => {

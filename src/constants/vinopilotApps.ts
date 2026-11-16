@@ -3,159 +3,229 @@ export interface VinopilotLink {
   href: string;
 }
 
-export interface VinopilotApp {
+export interface Workaround {
+  problem: string;
+  detail: string;
+}
+
+export interface DeepDive {
   name: string;
-  tagline: string;
-  replaces?: string;
-  description: string;
-  highlights: string[];
+  summary: string;
+  stack: string;
+  numbers: string[];
+  workarounds: Workaround[];
+  links: VinopilotLink[];
+}
+
+export interface SuiteApp {
+  name: string;
+  summary: string;
   stack: string;
   links: VinopilotLink[];
 }
 
-export interface NpuStat {
-  value: string;
-  caption: string;
-}
-
-export interface LaptopRequirement {
-  label: string;
-  detail: string;
+export interface ModelFix {
+  model: string;
+  usedBy: string;
+  fix: string;
+  href: string;
 }
 
 const github = (repo: string) => `https://github.com/karanshukla/${repo}`;
+const huggingFace = (model: string) => `https://huggingface.co/arankays/${model}`;
 
-export const vinopilotApps: VinopilotApp[] = [
+export const deepDives: DeepDive[] = [
   {
-    name: 'vinowhisper',
-    tagline: 'live captions and voice typing',
-    replaces: 'live captions and voice typing',
-    description:
-      'captions for any audio or your mic, in an overlay. hold meta+h and talk to type into any app. english, french, german and spanish, with translation to english.',
-    highlights: ['~1.5s behind live audio'],
-    stack: 'python · mit',
-    links: [
-      { label: 'vinowhisper.com', href: 'https://vinowhisper.com/' },
-      { label: 'github', href: github('vinoWhisper') },
-      { label: 'pypi', href: 'https://pypi.org/project/vinowhisper/' },
-    ],
-  },
-  {
-    name: 'vinoauthface',
-    tagline: 'unlock with your face',
-    replaces: 'windows hello face',
-    description:
-      'look at your ir camera to unlock the lock screen, sudo and password prompts on gnome, kde, cosmic and sway. a single binary, so it also works on bazzite, bluefin and silverblue.',
-    highlights: ['~2s to unlock', 'ir camera only, for security'],
-    stack: 'rust · mit',
-    links: [
-      { label: 'website', href: 'https://vinoauthface.vinopilot.ca/' },
-      { label: 'github', href: github('vinoAuthFace') },
-      { label: 'security model', href: 'https://vinoauthface.vinopilot.ca/security.html' },
-    ],
-  },
-  {
-    name: 'vinoopeneffects',
-    tagline: 'look better on video calls',
-    replaces: 'windows studio effects',
-    description:
-      'background blur or replace, studio lighting, auto-framing and gesture reactions. shows up as a camera in zoom, meet, obs or your browser.',
-    highlights: ['1.2–4.9ms per frame on the npu'],
-    stack: 'rust · gpl-3.0',
-    links: [
-      { label: 'github', href: github('vinoOpenEffects') },
+    name: 'vinosearch',
+    summary: "find files by what's in them, not their names",
+    stack: 'rust · openvino',
+    numbers: ['26ms per search', 'indexes at 3% of one cpu core'],
+    workarounds: [
       {
-        label: 'benchmarks',
-        href: 'https://github.com/karanshukla/vinoOpenEffects/blob/main/docs/hardware.md',
+        problem: 'openvino breaks the embedding model',
+        detail:
+          'it converts one type of layer wrong, so results were poor. i rewrote those layers with simpler operations, and search quality went from 0.58 to 0.85 on a standard benchmark.',
+      },
+      {
+        problem: 'the npu only runs fixed sizes',
+        detail:
+          'every search would pay for the longest possible query, so short queries get their own small model shape.',
+      },
+      {
+        problem: 'a model can compile and still be wrong',
+        detail:
+          "on startup each model checks its npu output against known-good cpu results, and switches to the cpu if they don't match.",
+      },
+      {
+        problem: 'fast search without a vector database',
+        detail:
+          'vectors are stored as 8-bit numbers and scanned in a loop the compiler can speed up. that took searches from 85ms to 26ms.',
+      },
+      {
+        problem: 'sharing the npu',
+        detail:
+          'indexing sends one document at a time, so face unlock or dictation never waits long.',
+      },
+    ],
+    links: [
+      { label: 'github', href: github('vinoSearch') },
+      {
+        label: 'how it works',
+        href: 'https://github.com/karanshukla/vinoSearch/blob/main/docs/how-it-works.md',
       },
     ],
   },
   {
+    name: 'vinoauthface',
+    summary: 'face unlock with an ir camera, forked from authface',
+    stack: 'rust · openvino',
+    numbers: ['0 strangers let in across 7.7m tries', '~2s to unlock'],
+    workarounds: [
+      {
+        problem: 'glasses broke matching',
+        detail:
+          'lining the face up by eyes, nose and mouth before comparing raised same-person scores with glasses from 0.29 to 0.71.',
+      },
+      {
+        problem: 'telling a face from a photo',
+        detail:
+          'it looks for real movement between frames, like a blink, after cancelling out camera shake and brightness changes.',
+      },
+      {
+        problem: 'dodging the lockout',
+        detail:
+          "a failed attempt counts as soon as a face is seen, so killing the program mid-scan doesn't reset it.",
+      },
+      {
+        problem: 'a security hole in the npu cache',
+        detail:
+          "under sudo, the npu driver loaded files from the user's home folder. the cache now lives somewhere only root can write.",
+      },
+      {
+        problem: 'a bug in the inference library',
+        detail:
+          'it misread one layer of the face detector and returned random boxes, so that layer is rewritten when the model loads.',
+      },
+    ],
+    links: [
+      { label: 'github', href: github('vinoAuthFace') },
+      { label: 'upstream', href: 'https://github.com/pfalkingham/authFace' },
+      { label: 'security model', href: 'https://vinoauthface.vinopilot.ca/security.html' },
+    ],
+  },
+  {
+    name: 'vinowhisper',
+    summary: 'live captions and voice typing',
+    stack: 'python · rust · openvino',
+    numbers: ['~1.5s behind live audio', '3.3× faster than the cpu'],
+    workarounds: [
+      {
+        problem: "captions that don't rewrite themselves",
+        detail:
+          'audio is transcribed in overlapping 12-second chunks, and a word only shows up once two passes agree on it.',
+      },
+      {
+        problem: 'the model repeating itself',
+        detail:
+          'repeated text compresses unusually well, so any pass that compresses too well is thrown away.',
+      },
+      {
+        problem: "openvino's whisper can't take hints on the npu",
+        detail:
+          'so i wrote my own decoding loop, which lets custom words like names and jargon reach the npu.',
+      },
+      {
+        problem: 'copying memory for every word',
+        detail:
+          "writing straight into the npu's buffers instead of copying cut each step from 28.6ms to 11.7ms.",
+      },
+      {
+        problem: 'the npu resetting mid-sentence',
+        detail:
+          'if another app crashes the npu, vinowhisper reloads the model and carries on instead of giving up on it.',
+      },
+    ],
+    links: [
+      { label: 'vinowhisper.com', href: 'https://vinowhisper.com/' },
+      { label: 'github', href: github('vinoWhisper') },
+    ],
+  },
+];
+
+export const modelFixes: ModelFix[] = [
+  {
+    model: 'gemma-4-E2B-it-int4-cw-ov',
+    usedBy: 'vinopop',
+    fix: 'the official version never finishes compiling on the npu. a different compression layout compiles in about 2.5 minutes.',
+  },
+  {
+    model: 'embeddinggemma-2-text-int8-cw-onnx',
+    usedBy: 'vinosearch',
+    fix: 'fixed the layers openvino converts wrong, then shrank it from 1 gb to 274 mb.',
+  },
+  {
+    model: 'embeddinggemma-2-vision-static-onnx',
+    usedBy: 'vinosearch',
+    fix: "removed a step whose output size changes with the image, which the npu can't handle.",
+  },
+  {
+    model: 'canary-1b-v2-int8-ov',
+    usedBy: 'vinowhisper',
+    fix: 'split into fixed-size pieces the npu can compile, with the same output as the original.',
+  },
+].map((entry) => ({ ...entry, href: huggingFace(entry.model) }));
+
+export const suiteApps: SuiteApp[] = [
+  {
+    name: 'vinouserinterface',
+    summary: 'the shared look, widgets and tray icons every app is built on.',
+    stack: 'rust',
+    links: [{ label: 'github', href: github('vinoUserInterface') }],
+  },
+  {
+    name: 'ovfetch',
+    summary:
+      'installs the openvino version that matches your npu driver, after checking it against several sources.',
+    stack: 'rust',
+    links: [
+      { label: 'github', href: github('ovfetch') },
+      { label: 'crates.io', href: 'https://crates.io/crates/ovfetch' },
+    ],
+  },
+  {
+    name: 'vinoopeneffects',
+    summary: 'a fork of openeffects that runs background blur, lighting and framing on the npu.',
+    stack: 'rust',
+    links: [
+      { label: 'github', href: github('vinoOpenEffects') },
+      { label: 'upstream', href: 'https://github.com/funinkina/openeffects' },
+    ],
+  },
+  {
     name: 'vinopop',
-    tagline: 'ai actions on any text you select',
-    replaces: 'click to do and clipboard history',
-    description:
-      'highlight text anywhere and a toolbar of buttons that fit it pops up: translate, summarise, rewrite or explain it with a local ai, run a command, open a link. plus clipboard history (super+shift+v), snippets and copy-text-from-screen (shift+super+o).',
-    highlights: ['gemma 4 running locally', 'kde, gnome, sway and hyprland'],
-    stack: 'python · mit',
+    summary: 'a fork of linuxpop that runs its ai text actions offline on the npu.',
+    stack: 'python',
     links: [
       { label: 'github', href: github('vinoPop') },
-      { label: 'plugins', href: 'https://github.com/karanshukla/vinoPop#settings-and-plugins' },
+      { label: 'upstream', href: 'https://github.com/GaimsDevSoftware/linuxpop' },
     ],
   },
   {
     name: 'vinospeak',
-    tagline: 'natural-sounding text-to-speech',
-    replaces: 'windows natural voices',
-    description:
-      'turn any text into lifelike speech with the kokoro voice model. play it aloud or save a wav, or have it read a markdown file or a document from vinosearch. long text starts speaking in about 1.5 seconds.',
-    highlights: ['~160 mb model', 'cli and python api'],
-    stack: 'python · mit',
+    summary: 'text-to-speech that runs fully on the npu and starts talking in about 1.5s.',
+    stack: 'python',
     links: [
       { label: 'github', href: github('vinoSpeak') },
       { label: 'pypi', href: 'https://pypi.org/project/vinospeak/' },
     ],
   },
   {
-    name: 'vinosearch',
-    tagline: "find files by what they're about",
-    replaces: 'windows semantic search',
-    description:
-      'search by meaning, not filenames. type "dog watching the sunset" and find IMG_2041.jpg. works on notes, code, pdfs, office documents and photos, right from krunner, gnome shell or the terminal.',
-    highlights: ['26ms per search', 'indexes at 3% of one cpu core'],
-    stack: 'rust · mit',
-    links: [
-      { label: 'github', href: github('vinoSearch') },
-      { label: 'install', href: 'https://github.com/karanshukla/vinoSearch#install' },
-    ],
-  },
-  {
     name: 'vinowatch',
-    tagline: 'see what your npu is doing',
-    replaces: "task manager's npu view",
-    description:
-      'a tray icon showing npu load, plus the cpu and memory each ai app is using, with a warning when ram runs low. if the npu driver gets stuck, it can check and reset it without a reboot. works on kde, gnome and waybar.',
-    highlights: ['cpu, ram, npu per app', 'stuck-driver check in ~0.3s'],
-    stack: 'rust · mit',
+    summary: 'a tray icon showing how much npu, cpu and memory each ai app is using.',
+    stack: 'rust',
     links: [{ label: 'github', href: github('vinoWatch') }],
   },
-  {
-    name: 'ovfetch',
-    tagline: 'the plumbing behind the apps, for developers',
-    description:
-      'finds the openvino or onnx runtime build that fits your npu and driver, checks its hash against independent sources, and installs it. can compile newer ones from pinned recipes. scriptable with resolve --json.',
-    highlights: ['installs openvino in 17s'],
-    stack: 'rust · mit',
-    links: [
-      { label: 'github', href: github('ovfetch') },
-      { label: 'crates.io', href: 'https://crates.io/crates/ovfetch' },
-    ],
-  },
 ];
 
-export const npuStats: NpuStat[] = [
-  {
-    value: '10%',
-    caption: 'of one battery charge to index 9,763 files with vinosearch',
-  },
-  {
-    value: '3%',
-    caption: 'of one cpu core while it indexes. the npu runs the model, the cpu only reads files',
-  },
-  {
-    value: '3.3×',
-    caption:
-      'faster live captions than the cpu: 12s of speech in 0.70s on the npu, 2.30s on the cpu',
-  },
-  {
-    value: '0 W',
-    caption: 'when idle. the npu powers down 100ms after its last job',
-  },
-];
-
-export const laptopRequirements: LaptopRequirement[] = [
-  { label: 'intel core ultra', detail: 'any chip with an intel npu, 2023 or newer' },
-  { label: '16 gb ram', detail: 'recommended, so ai models load alongside your apps' },
-  { label: 'recent linux distro', detail: 'a current kernel ships the intel npu driver' },
-  { label: 'ir camera', detail: 'only for face unlock with vinoauthface' },
-];
+export const testHardware =
+  'all numbers measured on one dell xps 13 (core 5 320) running fedora 45.';
