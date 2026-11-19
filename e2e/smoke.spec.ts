@@ -1,20 +1,18 @@
 import { expect, test } from '@playwright/test';
 
-const albumArtUrl = 'https://lastfm-img.freetls.fastly.net/i/u/300x300/album.jpg';
+const coverArtUrl = 'https://coverartarchive.org/release/rel-1/42-250.jpg';
 
-const recentTracks = {
-  recenttracks: {
-    track: [
-      {
-        name: 'Test Track',
-        artist: { '#text': 'Test Artist' },
-        album: { '#text': 'Test Album' },
-        image: [{ size: 'extralarge', '#text': albumArtUrl }],
-        url: 'https://www.last.fm/music/Test+Artist/_/Test+Track',
-        '@attr': { nowplaying: 'true' },
-      },
-    ],
+const listen = {
+  track_metadata: {
+    artist_name: 'Test Artist',
+    track_name: 'Test Track',
+    release_name: 'Test Album',
   },
+};
+
+const trackLookup = {
+  recording_mbid: 'rec-1',
+  metadata: { release: { caa_id: 42, caa_release_mbid: 'rel-1' }, tag: { recording: [] } },
 };
 
 const repo = {
@@ -34,13 +32,15 @@ test.beforeEach(async ({ page }) => {
   });
   page.on('pageerror', (error) => errors.push(error.message));
 
-  await page.route('https://ws.audioscrobbler.com/**', (route) => {
-    const method = new URL(route.request().url()).searchParams.get('method');
+  await page.route('https://api.listenbrainz.org/**', (route) => {
+    const { pathname } = new URL(route.request().url());
     return route.fulfill({
-      json: method === 'user.getRecentTracks' ? recentTracks : { toptags: { tag: [] } },
+      json: pathname.includes('/metadata/lookup')
+        ? trackLookup
+        : { payload: { listens: [listen] } },
     });
   });
-  await page.route(albumArtUrl, (route) => route.fulfill({ path: 'public/og-image.jpg' }));
+  await page.route(coverArtUrl, (route) => route.fulfill({ path: 'public/og-image.jpg' }));
   await page.route('https://api.github.com/repos/**', (route) => route.fulfill({ json: repo }));
 });
 

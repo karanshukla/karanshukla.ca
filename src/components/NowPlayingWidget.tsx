@@ -6,7 +6,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import { keyframes } from '@mui/system';
-import { useLastFm } from '../hooks/CommonHooks';
+import { useListenBrainz } from '../hooks/CommonHooks';
 
 const blink = keyframes`
   0%, 100% { opacity: 1; }
@@ -15,8 +15,8 @@ const blink = keyframes`
 
 const blinkAnimation = `${blink} 2s ease-in-out infinite`;
 
-function LastFmWidget() {
-  const track = useLastFm();
+function NowPlayingWidget() {
+  const track = useListenBrainz();
 
   return (
     <Paper sx={{ p: 3, width: '100%' }}>
@@ -26,7 +26,7 @@ function LastFmWidget() {
           variant="overline"
           sx={{ textTransform: 'none', lineHeight: 1, color: 'text.secondary' }}
         >
-          last.fm (real time)
+          listenbrainz (real time)
         </Typography>
         {track?.isNowPlaying && (
           <Chip
@@ -62,7 +62,7 @@ function LastFmWidget() {
                 rel="noopener noreferrer"
                 underline="hover"
                 sx={{ color: 'text.primary' }}
-                aria-label={`${track.name} by ${track.artist} on last.fm (opens in new tab)`}
+                aria-label={`${track.name} by ${track.artist} (opens in new tab)`}
               >
                 <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
                   {track.name}
@@ -114,4 +114,4 @@ function LastFmWidget() {
   );
 }
 
-export default LastFmWidget;
+export default NowPlayingWidget;

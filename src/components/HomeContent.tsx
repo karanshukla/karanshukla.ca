@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router';
 import { RepoStats } from './ProjectCard';
 import GitHubPulse from './GitHubPulse';
-import LastFmWidget from './LastFmWidget';
+import NowPlayingWidget from './NowPlayingWidget';
 import { usePageTitle } from '../hooks/CommonHooks';
 
 function HomeContent() {
@@ -132,7 +132,7 @@ function HomeContent() {
               <GitHubPulse />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
-              <LastFmWidget />
+              <NowPlayingWidget />
             </Grid>
           </Grid>
         </Box>

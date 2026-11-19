@@ -15,9 +15,9 @@ Personal website and resume. Live at [karanshukla.ca](https://karanshukla.ca).
 
 Most personal sites are a static page with a bio and some project links. This one is a bit weirder.
 
-### Now Playing via Last.fm
+### Now Playing via ListenBrainz
 
-A widget polls the Last.fm API every 30 seconds and shows whatever is currently playing, including album art, track name, and the top genre tags scraped from the track metadata. If nothing is playing, it falls back to the most recently scanned track. Respects `prefers-reduced-motion` for the blinking "live" indicator. 
+A widget polls the [ListenBrainz](https://listenbrainz.org) API every 30 seconds and shows whatever is currently playing, falling back to the most recent listen. Album art comes from the Cover Art Archive and the top genre tags from MusicBrainz, both found through ListenBrainz's metadata lookup. No API key needed. Respects `prefers-reduced-motion` for the blinking "live" indicator.
 
 ### AI-Generated Commit Summaries
 
@@ -39,17 +39,17 @@ Numpad keys 1 through 4 navigate between the main sections of the site. You prob
 
 ## Tech stack
 
-| Layer | Tools |
-|---|---|
-| Framework | React 18 + TypeScript |
-| Build | Vite |
-| UI | Material UI v9 + Emotion |
-| Routing | React Router v7 |
-| State | Zustand v5 |
-| Testing | Vitest + React Testing Library |
-| Linting | ESLint + TypeScript ESLint + Prettier |
-| Automation | GitHub Actions + Python scripts |
-| AI | Anthropic API (Claude Haiku 5.5) |
+| Layer      | Tools                                 |
+| ---------- | ------------------------------------- |
+| Framework  | React 18 + TypeScript                 |
+| Build      | Vite                                  |
+| UI         | Material UI v9 + Emotion              |
+| Routing    | React Router v7                       |
+| State      | Zustand v5                            |
+| Testing    | Vitest + React Testing Library        |
+| Linting    | ESLint + TypeScript ESLint + Prettier |
+| Automation | GitHub Actions + Python scripts       |
+| AI         | Anthropic API (Claude Haiku 5.5)      |
 
 ---
 
@@ -77,12 +77,12 @@ yarn dev        # http://localhost:5173
 
 ## Automated workflows
 
-| Workflow | Schedule | What it does |
-|---|---|---|
-| `main.yml` | Push to `main` | Build + deploy to GitHub Pages |
-| `pr-check.yml` | Pull requests | Lint, type-check, test |
-| `pulse.yml` | Every 3 days | Fetch recent commits, summarise via Claude Haiku, commit `pulse.json` |
-| `stats.yml` | Weekly (Mon 02:00 UTC) | Run Vitest coverage + Lighthouse CI, commit `stats.json` |
+| Workflow            | Schedule                          | What it does                                                                                                |
+| ------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `main.yml`          | Push to `main`                    | Build + deploy to GitHub Pages                                                                              |
+| `pr-check.yml`      | Pull requests                     | Lint, type-check, test                                                                                      |
+| `pulse.yml`         | Every 3 days                      | Fetch recent commits, summarise via Claude Haiku, commit `pulse.json`                                       |
+| `stats.yml`         | Weekly (Mon 02:00 UTC)            | Run Vitest coverage + Lighthouse CI, commit `stats.json`                                                    |
 | `standard-site.yml` | Push touching `src/data/posts/**` | Publish [Standard.site](https://standard.site) publication/document records to the `pds.karanshukla.ca` PDS |
 
 `pulse.json` and `stats.json` are static files baked into the build at deploy time. The sidebar widgets (`GitHubPulse`, `SiteStatsWidget`) read these files at build time with no runtime API calls needed.
@@ -115,7 +115,7 @@ GitHub Pages serves the `gh-pages` branch at the custom domain.
 
 ## Credits
 
-- [Last.fm Hook](https://github.com/alii/use-last-fm) for music scrobbling data
+- [ListenBrainz](https://listenbrainz.org) and [MusicBrainz](https://musicbrainz.org) for listening data, cover art and genre tags
 - [Anthropic API](https://docs.claude.com) for LLM-powered commit summaries (Claude Haiku 5.5)
 - [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) for automated performance auditing
 - [Material UI](https://mui.com/) for components and theming

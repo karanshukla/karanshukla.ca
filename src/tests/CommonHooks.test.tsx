@@ -4,7 +4,7 @@ import {
   useGitHubRepo,
   useAppTheme,
   useKeyboardShortcuts,
-  useLastFm,
+  useListenBrainz,
   navShortcuts,
 } from '../hooks/CommonHooks';
 
@@ -172,96 +172,146 @@ describe('useKeyboardShortcuts', () => {
   });
 });
 
-// ── useLastFm ────────────────────────────────────────────────────────────────
+// ── useListenBrainz ──────────────────────────────────────────────────────────
 
-const mockTagResponse = {
-  toptags: {
-    tag: [
-      { name: 'jazz', count: 100 },
-      { name: 'fusion', count: 50 },
-    ],
+const listen = {
+  track_metadata: {
+    artist_name: 'miles davis',
+    track_name: 'so what',
+    release_name: 'kind of blue',
   },
 };
 
-const makeLastFmResponse = (nowPlaying: boolean) => ({
-  recenttracks: {
-    track: [
-      {
-        name: 'so what',
-        artist: { '#text': 'miles davis' },
-        album: { '#text': 'kind of blue' },
-        image: [{ '#text': 'https://example.com/art.jpg', size: 'large' }],
-        url: 'https://last.fm/track',
-        ...(nowPlaying ? { '@attr': { nowplaying: 'true' } } : { date: { uts: '1234567890' } }),
-      },
-    ],
+const lookup = {
+  recording_mbid: 'rec-1',
+  metadata: {
+    release: { caa_id: 42, caa_release_mbid: 'rel-1' },
+    tag: {
+      recording: [
+        { tag: 'Fusion', count: 5 },
+        { tag: 'Jazz', count: 10 },
+      ],
+      artist: [{ tag: 'bebop', count: 99 }],
+    },
   },
-});
-
-const stubLastFmFetch = (nowPlaying: boolean) => {
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockImplementation((url: string) => {
-      if (url.includes('getTopTags')) {
-        return Promise.resolve({ json: () => Promise.resolve(mockTagResponse) });
-      }
-      return Promise.resolve({ json: () => Promise.resolve(makeLastFmResponse(nowPlaying)) });
-    }),
-  );
 };
 
-describe('useLastFm', () => {
+const json = (body: unknown) => Promise.resolve({ json: () => Promise.resolve(body) });
+
+const stubListenBrainz = ({
+  playingNow,
+  recent = [listen],
+  lookupBody = lookup,
+}: {
+  playingNow: boolean;
+  recent?: unknown[];
+  lookupBody?: unknown;
+}) => {
+  const fetchMock = vi.fn().mockImplementation((url: string) => {
+    if (url.includes('/playing-now')) {
+      return json({ payload: { listens: playingNow ? [listen] : [] } });
+    }
+    if (url.includes('/listens')) return json({ payload: { listens: recent } });
+    if (url.includes('/metadata/lookup')) return json(lookupBody);
+    return json({});
+  });
+  vi.stubGlobal('fetch', fetchMock);
+  return fetchMock;
+};
+
+describe('useListenBrainz', () => {
   afterEach(() => vi.unstubAllGlobals());
 
   it('returns null initially', () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve({}) }));
-    const { result } = renderHook(() => useLastFm());
+    stubListenBrainz({ playingNow: true });
+    const { result } = renderHook(() => useListenBrainz());
     expect(result.current).toBeNull();
   });
 
-  it('returns track data with isNowPlaying=true when live', async () => {
-    stubLastFmFetch(true);
-    const { result } = renderHook(() => useLastFm());
+  it('returns the playing-now track with cover art, link and top tags', async () => {
+    stubListenBrainz({ playingNow: true });
+    const { result } = renderHook(() => useListenBrainz());
     await waitFor(() => expect(result.current).not.toBeNull());
-    expect(result.current?.name).toBe('so what');
-    expect(result.current?.artist).toBe('miles davis');
-    expect(result.current?.album).toBe('kind of blue');
-    expect(result.current?.isNowPlaying).toBe(true);
-    expect(result.current?.imageUrl).toBe('https://example.com/art.jpg');
+    expect(result.current).toEqual({
+      name: 'so what',
+      artist: 'miles davis',
+      album: 'kind of blue',
+      isNowPlaying: true,
+      imageUrl: 'https://coverartarchive.org/release/rel-1/42-250.jpg',
+      url: 'https://musicbrainz.org/recording/rec-1',
+      tags: ['jazz', 'fusion'],
+    });
   });
 
-  it('returns tags from getTopTags', async () => {
-    stubLastFmFetch(true);
-    const { result } = renderHook(() => useLastFm());
-    await waitFor(() => expect(result.current?.tags.length).toBeGreaterThan(0));
-    expect(result.current?.tags).toContain('jazz');
-  });
-
-  it('returns track data with isNowPlaying=false when not live', async () => {
-    stubLastFmFetch(false);
-    const { result } = renderHook(() => useLastFm());
+  it('falls back to the most recent listen when nothing is playing', async () => {
+    const fetchMock = stubListenBrainz({ playingNow: false });
+    const { result } = renderHook(() => useListenBrainz());
     await waitFor(() => expect(result.current).not.toBeNull());
     expect(result.current?.isNowPlaying).toBe(false);
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/listens?count=1'));
   });
 
-  it('stays null when fetch fails silently', async () => {
+  it('uses artist tags when the recording has none', async () => {
+    stubListenBrainz({
+      playingNow: true,
+      lookupBody: { metadata: { tag: { recording: [], artist: [{ tag: 'Bebop', count: 3 }] } } },
+    });
+    const { result } = renderHook(() => useListenBrainz());
+    await waitFor(() => expect(result.current).not.toBeNull());
+    expect(result.current?.tags).toEqual(['bebop']);
+  });
+
+  it('keeps the track when the metadata lookup fails', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockImplementation((url: string) =>
+          url.includes('/metadata/lookup')
+            ? Promise.reject(new Error('down'))
+            : json({ payload: { listens: [listen] } }),
+        ),
+    );
+    const { result } = renderHook(() => useListenBrainz());
+    await waitFor(() => expect(result.current).not.toBeNull());
+    expect(result.current?.imageUrl).toBe('');
+    expect(result.current?.tags).toEqual([]);
+    expect(result.current?.url).toBe('https://listenbrainz.org/user/arankays/');
+  });
+
+  it('stays null when there are no listens', async () => {
+    stubListenBrainz({ playingNow: false, recent: [] });
+    const { result } = renderHook(() => useListenBrainz());
+    await new Promise((r) => setTimeout(r, 50));
+    expect(result.current).toBeNull();
+  });
+
+  it('stays null when fetch fails', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
-    const { result } = renderHook(() => useLastFm());
+    const { result } = renderHook(() => useListenBrainz());
     await new Promise((r) => setTimeout(r, 50));
     expect(result.current).toBeNull();
   });
 
-  it('stays null when response has no recenttracks', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve({}) }));
-    const { result } = renderHook(() => useLastFm());
-    await new Promise((r) => setTimeout(r, 50));
-    expect(result.current).toBeNull();
+  it('looks up metadata once per track across polls', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const fetchMock = stubListenBrainz({ playingNow: true });
+    const { result } = renderHook(() => useListenBrainz());
+    await waitFor(() => expect(result.current).not.toBeNull());
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(30_000);
+    });
+    const lookups = fetchMock.mock.calls.filter(([url]) =>
+      (url as string).includes('/metadata/lookup'),
+    );
+    expect(lookups).toHaveLength(1);
+    vi.useRealTimers();
   });
 
   it('clears the polling interval on unmount', () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve({}) }));
+    stubListenBrainz({ playingNow: true });
     const clearSpy = vi.spyOn(globalThis, 'clearInterval');
-    const { unmount } = renderHook(() => useLastFm());
+    const { unmount } = renderHook(() => useListenBrainz());
     unmount();
     expect(clearSpy).toHaveBeenCalled();
     clearSpy.mockRestore();

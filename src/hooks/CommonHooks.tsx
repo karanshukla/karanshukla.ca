@@ -227,13 +227,14 @@ export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: 
   return { theme, toggleTheme, isDark: mode === 'dark' };
 };
 
-// --- Last.fm ---
+// --- ListenBrainz ---
 
-const LASTFM_USER = 'nightrunner_ks';
-const LASTFM_API_KEY = '4f3d78ce29dde05263e60e9e32a20eff';
-const LASTFM_POLL_MS = 30_000;
+const LISTENBRAINZ_USER = 'arankays';
+const LISTENBRAINZ_API = 'https://api.listenbrainz.org/1';
+const LISTENBRAINZ_POLL_MS = 30_000;
+const MAX_TAGS = 3;
 
-export interface LastFmTrack {
+export interface NowPlayingTrack {
   name: string;
   artist: string;
   album: string;
@@ -243,89 +244,129 @@ export interface LastFmTrack {
   tags: string[];
 }
 
-type RawTrack = {
-  name: string;
-  artist: { '#text': string };
-  album: { '#text': string };
-  image: Array<{ '#text': string; size: string }>;
+interface Listen {
+  track_metadata: {
+    artist_name: string;
+    track_name: string;
+    release_name?: string;
+    additional_info?: { origin_url?: string };
+  };
+}
+
+interface ListensResponse {
+  payload?: { listens?: Listen[] };
+}
+
+interface WeightedTag {
+  tag: string;
+  count: number;
+}
+
+interface TrackLookup {
+  recording_mbid?: string;
+  release_name?: string;
+  metadata?: {
+    release?: { caa_id?: number | null; caa_release_mbid?: string | null };
+    tag?: { recording?: WeightedTag[]; artist?: WeightedTag[]; release_group?: WeightedTag[] };
+  };
+}
+
+interface TrackDetails {
+  imageUrl: string;
   url: string;
-  '@attr'?: { nowplaying: string };
-  date?: { uts: string };
+  album: string;
+  tags: string[];
+}
+
+const fetchFirstListen = async (path: string): Promise<Listen | undefined> => {
+  const res = await fetch(`${LISTENBRAINZ_API}/user/${LISTENBRAINZ_USER}/${path}`);
+  const data = (await res.json()) as ListensResponse;
+  return data.payload?.listens?.[0];
 };
 
-export const useLastFm = (): LastFmTrack | null => {
-  const [track, setTrack] = useState<LastFmTrack | null>(null);
+const topTags = (metadata: TrackLookup['metadata']): string[] => {
+  const tag = metadata?.tag;
+  const candidates = [tag?.recording, tag?.artist, tag?.release_group];
+  const best = candidates.find((group) => group && group.length > 0) ?? [];
+  return [...best]
+    .sort((a, b) => b.count - a.count)
+    .map((t) => t.tag.toLowerCase())
+    .filter((name, i, all) => name.length > 0 && all.indexOf(name) === i)
+    .slice(0, MAX_TAGS);
+};
+
+const coverArtUrl = (lookup: TrackLookup): string => {
+  const release = lookup.metadata?.release;
+  if (!release?.caa_id || !release.caa_release_mbid) return '';
+  return `https://coverartarchive.org/release/${release.caa_release_mbid}/${release.caa_id}-250.jpg`;
+};
+
+const profileUrl = `https://listenbrainz.org/user/${LISTENBRAINZ_USER}/`;
+
+const lookUpTrackDetails = async (listen: Listen): Promise<TrackDetails> => {
+  const { artist_name, track_name, release_name, additional_info } = listen.track_metadata;
+  const fallback: TrackDetails = {
+    imageUrl: '',
+    url: additional_info?.origin_url ?? profileUrl,
+    album: release_name ?? '',
+    tags: [],
+  };
+  try {
+    const params = new URLSearchParams({
+      artist_name,
+      recording_name: track_name,
+      metadata: 'true',
+      inc: 'tag release',
+    });
+    if (release_name) params.set('release_name', release_name);
+    const res = await fetch(`${LISTENBRAINZ_API}/metadata/lookup/?${params.toString()}`);
+    const lookup = (await res.json()) as TrackLookup;
+    return {
+      imageUrl: coverArtUrl(lookup),
+      url: lookup.recording_mbid
+        ? `https://musicbrainz.org/recording/${lookup.recording_mbid}`
+        : fallback.url,
+      album: fallback.album || (lookup.release_name ?? ''),
+      tags: topTags(lookup.metadata),
+    };
+  } catch {
+    return fallback;
+  }
+};
+
+export const useListenBrainz = (): NowPlayingTrack | null => {
+  const [track, setTrack] = useState<NowPlayingTrack | null>(null);
 
   useEffect(() => {
+    const detailsByTrack = new Map<string, TrackDetails>();
+
     const fetchTrack = async () => {
       try {
-        const res = await fetch(
-          `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json&limit=1`,
-        );
-        const data = (await res.json()) as {
-          recenttracks?: { track: RawTrack[] | RawTrack };
-        };
+        const playing = await fetchFirstListen('playing-now');
+        const listen = playing ?? (await fetchFirstListen('listens?count=1'));
+        if (!listen) return;
 
-        const tracks = data.recenttracks?.track;
-        if (!tracks) return;
-
-        const t = Array.isArray(tracks) ? tracks[0] : tracks;
-        const imageUrl =
-          t.image.find((i) => i.size === 'extralarge')?.['#text'] ||
-          t.image.find((i) => i.size === 'large')?.['#text'] ||
-          t.image.find((i) => i.size === 'medium')?.['#text'] ||
-          '';
-
-        // Fetch top tags: try track first, fall back to artist (artist tags are more populated)
-        let tags: string[] = [];
-        try {
-          const artistEncoded = encodeURIComponent(t.artist['#text']);
-          const trackEncoded = encodeURIComponent(t.name);
-          const base = `https://ws.audioscrobbler.com/2.0/?api_key=${LASTFM_API_KEY}&format=json&autocorrect=1`;
-
-          const tagRes = await fetch(
-            `${base}&method=track.getTopTags&artist=${artistEncoded}&track=${trackEncoded}`,
-          );
-          const tagData = (await tagRes.json()) as {
-            toptags?: { tag: Array<{ name: string; count: number }> };
-          };
-          tags = (tagData.toptags?.tag ?? [])
-            .slice(0, 3)
-            .map((tag) => tag.name.toLowerCase())
-            .filter((name) => name.length > 0);
-
-          if (tags.length === 0) {
-            const artistTagRes = await fetch(
-              `${base}&method=artist.getTopTags&artist=${artistEncoded}`,
-            );
-            const artistTagData = (await artistTagRes.json()) as {
-              toptags?: { tag: Array<{ name: string; count: number }> };
-            };
-            tags = (artistTagData.toptags?.tag ?? [])
-              .slice(0, 3)
-              .map((tag) => tag.name.toLowerCase())
-              .filter((name) => name.length > 0);
-          }
-        } catch {
-          // tags are non-critical
+        const { artist_name, track_name } = listen.track_metadata;
+        const key = `${artist_name}\u0000${track_name}`;
+        let details = detailsByTrack.get(key);
+        if (!details) {
+          details = await lookUpTrackDetails(listen);
+          detailsByTrack.set(key, details);
         }
 
         setTrack({
-          name: t.name,
-          artist: t.artist['#text'],
-          album: t.album['#text'],
-          imageUrl,
-          isNowPlaying: t['@attr']?.nowplaying === 'true',
-          url: t.url,
-          tags,
+          name: track_name,
+          artist: artist_name,
+          isNowPlaying: Boolean(playing),
+          ...details,
         });
       } catch {
-        // silently fail — Last.fm is non-critical
+        // non-critical display widget
       }
     };
 
     void fetchTrack();
-    const interval = setInterval(() => void fetchTrack(), LASTFM_POLL_MS);
+    const interval = setInterval(() => void fetchTrack(), LISTENBRAINZ_POLL_MS);
     return () => clearInterval(interval);
   }, []);
 
