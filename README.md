@@ -15,9 +15,9 @@ Personal website and resume. Live at [karanshukla.ca](https://karanshukla.ca).
 
 Most personal sites are a static page with a bio and some project links. This one is a bit weirder.
 
-### Now Playing via ListenBrainz
+### Recently Played via YouTube Music
 
-A widget polls the [ListenBrainz](https://listenbrainz.org) API every 30 seconds and shows whatever is currently playing, falling back to the most recent listen. Album art comes from the Cover Art Archive and the top genre tags from MusicBrainz, both found through ListenBrainz's metadata lookup. No API key needed. Respects `prefers-reduced-motion` for the blinking "live" indicator.
+YouTube Music has no public API, so a GitHub Actions workflow runs every 5 minutes and reads my play history with the unofficial [ytmusicapi](https://github.com/sigma67/ytmusicapi) library. When the latest song changes, it force-pushes a tiny `now-playing.json` to a separate `now-playing` branch, and the widget fetches that file from raw.githubusercontent.com. `main` never gets a commit or a redeploy for it. Genre tags come from MusicBrainz via ListenBrainz's metadata lookup. Songs first seen in the last 15 minutes get a blinking "just played" chip, which respects `prefers-reduced-motion`.
 
 ### AI-Generated Commit Summaries
 
@@ -115,7 +115,7 @@ GitHub Pages serves the `gh-pages` branch at the custom domain.
 
 ## Credits
 
-- [ListenBrainz](https://listenbrainz.org) and [MusicBrainz](https://musicbrainz.org) for listening data, cover art and genre tags
+- [ytmusicapi](https://github.com/sigma67/ytmusicapi) for YouTube Music play history, and [ListenBrainz](https://listenbrainz.org)/[MusicBrainz](https://musicbrainz.org) for genre tags
 - [Anthropic API](https://docs.claude.com) for LLM-powered commit summaries (Claude Haiku 5.5)
 - [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) for automated performance auditing
 - [Material UI](https://mui.com/) for components and theming

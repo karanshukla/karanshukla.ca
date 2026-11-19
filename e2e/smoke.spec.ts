@@ -1,18 +1,17 @@
 import { expect, test } from '@playwright/test';
 
-const coverArtUrl = 'https://coverartarchive.org/release/rel-1/42-250.jpg';
+const albumArtUrl = 'https://lh3.googleusercontent.com/album=w240-h240-l90-rj';
 
-const listen = {
-  track_metadata: {
-    artist_name: 'Test Artist',
-    track_name: 'Test Track',
-    release_name: 'Test Album',
-  },
-};
-
-const trackLookup = {
-  recording_mbid: 'rec-1',
-  metadata: { release: { caa_id: 42, caa_release_mbid: 'rel-1' }, tag: { recording: [] } },
+const nowPlayingFile = {
+  videoId: 'abc',
+  title: 'Test Track',
+  artist: 'Test Artist',
+  album: 'Test Album',
+  imageUrl: albumArtUrl,
+  url: 'https://music.youtube.com/watch?v=abc',
+  played: 'today',
+  tags: [],
+  firstSeenAt: '2026-01-01T00:00:00Z',
 };
 
 const repo = {
@@ -32,15 +31,10 @@ test.beforeEach(async ({ page }) => {
   });
   page.on('pageerror', (error) => errors.push(error.message));
 
-  await page.route('https://api.listenbrainz.org/**', (route) => {
-    const { pathname } = new URL(route.request().url());
-    return route.fulfill({
-      json: pathname.includes('/metadata/lookup')
-        ? trackLookup
-        : { payload: { listens: [listen] } },
-    });
-  });
-  await page.route(coverArtUrl, (route) => route.fulfill({ path: 'public/og-image.jpg' }));
+  await page.route('https://raw.githubusercontent.com/**/now-playing.json', (route) =>
+    route.fulfill({ json: nowPlayingFile }),
+  );
+  await page.route(albumArtUrl, (route) => route.fulfill({ path: 'public/og-image.jpg' }));
   await page.route('https://api.github.com/repos/**', (route) => route.fulfill({ json: repo }));
 });
 

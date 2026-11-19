@@ -6,7 +6,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import { keyframes } from '@mui/system';
-import { useListenBrainz } from '../hooks/CommonHooks';
+import { useYouTubeMusic } from '../hooks/CommonHooks';
 
 const blink = keyframes`
   0%, 100% { opacity: 1; }
@@ -16,7 +16,7 @@ const blink = keyframes`
 const blinkAnimation = `${blink} 2s ease-in-out infinite`;
 
 function NowPlayingWidget() {
-  const track = useListenBrainz();
+  const track = useYouTubeMusic();
 
   return (
     <Paper sx={{ p: 3, width: '100%' }}>
@@ -26,11 +26,11 @@ function NowPlayingWidget() {
           variant="overline"
           sx={{ textTransform: 'none', lineHeight: 1, color: 'text.secondary' }}
         >
-          listenbrainz (real time)
+          youtube music
         </Typography>
-        {track?.isNowPlaying && (
+        {track?.isJustPlayed && (
           <Chip
-            label="now playing"
+            label="just played"
             size="small"
             color="primary"
             sx={{
@@ -62,7 +62,7 @@ function NowPlayingWidget() {
                 rel="noopener noreferrer"
                 underline="hover"
                 sx={{ color: 'text.primary' }}
-                aria-label={`${track.name} by ${track.artist} (opens in new tab)`}
+                aria-label={`${track.name} by ${track.artist} on youtube music (opens in new tab)`}
               >
                 <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
                   {track.name}
@@ -80,12 +80,12 @@ function NowPlayingWidget() {
                   {track.album}
                 </Typography>
               )}
-              {!track.isNowPlaying && (
+              {!track.isJustPlayed && (
                 <Typography
                   variant="caption"
                   sx={{ display: 'block', mt: 0.25, color: 'text.secondary' }}
                 >
-                  last played
+                  {['last played', track.playedLabel].filter(Boolean).join(' ')}
                 </Typography>
               )}
             </Box>
@@ -107,7 +107,7 @@ function NowPlayingWidget() {
         </Box>
       ) : (
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          nothing playing right now
+          nothing played recently
         </Typography>
       )}
     </Paper>

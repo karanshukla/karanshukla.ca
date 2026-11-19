@@ -227,146 +227,63 @@ export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: 
   return { theme, toggleTheme, isDark: mode === 'dark' };
 };
 
-// --- ListenBrainz ---
+// --- YouTube Music ---
 
-const LISTENBRAINZ_USER = 'arankays';
-const LISTENBRAINZ_API = 'https://api.listenbrainz.org/1';
-const LISTENBRAINZ_POLL_MS = 30_000;
-const MAX_TAGS = 3;
+const NOW_PLAYING_URL =
+  'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/now-playing/now-playing.json';
+const NOW_PLAYING_POLL_MS = 60_000;
+const JUST_PLAYED_WINDOW_MS = 15 * 60_000;
 
 export interface NowPlayingTrack {
   name: string;
   artist: string;
   album: string;
   imageUrl: string;
-  isNowPlaying: boolean;
   url: string;
   tags: string[];
+  playedLabel: string;
+  isJustPlayed: boolean;
 }
 
-interface Listen {
-  track_metadata: {
-    artist_name: string;
-    track_name: string;
-    release_name?: string;
-    additional_info?: { origin_url?: string };
-  };
-}
-
-interface ListensResponse {
-  payload?: { listens?: Listen[] };
-}
-
-interface WeightedTag {
-  tag: string;
-  count: number;
-}
-
-interface TrackLookup {
-  recording_mbid?: string;
-  release_name?: string;
-  metadata?: {
-    release?: { caa_id?: number | null; caa_release_mbid?: string | null };
-    tag?: { recording?: WeightedTag[]; artist?: WeightedTag[]; release_group?: WeightedTag[] };
-  };
-}
-
-interface TrackDetails {
+export interface NowPlayingFile {
+  title: string;
+  artist: string;
+  album: string;
   imageUrl: string;
   url: string;
-  album: string;
+  played: string;
   tags: string[];
+  firstSeenAt: string;
 }
 
-const fetchFirstListen = async (path: string): Promise<Listen | undefined> => {
-  const res = await fetch(`${LISTENBRAINZ_API}/user/${LISTENBRAINZ_USER}/${path}`);
-  const data = (await res.json()) as ListensResponse;
-  return data.payload?.listens?.[0];
-};
+export const toNowPlayingTrack = (file: NowPlayingFile, now: number): NowPlayingTrack => ({
+  name: file.title,
+  artist: file.artist,
+  album: file.album,
+  imageUrl: file.imageUrl,
+  url: file.url,
+  tags: file.tags,
+  playedLabel: file.played,
+  isJustPlayed: now - Date.parse(file.firstSeenAt) < JUST_PLAYED_WINDOW_MS,
+});
 
-const topTags = (metadata: TrackLookup['metadata']): string[] => {
-  const tag = metadata?.tag;
-  const candidates = [tag?.recording, tag?.artist, tag?.release_group];
-  const best = candidates.find((group) => group && group.length > 0) ?? [];
-  return [...best]
-    .sort((a, b) => b.count - a.count)
-    .map((t) => t.tag.toLowerCase())
-    .filter((name, i, all) => name.length > 0 && all.indexOf(name) === i)
-    .slice(0, MAX_TAGS);
-};
-
-const coverArtUrl = (lookup: TrackLookup): string => {
-  const release = lookup.metadata?.release;
-  if (!release?.caa_id || !release.caa_release_mbid) return '';
-  return `https://coverartarchive.org/release/${release.caa_release_mbid}/${release.caa_id}-250.jpg`;
-};
-
-const profileUrl = `https://listenbrainz.org/user/${LISTENBRAINZ_USER}/`;
-
-const lookUpTrackDetails = async (listen: Listen): Promise<TrackDetails> => {
-  const { artist_name, track_name, release_name, additional_info } = listen.track_metadata;
-  const fallback: TrackDetails = {
-    imageUrl: '',
-    url: additional_info?.origin_url ?? profileUrl,
-    album: release_name ?? '',
-    tags: [],
-  };
-  try {
-    const params = new URLSearchParams({
-      artist_name,
-      recording_name: track_name,
-      metadata: 'true',
-      inc: 'tag release',
-    });
-    if (release_name) params.set('release_name', release_name);
-    const res = await fetch(`${LISTENBRAINZ_API}/metadata/lookup/?${params.toString()}`);
-    const lookup = (await res.json()) as TrackLookup;
-    return {
-      imageUrl: coverArtUrl(lookup),
-      url: lookup.recording_mbid
-        ? `https://musicbrainz.org/recording/${lookup.recording_mbid}`
-        : fallback.url,
-      album: fallback.album || (lookup.release_name ?? ''),
-      tags: topTags(lookup.metadata),
-    };
-  } catch {
-    return fallback;
-  }
-};
-
-export const useListenBrainz = (): NowPlayingTrack | null => {
+export const useYouTubeMusic = (): NowPlayingTrack | null => {
   const [track, setTrack] = useState<NowPlayingTrack | null>(null);
 
   useEffect(() => {
-    const detailsByTrack = new Map<string, TrackDetails>();
-
     const fetchTrack = async () => {
       try {
-        const playing = await fetchFirstListen('playing-now');
-        const listen = playing ?? (await fetchFirstListen('listens?count=1'));
-        if (!listen) return;
-
-        const { artist_name, track_name } = listen.track_metadata;
-        const key = `${artist_name}\u0000${track_name}`;
-        let details = detailsByTrack.get(key);
-        if (!details) {
-          details = await lookUpTrackDetails(listen);
-          detailsByTrack.set(key, details);
-        }
-
-        setTrack({
-          name: track_name,
-          artist: artist_name,
-          isNowPlaying: Boolean(playing),
-          ...details,
-        });
+        const res = await fetch(NOW_PLAYING_URL, { cache: 'no-cache' });
+        const file = (await res.json()) as Partial<NowPlayingFile>;
+        if (!file.title || !file.url) return;
+        setTrack(toNowPlayingTrack(file as NowPlayingFile, Date.now()));
       } catch {
         // non-critical display widget
       }
     };
 
     void fetchTrack();
-    const interval = setInterval(() => void fetchTrack(), LISTENBRAINZ_POLL_MS);
+    const interval = setInterval(() => void fetchTrack(), NOW_PLAYING_POLL_MS);
     return () => clearInterval(interval);
   }, []);
 

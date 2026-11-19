@@ -12,18 +12,23 @@ const mockRepoData = {
   updated_at: '2026-01-01T00:00:00Z',
 };
 
-const mockListenBrainzResponse = {
-  payload: {
-    listens: [{ track_metadata: { artist_name: 'miles davis', track_name: 'so what' } }],
-  },
+const mockNowPlayingFile = {
+  title: 'so what',
+  artist: 'miles davis',
+  album: '',
+  imageUrl: '',
+  url: 'https://music.youtube.com/watch?v=abc',
+  played: 'today',
+  tags: [],
+  firstSeenAt: new Date().toISOString(),
 };
 
 beforeEach(() => {
   vi.stubGlobal(
     'fetch',
     vi.fn().mockImplementation((url: string) => {
-      if (url.includes('listenbrainz')) {
-        return Promise.resolve({ json: () => Promise.resolve(mockListenBrainzResponse) });
+      if (url.includes('now-playing.json')) {
+        return Promise.resolve({ json: () => Promise.resolve(mockNowPlayingFile) });
       }
       return Promise.resolve({ json: () => Promise.resolve(mockRepoData) });
     }),
@@ -72,16 +77,16 @@ describe('HomeContent', () => {
     expect(screen.getByText('github pulse (llm summarised)')).toBeInTheDocument();
   });
 
-  it('renders the listenbrainz widget', () => {
+  it('renders the youtube music widget', () => {
     render(<HomeContent />);
-    expect(screen.getByText('listenbrainz (real time)')).toBeInTheDocument();
+    expect(screen.getByText('youtube music')).toBeInTheDocument();
   });
 
-  it('shows the now playing track after the listenbrainz fetch', async () => {
+  it('shows the latest track after the now-playing fetch', async () => {
     render(<HomeContent />);
     await waitFor(() => {
       expect(screen.getByText('so what')).toBeInTheDocument();
-      expect(screen.getByText('now playing')).toBeInTheDocument();
+      expect(screen.getByText('just played')).toBeInTheDocument();
     });
   });
 

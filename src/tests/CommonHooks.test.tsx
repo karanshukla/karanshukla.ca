@@ -4,7 +4,8 @@ import {
   useGitHubRepo,
   useAppTheme,
   useKeyboardShortcuts,
-  useListenBrainz,
+  useYouTubeMusic,
+  toNowPlayingTrack,
   navShortcuts,
 } from '../hooks/CommonHooks';
 
@@ -172,146 +173,87 @@ describe('useKeyboardShortcuts', () => {
   });
 });
 
-// ── useListenBrainz ──────────────────────────────────────────────────────────
+// ── useYouTubeMusic ──────────────────────────────────────────────────────────
 
-const listen = {
-  track_metadata: {
-    artist_name: 'miles davis',
-    track_name: 'so what',
-    release_name: 'kind of blue',
-  },
+const nowPlayingFile = {
+  videoId: 'abc',
+  title: 'so what',
+  artist: 'miles davis',
+  album: 'kind of blue',
+  imageUrl: 'https://lh3.googleusercontent.com/art=w240-h240',
+  url: 'https://music.youtube.com/watch?v=abc',
+  played: 'today',
+  tags: ['jazz'],
+  firstSeenAt: '2026-11-19T10:00:00Z',
 };
 
-const lookup = {
-  recording_mbid: 'rec-1',
-  metadata: {
-    release: { caa_id: 42, caa_release_mbid: 'rel-1' },
-    tag: {
-      recording: [
-        { tag: 'Fusion', count: 5 },
-        { tag: 'Jazz', count: 10 },
-      ],
-      artist: [{ tag: 'bebop', count: 99 }],
-    },
-  },
-};
+const firstSeen = Date.parse(nowPlayingFile.firstSeenAt);
 
-const json = (body: unknown) => Promise.resolve({ json: () => Promise.resolve(body) });
-
-const stubListenBrainz = ({
-  playingNow,
-  recent = [listen],
-  lookupBody = lookup,
-}: {
-  playingNow: boolean;
-  recent?: unknown[];
-  lookupBody?: unknown;
-}) => {
-  const fetchMock = vi.fn().mockImplementation((url: string) => {
-    if (url.includes('/playing-now')) {
-      return json({ payload: { listens: playingNow ? [listen] : [] } });
-    }
-    if (url.includes('/listens')) return json({ payload: { listens: recent } });
-    if (url.includes('/metadata/lookup')) return json(lookupBody);
-    return json({});
-  });
-  vi.stubGlobal('fetch', fetchMock);
-  return fetchMock;
-};
-
-describe('useListenBrainz', () => {
-  afterEach(() => vi.unstubAllGlobals());
-
-  it('returns null initially', () => {
-    stubListenBrainz({ playingNow: true });
-    const { result } = renderHook(() => useListenBrainz());
-    expect(result.current).toBeNull();
-  });
-
-  it('returns the playing-now track with cover art, link and top tags', async () => {
-    stubListenBrainz({ playingNow: true });
-    const { result } = renderHook(() => useListenBrainz());
-    await waitFor(() => expect(result.current).not.toBeNull());
-    expect(result.current).toEqual({
+describe('toNowPlayingTrack', () => {
+  it('maps the published file onto the widget track', () => {
+    expect(toNowPlayingTrack(nowPlayingFile, firstSeen)).toEqual({
       name: 'so what',
       artist: 'miles davis',
       album: 'kind of blue',
-      isNowPlaying: true,
-      imageUrl: 'https://coverartarchive.org/release/rel-1/42-250.jpg',
-      url: 'https://musicbrainz.org/recording/rec-1',
-      tags: ['jazz', 'fusion'],
+      imageUrl: 'https://lh3.googleusercontent.com/art=w240-h240',
+      url: 'https://music.youtube.com/watch?v=abc',
+      tags: ['jazz'],
+      playedLabel: 'today',
+      isJustPlayed: true,
     });
   });
 
-  it('falls back to the most recent listen when nothing is playing', async () => {
-    const fetchMock = stubListenBrainz({ playingNow: false });
-    const { result } = renderHook(() => useListenBrainz());
-    await waitFor(() => expect(result.current).not.toBeNull());
-    expect(result.current?.isNowPlaying).toBe(false);
-    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/listens?count=1'));
+  it('counts a track as just played for 15 minutes after it was first seen', () => {
+    expect(toNowPlayingTrack(nowPlayingFile, firstSeen + 14 * 60_000).isJustPlayed).toBe(true);
+    expect(toNowPlayingTrack(nowPlayingFile, firstSeen + 15 * 60_000).isJustPlayed).toBe(false);
+  });
+});
+
+describe('useYouTubeMusic', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  const stubFile = (body: unknown) => {
+    const fetchMock = vi.fn().mockResolvedValue({ json: () => Promise.resolve(body) });
+    vi.stubGlobal('fetch', fetchMock);
+    return fetchMock;
+  };
+
+  it('returns null initially', () => {
+    stubFile(nowPlayingFile);
+    const { result } = renderHook(() => useYouTubeMusic());
+    expect(result.current).toBeNull();
   });
 
-  it('uses artist tags when the recording has none', async () => {
-    stubListenBrainz({
-      playingNow: true,
-      lookupBody: { metadata: { tag: { recording: [], artist: [{ tag: 'Bebop', count: 3 }] } } },
-    });
-    const { result } = renderHook(() => useListenBrainz());
+  it('returns the published track from the now-playing branch', async () => {
+    const fetchMock = stubFile(nowPlayingFile);
+    const { result } = renderHook(() => useYouTubeMusic());
     await waitFor(() => expect(result.current).not.toBeNull());
-    expect(result.current?.tags).toEqual(['bebop']);
-  });
-
-  it('keeps the track when the metadata lookup fails', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi
-        .fn()
-        .mockImplementation((url: string) =>
-          url.includes('/metadata/lookup')
-            ? Promise.reject(new Error('down'))
-            : json({ payload: { listens: [listen] } }),
-        ),
+    expect(result.current?.name).toBe('so what');
+    expect(result.current?.playedLabel).toBe('today');
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/now-playing/now-playing.json',
+      { cache: 'no-cache' },
     );
-    const { result } = renderHook(() => useListenBrainz());
-    await waitFor(() => expect(result.current).not.toBeNull());
-    expect(result.current?.imageUrl).toBe('');
-    expect(result.current?.tags).toEqual([]);
-    expect(result.current?.url).toBe('https://listenbrainz.org/user/arankays/');
   });
 
-  it('stays null when there are no listens', async () => {
-    stubListenBrainz({ playingNow: false, recent: [] });
-    const { result } = renderHook(() => useListenBrainz());
+  it('stays null when the file has no track', async () => {
+    stubFile({});
+    const { result } = renderHook(() => useYouTubeMusic());
     await new Promise((r) => setTimeout(r, 50));
     expect(result.current).toBeNull();
   });
 
   it('stays null when fetch fails', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
-    const { result } = renderHook(() => useListenBrainz());
+    const { result } = renderHook(() => useYouTubeMusic());
     await new Promise((r) => setTimeout(r, 50));
     expect(result.current).toBeNull();
   });
 
-  it('looks up metadata once per track across polls', async () => {
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-    const fetchMock = stubListenBrainz({ playingNow: true });
-    const { result } = renderHook(() => useListenBrainz());
-    await waitFor(() => expect(result.current).not.toBeNull());
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(30_000);
-    });
-    const lookups = fetchMock.mock.calls.filter(([url]) =>
-      (url as string).includes('/metadata/lookup'),
-    );
-    expect(lookups).toHaveLength(1);
-    vi.useRealTimers();
-  });
-
   it('clears the polling interval on unmount', () => {
-    stubListenBrainz({ playingNow: true });
+    stubFile(nowPlayingFile);
     const clearSpy = vi.spyOn(globalThis, 'clearInterval');
-    const { unmount } = renderHook(() => useListenBrainz());
+    const { unmount } = renderHook(() => useYouTubeMusic());
     unmount();
     expect(clearSpy).toHaveBeenCalled();
     clearSpy.mockRestore();
