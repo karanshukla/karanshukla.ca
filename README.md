@@ -15,6 +15,10 @@ Personal website and resume. Live at [karanshukla.ca](https://karanshukla.ca).
 
 Most personal sites are a static page with a bio and some project links. This one is a bit weirder.
 
+### Now Playing via ListenBrainz
+
+A widget polls the [ListenBrainz](https://listenbrainz.org) API every 30 seconds and shows whatever is currently playing, falling back to the most recent listen. Album art comes from the Cover Art Archive and the top genre tags from MusicBrainz, both found through ListenBrainz's metadata lookup. No API key needed. Respects `prefers-reduced-motion` for the blinking "live" indicator.
+
 ### AI-Generated Commit Summaries
 
 Every 3 days, a GitHub Actions workflow runs a Python script that fetches recent commits and their diffs, sends them to the Anthropic API (Claude Haiku 5.5), and gets back a short natural-language summary of what changed. That summary is committed as `pulse.json` and baked into the static build. No backend, no runtime LLM calls.
@@ -111,6 +115,7 @@ GitHub Pages serves the `gh-pages` branch at the custom domain.
 
 ## Credits
 
+- [ListenBrainz](https://listenbrainz.org) and [MusicBrainz](https://musicbrainz.org) for listening data, cover art and genre tags
 - [Anthropic API](https://docs.claude.com) for LLM-powered commit summaries (Claude Haiku 5.5)
 - [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) for automated performance auditing
 - [Material UI](https://mui.com/) for components and theming
