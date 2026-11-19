@@ -1,4 +1,4 @@
-import { blogPosts } from '../helpers/blogHelpers';
+import { blogPosts, readingMinutes } from '../helpers/blogHelpers';
 import { parseFrontmatter } from '../helpers/frontmatter';
 
 describe('blogHelpers', () => {
@@ -39,5 +39,16 @@ describe('parseFrontmatter', () => {
       data: { title: 'hello: world' },
       content: 'body',
     });
+  });
+});
+
+describe('readingMinutes', () => {
+  it('rounds to the nearest minute at 200 words per minute', () => {
+    expect(readingMinutes('word '.repeat(700))).toBe(4);
+  });
+
+  it('never reports less than a minute', () => {
+    expect(readingMinutes('short')).toBe(1);
+    expect(readingMinutes('')).toBe(1);
   });
 });

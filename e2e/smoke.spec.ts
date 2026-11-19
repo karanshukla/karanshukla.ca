@@ -1,19 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-const albumArtUrl = 'https://lh3.googleusercontent.com/album=w240-h240-l90-rj';
-
-const nowPlayingFile = {
-  videoId: 'abc',
-  title: 'Test Track',
-  artist: 'Test Artist',
-  album: 'Test Album',
-  imageUrl: albumArtUrl,
-  url: 'https://music.youtube.com/watch?v=abc',
-  played: 'today',
-  tags: [],
-  firstSeenAt: '2026-01-01T00:00:00Z',
-};
-
 const repo = {
   html_url: 'https://github.com/karanshukla/openresto',
   stargazers_count: 1,
@@ -31,10 +17,6 @@ test.beforeEach(async ({ page }) => {
   });
   page.on('pageerror', (error) => errors.push(error.message));
 
-  await page.route('https://raw.githubusercontent.com/**/now-playing.json', (route) =>
-    route.fulfill({ json: nowPlayingFile }),
-  );
-  await page.route(albumArtUrl, (route) => route.fulfill({ path: 'public/og-image.jpg' }));
   await page.route('https://api.github.com/repos/**', (route) => route.fulfill({ json: repo }));
 });
 
@@ -46,8 +28,7 @@ test('home page renders third-party widgets without console errors', async ({ pa
   await page.goto('/');
 
   await expect(page.getByText('github pulse (llm summarised)')).toBeVisible();
-  await expect(page.getByRole('link', { name: /Test Track by Test Artist/ })).toBeVisible();
-  await expect(page.getByRole('img', { name: 'Test Album' })).toHaveJSProperty('complete', true);
+  await expect(page.getByText('latest post')).toBeVisible();
   await expect(page.getByLabel('1 stars').first()).toBeVisible();
 });
 

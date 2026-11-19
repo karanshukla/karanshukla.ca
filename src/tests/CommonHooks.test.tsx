@@ -4,8 +4,6 @@ import {
   useGitHubRepo,
   useAppTheme,
   useKeyboardShortcuts,
-  useYouTubeMusic,
-  toNowPlayingTrack,
   navShortcuts,
 } from '../hooks/CommonHooks';
 
@@ -170,105 +168,6 @@ describe('useKeyboardShortcuts', () => {
   it('removes event listener on unmount', () => {
     const { unmount } = renderHook(() => useKeyboardShortcuts(), { wrapper });
     unmount();
-  });
-});
-
-// ── useYouTubeMusic ──────────────────────────────────────────────────────────
-
-const nowPlayingFile = {
-  videoId: 'abc',
-  title: 'so what',
-  artist: 'miles davis',
-  album: 'kind of blue',
-  imageUrl: 'https://lh3.googleusercontent.com/art=w240-h240',
-  url: 'https://music.youtube.com/watch?v=abc',
-  played: 'today',
-  tags: ['jazz'],
-  firstSeenAt: '2026-11-19T10:00:00Z',
-};
-
-const firstSeen = Date.parse(nowPlayingFile.firstSeenAt);
-
-describe('toNowPlayingTrack', () => {
-  it('maps the published file onto the widget track', () => {
-    expect(toNowPlayingTrack(nowPlayingFile, firstSeen)).toEqual({
-      name: 'so what',
-      artist: 'miles davis',
-      album: 'kind of blue',
-      imageUrl: 'https://lh3.googleusercontent.com/art=w240-h240',
-      url: 'https://music.youtube.com/watch?v=abc',
-      tags: ['jazz'],
-      playedLabel: 'today',
-      isJustPlayed: true,
-    });
-  });
-
-  it('counts a track as just played for an hour after it was first seen', () => {
-    expect(toNowPlayingTrack(nowPlayingFile, firstSeen + 59 * 60_000).isJustPlayed).toBe(true);
-    expect(toNowPlayingTrack(nowPlayingFile, firstSeen + 60 * 60_000).isJustPlayed).toBe(false);
-  });
-});
-
-describe('useYouTubeMusic', () => {
-  afterEach(() => vi.unstubAllGlobals());
-
-  const stubFile = (body: unknown) => {
-    const fetchMock = vi.fn().mockResolvedValue({ json: () => Promise.resolve(body) });
-    vi.stubGlobal('fetch', fetchMock);
-    return fetchMock;
-  };
-
-  it('returns null initially', () => {
-    stubFile(nowPlayingFile);
-    const { result } = renderHook(() => useYouTubeMusic());
-    expect(result.current).toBeNull();
-  });
-
-  it('returns the published track from the now-playing branch', async () => {
-    const fetchMock = stubFile(nowPlayingFile);
-    const { result } = renderHook(() => useYouTubeMusic());
-    await waitFor(() => expect(result.current).not.toBeNull());
-    expect(result.current?.name).toBe('so what');
-    expect(result.current?.playedLabel).toBe('today');
-    expect(fetchMock).toHaveBeenCalledWith(
-      'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/now-playing/now-playing.json',
-      { cache: 'no-cache' },
-    );
-  });
-
-  it('stays null when the file has no track', async () => {
-    stubFile({});
-    const { result } = renderHook(() => useYouTubeMusic());
-    await new Promise((r) => setTimeout(r, 50));
-    expect(result.current).toBeNull();
-  });
-
-  it('stays null when fetch fails', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
-    const { result } = renderHook(() => useYouTubeMusic());
-    await new Promise((r) => setTimeout(r, 50));
-    expect(result.current).toBeNull();
-  });
-
-  it('fetches the file again every 5 minutes', async () => {
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-    const fetchMock = stubFile(nowPlayingFile);
-    renderHook(() => useYouTubeMusic());
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(5 * 60_000);
-    });
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    vi.useRealTimers();
-  });
-
-  it('clears the polling interval on unmount', () => {
-    stubFile(nowPlayingFile);
-    const clearSpy = vi.spyOn(globalThis, 'clearInterval');
-    const { unmount } = renderHook(() => useYouTubeMusic());
-    unmount();
-    expect(clearSpy).toHaveBeenCalled();
-    clearSpy.mockRestore();
   });
 });
 

@@ -12,27 +12,8 @@ const mockRepoData = {
   updated_at: '2026-01-01T00:00:00Z',
 };
 
-const mockNowPlayingFile = {
-  title: 'so what',
-  artist: 'miles davis',
-  album: '',
-  imageUrl: '',
-  url: 'https://music.youtube.com/watch?v=abc',
-  played: 'today',
-  tags: [],
-  firstSeenAt: new Date().toISOString(),
-};
-
 beforeEach(() => {
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockImplementation((url: string) => {
-      if (url.includes('now-playing.json')) {
-        return Promise.resolve({ json: () => Promise.resolve(mockNowPlayingFile) });
-      }
-      return Promise.resolve({ json: () => Promise.resolve(mockRepoData) });
-    }),
-  );
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ json: () => Promise.resolve(mockRepoData) }));
 });
 
 afterEach(() => {
@@ -77,17 +58,9 @@ describe('HomeContent', () => {
     expect(screen.getByText('github pulse (llm summarised)')).toBeInTheDocument();
   });
 
-  it('renders the youtube music widget', () => {
+  it('renders the latest blog post card', () => {
     render(<HomeContent />);
-    expect(screen.getByText('youtube music')).toBeInTheDocument();
-  });
-
-  it('shows the latest track after the now-playing fetch', async () => {
-    render(<HomeContent />);
-    await waitFor(() => {
-      expect(screen.getByText('so what')).toBeInTheDocument();
-      expect(screen.getByText('just played')).toBeInTheDocument();
-    });
+    expect(screen.getByText('latest post')).toBeInTheDocument();
   });
 
   it('renders the currently section divider', () => {
