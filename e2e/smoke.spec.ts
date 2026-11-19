@@ -1,22 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-const albumArtUrl = 'https://lastfm-img.freetls.fastly.net/i/u/300x300/album.jpg';
-
-const recentTracks = {
-  recenttracks: {
-    track: [
-      {
-        name: 'Test Track',
-        artist: { '#text': 'Test Artist' },
-        album: { '#text': 'Test Album' },
-        image: [{ size: 'extralarge', '#text': albumArtUrl }],
-        url: 'https://www.last.fm/music/Test+Artist/_/Test+Track',
-        '@attr': { nowplaying: 'true' },
-      },
-    ],
-  },
-};
-
 const repo = {
   html_url: 'https://github.com/karanshukla/openresto',
   stargazers_count: 1,
@@ -34,13 +17,6 @@ test.beforeEach(async ({ page }) => {
   });
   page.on('pageerror', (error) => errors.push(error.message));
 
-  await page.route('https://ws.audioscrobbler.com/**', (route) => {
-    const method = new URL(route.request().url()).searchParams.get('method');
-    return route.fulfill({
-      json: method === 'user.getRecentTracks' ? recentTracks : { toptags: { tag: [] } },
-    });
-  });
-  await page.route(albumArtUrl, (route) => route.fulfill({ path: 'public/og-image.jpg' }));
   await page.route('https://api.github.com/repos/**', (route) => route.fulfill({ json: repo }));
 });
 
@@ -52,8 +28,6 @@ test('home page renders third-party widgets without console errors', async ({ pa
   await page.goto('/');
 
   await expect(page.getByText('github pulse (llm summarised)')).toBeVisible();
-  await expect(page.getByRole('link', { name: /Test Track by Test Artist/ })).toBeVisible();
-  await expect(page.getByRole('img', { name: 'Test Album' })).toHaveJSProperty('complete', true);
   await expect(page.getByLabel('1 stars').first()).toBeVisible();
 });
 

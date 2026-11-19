@@ -8,7 +8,6 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router';
 import { RepoStats } from './ProjectCard';
 import GitHubPulse from './GitHubPulse';
-import LastFmWidget from './LastFmWidget';
 import { usePageTitle } from '../hooks/CommonHooks';
 
 function HomeContent() {
@@ -127,14 +126,7 @@ function HomeContent() {
             </Typography>
           </Divider>
 
-          <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
-            <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
-              <GitHubPulse />
-            </Grid>
-            <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex' }}>
-              <LastFmWidget />
-            </Grid>
-          </Grid>
+          <GitHubPulse />
         </Box>
       </Slide>
     </Box>
