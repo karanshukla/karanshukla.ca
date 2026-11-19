@@ -1,6 +1,6 @@
 name: Update now playing
 
-# Every 5 minutes: reads the latest YouTube Music history entry and, if it changed,
+# Hourly (off the top of the hour, when GitHub's scheduler is busiest): reads the latest YouTube Music history entry and, if it changed,
 # force-pushes now-playing.json as a single orphan commit to the `now-playing` branch.
 # NowPlayingWidget fetches it from raw.githubusercontent.com, so main never redeploys.
 
@@ -9,7 +9,7 @@ permissions:
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '23 * * * *'
   workflow_dispatch:
 
 concurrency:

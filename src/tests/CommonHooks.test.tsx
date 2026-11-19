@@ -203,9 +203,9 @@ describe('toNowPlayingTrack', () => {
     });
   });
 
-  it('counts a track as just played for 15 minutes after it was first seen', () => {
-    expect(toNowPlayingTrack(nowPlayingFile, firstSeen + 14 * 60_000).isJustPlayed).toBe(true);
-    expect(toNowPlayingTrack(nowPlayingFile, firstSeen + 15 * 60_000).isJustPlayed).toBe(false);
+  it('counts a track as just played for an hour after it was first seen', () => {
+    expect(toNowPlayingTrack(nowPlayingFile, firstSeen + 59 * 60_000).isJustPlayed).toBe(true);
+    expect(toNowPlayingTrack(nowPlayingFile, firstSeen + 60 * 60_000).isJustPlayed).toBe(false);
   });
 });
 

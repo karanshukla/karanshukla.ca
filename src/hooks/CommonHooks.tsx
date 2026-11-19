@@ -231,8 +231,8 @@ export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: 
 
 const NOW_PLAYING_URL =
   'https://raw.githubusercontent.com/karanshukla/karanshukla.ca/now-playing/now-playing.json';
-const NOW_PLAYING_POLL_MS = 60_000;
-const JUST_PLAYED_WINDOW_MS = 15 * 60_000;
+const NOW_PLAYING_POLL_MS = 5 * 60_000;
+const JUST_PLAYED_WINDOW_MS = 60 * 60_000;
 
 export interface NowPlayingTrack {
   name: string;

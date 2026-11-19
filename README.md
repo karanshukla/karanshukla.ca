@@ -17,7 +17,7 @@ Most personal sites are a static page with a bio and some project links. This on
 
 ### Recently Played via YouTube Music
 
-YouTube Music has no public API, so a GitHub Actions workflow runs every 5 minutes and reads my play history with the unofficial [ytmusicapi](https://github.com/sigma67/ytmusicapi) library. When the latest song changes, it force-pushes a tiny `now-playing.json` to a separate `now-playing` branch, and the widget fetches that file from raw.githubusercontent.com. `main` never gets a commit or a redeploy for it. Genre tags come from MusicBrainz via ListenBrainz's metadata lookup. Songs first seen in the last 15 minutes get a blinking "just played" chip, which respects `prefers-reduced-motion`.
+YouTube Music has no public API, so a GitHub Actions workflow runs hourly and reads my play history with the unofficial [ytmusicapi](https://github.com/sigma67/ytmusicapi) library. When the latest song changes, it force-pushes a tiny `now-playing.json` to a separate `now-playing` branch, and the widget fetches that file from raw.githubusercontent.com. `main` never gets a commit or a redeploy for it. Genre tags come from MusicBrainz via ListenBrainz's metadata lookup. Songs first seen in the last hour get a blinking "just played" chip, which respects `prefers-reduced-motion`.
 
 ### AI-Generated Commit Summaries
 
