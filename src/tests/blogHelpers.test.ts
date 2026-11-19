@@ -1,4 +1,5 @@
-import { blogPosts } from '../helpers/blogHelpers';
+import { blogPosts, readingMinutes } from '../helpers/blogHelpers';
+import { parseFrontmatter } from '../helpers/frontmatter';
 
 describe('blogHelpers', () => {
   it('loads at least one post', () => {
@@ -25,5 +26,29 @@ describe('blogHelpers', () => {
     expect(post?.title).toBe("optimising atproto applications is complicated (but that's okay)");
     expect(post?.date).toBe('2026-06-20');
     expect(post?.description).toBeTruthy();
+  });
+});
+
+describe('parseFrontmatter', () => {
+  it('returns the whole text as content when there is no frontmatter', () => {
+    expect(parseFrontmatter('just a post')).toEqual({ data: {}, content: 'just a post' });
+  });
+
+  it('splits frontmatter fields from the content', () => {
+    expect(parseFrontmatter('---\ntitle: hello: world\n---\nbody')).toEqual({
+      data: { title: 'hello: world' },
+      content: 'body',
+    });
+  });
+});
+
+describe('readingMinutes', () => {
+  it('rounds to the nearest minute at 200 words per minute', () => {
+    expect(readingMinutes('word '.repeat(700))).toBe(4);
+  });
+
+  it('never reports less than a minute', () => {
+    expect(readingMinutes('short')).toBe(1);
+    expect(readingMinutes('')).toBe(1);
   });
 });

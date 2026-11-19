@@ -27,3 +27,8 @@ export const blogPosts: BlogPost[] = Object.entries(postModules)
     };
   })
   .sort((a, b) => b.date.localeCompare(a.date));
+
+const WORDS_PER_MINUTE = 200;
+
+export const readingMinutes = (content: string): number =>
+  Math.max(1, Math.round(content.split(/\s+/).filter(Boolean).length / WORDS_PER_MINUTE));
