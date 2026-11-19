@@ -276,7 +276,7 @@ describe('useListenBrainz', () => {
     await waitFor(() => expect(result.current).not.toBeNull());
     expect(result.current?.imageUrl).toBe('');
     expect(result.current?.tags).toEqual([]);
-    expect(result.current?.url).toBe('https://listenbrainz.org/user/nightrunner_ks/');
+    expect(result.current?.url).toBe('https://listenbrainz.org/user/arankays/');
   });
 
   it('stays null when there are no listens', async () => {

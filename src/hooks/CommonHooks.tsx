@@ -229,7 +229,7 @@ export const useAppTheme = (): { theme: Theme; toggleTheme: () => void; isDark: 
 
 // --- ListenBrainz ---
 
-const LISTENBRAINZ_USER = 'nightrunner_ks';
+const LISTENBRAINZ_USER = 'arankays';
 const LISTENBRAINZ_API = 'https://api.listenbrainz.org/1';
 const LISTENBRAINZ_POLL_MS = 30_000;
 const MAX_TAGS = 3;
