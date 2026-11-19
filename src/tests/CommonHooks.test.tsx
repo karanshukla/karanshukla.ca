@@ -250,6 +250,18 @@ describe('useYouTubeMusic', () => {
     expect(result.current).toBeNull();
   });
 
+  it('fetches the file again every 5 minutes', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const fetchMock = stubFile(nowPlayingFile);
+    renderHook(() => useYouTubeMusic());
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5 * 60_000);
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    vi.useRealTimers();
+  });
+
   it('clears the polling interval on unmount', () => {
     stubFile(nowPlayingFile);
     const clearSpy = vi.spyOn(globalThis, 'clearInterval');
