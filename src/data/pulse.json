@@ -1,5 +1,5 @@
 {
-  "summary": "karan refactored the icon parser in vinouserinterface to read path data through svgtypes and split it into tokens, commands and arcs, and restructured the daemon's run loop in vinoopeneffects into set-up, bus registration and a shutdown wait. karan also added the vinoauthface logo in its three tones and switched vinopilot's installs to use the checkout directly instead of a worktree.",
-  "generatedAt": "2026-11-16T03:38:11.000Z",
-  "commitCount": 24
+  "summary": "karan added --list-voices, voice blends and flac/ogg/opus/mp3 export with srt/vtt subtitles to vinospeak, plus an ssml subset with a pronunciation lexicon and a fix that refuses dtds before parsing. karan also added an openai-compatible speech api on localhost and a --translate option using smollm3-3b.",
+  "generatedAt": "2026-11-19T04:54:12.000Z",
+  "commitCount": 15
 }
