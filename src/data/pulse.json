@@ -1,5 +1,5 @@
 {
-  "summary": "karan added --list-voices, voice blends and flac/ogg/opus/mp3 export with srt/vtt subtitles to vinospeak, plus an ssml subset with a pronunciation lexicon and a fix that refuses dtds before parsing. karan also added an openai-compatible speech api on localhost and a --translate option using smollm3-3b.",
-  "generatedAt": "2026-11-19T04:54:12.000Z",
-  "commitCount": 15
+  "summary": "karan hardened vinosearch with a fix for a code chunker stack overflow and bounded child pipe buffers, added a voice blends, save-as-audio, pronunciations and speech api to the vinospeak gui, and added a settings page there. karan also simplified docs across the vino projects and clarified the threshold rationale in vinoauthface.",
+  "generatedAt": "2026-11-22T03:53:59.000Z",
+  "commitCount": 20
 }
