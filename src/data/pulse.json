@@ -1,5 +1,5 @@
 {
-  "summary": "karan hardened vinosearch with a fix for a code chunker stack overflow and bounded child pipe buffers, added a voice blends, save-as-audio, pronunciations and speech api to the vinospeak gui, and added a settings page there. karan also simplified docs across the vino projects and clarified the threshold rationale in vinoauthface.",
-  "generatedAt": "2026-11-22T03:53:59.000Z",
+  "summary": "karan added widget helpers to vinouserinterface, including slider, copybutton, disclosure, emptystate and hairline list rows, then fixed escape handling in the search field. karan also made vinoauthface build deb and rpm packages with nfpm and reworked vinospeak's file list into hairline rows with hover previews.",
+  "generatedAt": "2026-11-25T05:57:11.000Z",
   "commitCount": 20
 }
