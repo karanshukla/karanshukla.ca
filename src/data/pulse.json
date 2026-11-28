@@ -1,5 +1,5 @@
 {
-  "summary": "karan added widget helpers to vinouserinterface, including slider, copybutton, disclosure, emptystate and hairline list rows, then fixed escape handling in the search field. karan also made vinoauthface build deb and rpm packages with nfpm and reworked vinospeak's file list into hairline rows with hover previews.",
-  "generatedAt": "2026-11-25T05:57:11.000Z",
+  "summary": "karan fixed the vinowhisper sessions controls so they stay inside the viewport at 3x text scale, moved vinopilot from the header popup into the apps grid, and trimmed prose and humanized ui copy across vinosearch and vinospeak.",
+  "generatedAt": "2026-11-28T05:22:48.000Z",
   "commitCount": 20
 }
